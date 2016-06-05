@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Created by Sujay Davalgi
+#
+# Configurations for your local machine
+#
+# Usage: ". mySetup.txt"
+
+#===================================================================================================
+
+#--- PATH to sdk folder
+mySDK=`echo $ANDROID_HOME`
+
+#===================================================================================================
+
+#--- from where it will search for the scripts folder
+myScripts=`echo ~/Google\ Drive/Scripts`
+
+#--- TIF team shared folder
+tifTeamFolder=`echo ~/tif`
+
+#--- from where it will look for Android Flashstation
+flasherFolder=`echo ~/Projects/android/flasher`
+
+#===================================================================================================
+
+#--- Path to library
+libraryFolder=`echo ${myScripts}/library`
+
+#--- where it will write all the script's log messages
+myScriptLogsDir="${myScripts}/logs"
+myScriptLogsFile="${myScriptLogsDir}/scriptLog-$nowDate.txt"
+
+#--- to backup the files from NFS directory to local storage
+myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
+
+#--- where it will store the bugreports, logcats, screenshots, pulled videos/images
+myLogs=`echo ~/Projects/bugs`
+
+#--- from where it will search for the General apps folder
+#myAppDir=`echo ~/Projects/android/apps`
+myAppDir=`echo ~/Projects/Play/Music`
+
+#--- from where it will search for the Android-At-Home (Android-TV) apps folder
+myAAHDir=`echo ~/Projects/android/AAH/apps`
+
+#--- from where it will search for the Android-Clock-Work apps folder
+myACWDir=`echo ~/Projects/android/ACW/apps`
+
+#--- from where it will search for the Android-Gear-Head apps folder
+myAGHDir=`echo ~/Projects/android/AGH/apps`
+
+#--- from where it will search for the Google-Play-Music apps folder
+myGPMDir=`echo ~/Projects/Play/Music`
+
+#--- from where it will search for the TIF folder
+tifBaseFolder=`echo ~/Projects/android/AAH/TIF`

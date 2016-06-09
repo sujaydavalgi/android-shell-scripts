@@ -118,6 +118,17 @@ function getMachineApkVersion() {
 	fi
 }
 
+function getMachineApkCompleteVersionName() {
+#$1 - apk file complete path in machine
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f2 -d"'" | tr -d "\r"`
+		echo -e -n ${machineApkVersion}
+	fi
+}
+
 function getDeviceApkVersion() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
@@ -126,6 +137,9 @@ function getDeviceApkVersion() {
 		exit 1
 	else
 		local i=0
+		
+		local machineApkPackageName=`getMachineApkPackageName ${2}`
+		
 		while read line
 		do
 			if [ -n "$line" ]; then
@@ -136,6 +150,13 @@ function getDeviceApkVersion() {
 		
 		echo -e -n ${deviceApkVersion[0]}
 	fi
+}
+
+function displayApkCompleteVersion() {
+#$1 - complete apk file path in machine
+
+	local machineApkVersion=`getMachineApkCompleteVersionName ${1}`
+	formatMessage " Apk Version : ${machineApkVersion}\n" "I"
 }
 
 #===================================================================================================
@@ -284,6 +305,9 @@ function installFromPath(){
 				do
 					formatMessage "\n Installing - " "I"
 					formatMessage "$i ... \n" "M"
+					
+					displayApkCompleteVersion ${i}
+
 					#adb -s $1 wait-for-device install -r "$appInstallPath/$i"
 					
 					#adb -s $1 wait-for-device install -r -d "$i"
@@ -307,6 +331,9 @@ function installFromPath(){
 					#adb -s $1 wait-for-device install -r "$appInstallPath/${machineFiles_array[0]}"
 					formatMessage "\n Installing - " "I"
 					formatMessage "${machineFiles_array[0]} ... \n" "M"
+					
+					displayApkCompleteVersion ${machineFiles_array[0]}
+					
 					#adb -s $1 wait-for-device install -r -d "${machineFiles_array[0]}"
 					installApk $1 "${machineFiles_array[0]}"
 				fi

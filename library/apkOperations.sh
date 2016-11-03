@@ -55,8 +55,8 @@ function splitAPKpath() {
 }
 
 function displayAPKlist() {
-	if [ ${Search_APK_COUNT} -eq 1 ]; then #if there is only one matching apk
-		formatMessage " There is only one APK/Package with matching string :\n\n" "W"
+	if [ ${Search_APK_COUNT} -eq 1 ]; then #if there is only 1 matching apk
+		formatMessage " There is only 1 APK/Package with matching string :\n\n" "W"
 		splitAPKpath ${APK_ARRAY[0]}
 		formatMessage " 1. ${apkPackageName} - ${apkDevicePath}\n"
 	elif [ ${Search_APK_COUNT} -gt 1 ]; then #if there are more than one apk
@@ -102,7 +102,7 @@ function checkAPKChoiceValidity() {
 function apkOperations() {
 #$1 - device serial
 #$2 - apk name
-#$3 - apk operation option
+#$3 - apk operation option: PULL,CLEAR,STOP,START,RESTART,VERSION,UNINSTALL,UNINSTALLUPDATES
 		if [ $# -lt 3 ]; then
 			writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			exit 1

@@ -7,6 +7,8 @@
 # Usage: ". ./library/machineFileOperations.sh" within other scripts
 
 #===================================================================================================
+#. ./library/machineOs.sh
+#===================================================================================================
 
 function takeBugreport() {
 #$1 is device serial number
@@ -16,6 +18,7 @@ function takeBugreport() {
 		exit 1
 	else
 		adb -s "$1" wait-for-device bugreport > `echo ${myLogs}/`${2}.txt
+		#adb -s "$1" wait-for-device bugreport `echo ${myLogs}/`${2}.zip
 	fi
 }
 
@@ -48,7 +51,14 @@ function takeScreenshot() {
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
+		myOS="`echo $( getMyOs )`"
+		#echo -e -n " You are using ${myOS} machine\n"
+		
+		if [ ${myOS} == "linux" ]; then
+		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
+		elif [ ${myOS} == "mac" ]; then
+		      adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.png
+		fi
 	fi
 }
 

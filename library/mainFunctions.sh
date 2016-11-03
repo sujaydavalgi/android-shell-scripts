@@ -243,7 +243,7 @@ function getDeviceChoice() {
 			deviceSerial=${DEVICE_ARRAY[${DEVICE_ARRAY_INDEX}]}
 	
 		else  #<-- if there is only 1 device connected
-			formatMessage "\n There is only one device connected to the USB\n${txtRst}" "W"
+			formatMessage "\n There is only 1 device connected to the USB\n${txtRst}" "W"
 		 	deviceSerial=${DEVICE_ARRAY[0]}      
 		fi
 				

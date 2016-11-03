@@ -181,7 +181,8 @@ function forceInstallApk() {
 function installApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-	local output=$( adb -s $1 wait-for-device install -r "$2" )
+	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
+	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution
 	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 
 	installApkStatusReason "$1" "$2" "$output" "$status"
@@ -190,12 +191,12 @@ function installApk() {
 function installApkStatusReason() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-#$3 - output of adb command
-#$4 - status of adb command
-	if [ ${4} == "Success" ]; then
+#$3 - complete output of adb install command
+#$4 - status of adb install command [Success / Failure]
+	if [ "${4}" == "Success" ]; then
 		echo -e -n " Status : ${txtGrn}$status${txtRst}"
 		echo ""
-	elif [ ${4} == "Failure" ]; then
+	elif [ "${4}" == "Failure" ]; then
 		echo -e -n " Status : ${txtRed}$status${txtRst}"
 		
 		local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`

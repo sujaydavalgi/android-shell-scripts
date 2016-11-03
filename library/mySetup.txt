@@ -17,15 +17,17 @@ mySDK=`echo $ANDROID_HOME`
 myScripts=`echo ~/Google\ Drive/Scripts`
 
 #--- TIF team shared folder
-tifTeamFolder=`echo ~/tif`
+tifTeamFolder=`echo /google/data/ro/users/hy/hyungtaekim/tif`
 
 #--- from where it will look for Android Flashstation
 flasherFolder=`echo ~/Projects/android/flasher`
 
 #===================================================================================================
 
-#--- Path to library
+#--- Path to library folder
 libraryFolder=`echo ${myScripts}/library`
+
+#===================================================================================================
 
 #--- where it will write all the script's log messages
 myScriptLogsDir="${myScripts}/logs"
@@ -37,10 +39,6 @@ myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
 #--- where it will store the bugreports, logcats, screenshots, pulled videos/images
 myLogs=`echo ~/Projects/bugs`
 
-#--- from where it will search for the General apps folder
-#myAppDir=`echo ~/Projects/android/apps`
-myAppDir=`echo ~/Projects/Play/Music`
-
 #--- from where it will search for the Android-At-Home (Android-TV) apps folder
 myAAHDir=`echo ~/Projects/android/AAH/apps`
 
@@ -50,8 +48,12 @@ myACWDir=`echo ~/Projects/android/ACW/apps`
 #--- from where it will search for the Android-Gear-Head apps folder
 myAGHDir=`echo ~/Projects/android/AGH/apps`
 
-#--- from where it will search for the Google-Play-Music apps folder
+#--- from where it will search for the Android-Gear-Head apps folder
 myGPMDir=`echo ~/Projects/Play/Music`
+
+#--- from where it will search for the General apps folder
+#myAppDir=`echo ~/Projects/android/apps`
+myAppDir="${myGPMDir}"
 
 #--- from where it will search for the TIF folder
 tifBaseFolder=`echo ~/Projects/android/AAH/TIF`

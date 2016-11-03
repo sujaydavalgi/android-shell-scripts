@@ -139,7 +139,7 @@ function getDeviceFileChoice() {
 				deviceFileSelected=${deviceFiles_array[${DEVICE_FILE_ARRAY_INDEX}]}	
 				
 			else  								#<-- if there is only 1 file
-				formatMessage " There is only one file in the folder '${2}'\n\n" "W"
+				formatMessage " There is only 1 file in the folder '${2}'\n\n" "W"
 				formatMessage " 1. ${deviceFiles_array[0]}\n\n"
 				formatMessage " Do you want to pull it ? [y/n] : " "Q"
 				stty -echo && read -n 1 pullDeviceFileOption && stty echo

@@ -2,14 +2,14 @@
 
 #  Created by Sujay Davalgi
 #
-# Installs the apks from the default configured folder
-# Will prompt to install apks if there are multiple apks
+# Install the apps on a selected device from the specified sub folder within the configured folder
+# If you have multiple apk files in the folder, it will prompt to check to install for each apk
 #
-# Usage: ./installApk.sh [<filename>]
-# Arguments (Optional):
-#	$1 - File name to be saved as.
-#		No necessary to give the extension, by default it will save as ".txt"
-#		If not mentioned, it will prompt you later.
+# Usage: ./installApps.sh [<sub-folder name>]
+# Arguments [Optional]:
+#	$1 - Sub-Folder name to be searched within the Apps defined folder
+#		If not mentioned, it will prompt you later. You can give any input for that.
+#		If the provided sub-folder does not exist, it will prompt the option to check in default folder
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh
@@ -20,20 +20,23 @@ getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-	if [ $# -lt 1 ]; then
-		echo -e -n "${txtBld} Enter the Full Path : ${txtRst}"
-		read pathName
-	else
-		pathName="$1"
-	fi
-	
-	if [ -d $1 ]; then 
-		installFromPath $deviceSerial $pathName
-	elif [ -f $1 ]; then
-		adb -s $deviceSerial wait-for-device install -r -d $pathName
-	fi
+	#if [[ $( checkClockWorkDevice $deviceSerial ) == "true" || $( checkAtHomeDevice $deviceSerial ) == "true" ]]; then
+	#	echo -e " ${txtRed}You are not allowed to install apps in @Home or ClockWork device${txtRst}\n"
+	#else
+		if [ $# -lt 1 ]; then
+			echo -e -n "${txtBld} Enter the Folder name (Case-sensitive) : ${txtRst}"
+			read subFolder
+		else
+			if [ $# -ge 2 ]; then
+				searchString="$2"
+			else
+				searchString="apk"
+			fi
+			subFolder="$1"
+		fi	
+		
+		installMachineFiles $deviceSerial ${myAppDir} ${subFolder} "$searchString"
+	#fi
 else
-	echo -e -n " Device is not in 'adb' mode\n"
+	echo " Device not in 'adb' mode"
 fi
-
-echo -e -n "\n"

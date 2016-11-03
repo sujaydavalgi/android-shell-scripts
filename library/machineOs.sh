@@ -2,13 +2,13 @@
 
 # Created by Sujay Davalgi
 #
-# Common functions-library for machine OS related functions
+# Common functions library for machine OS related functions
 #
 # Usage: ". ./library/machineOs.sh" within other scripts
 
 #===================================================================================================
 
-. ./library/textFormatting.sh
+#. ./library/textFormatting.sh
 
 #===================================================================================================
 
@@ -83,4 +83,39 @@ function displayOsType() {
 	echo "DistroBasedOn: $myOsDistroBasedOn"
 	echo "KERNEL: $myOsKERNEL"
 	echo "MACH: $myOsMACH"
+}
+
+function getMyOs() {
+	checkMyOsType
+	echo -e -n $myOS
+}
+
+function getMyDist() {
+	checkMyOsType
+	echo -e -n $myOsDIST
+}
+
+function getMyPsuedoname() {
+	checkMyOsType
+	echo -e -n $myOsPSUEDONAME
+}
+
+function getMyRev() {
+	checkMyOsType
+	echo -e -n $myOsREV
+}
+
+function getMyDistroBasedOn() {
+	checkMyOsType
+	echo -e -n $myOsDistroBasedOn
+}
+
+function getMyKernel() {
+	checkMyOsType
+	echo -e -n $myOsKERNEL
+}
+
+function getMyMach() {
+	checkMyOsType
+	echo -e -n $myOsMACH
 }

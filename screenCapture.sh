@@ -10,7 +10,6 @@
 #		If the serial number is not provided, it will display the list of attached devices to pick from
 
 . ./library/mainFunctions.sh
-. ./library/textFormatting.sh
 . ./library/deviceOperations.sh
 . ./library/logFunctions.sh
 

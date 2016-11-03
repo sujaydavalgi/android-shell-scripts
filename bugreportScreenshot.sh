@@ -21,7 +21,7 @@ displaySelectedDevice $deviceSerial
 if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 
 	if [ $# -lt 1 ]; then
-		echo -e -n "${txtBld} Enter the File name : ${txtRst}"
+		echo -e -n "${txtbld} Enter the File name : ${txtrst}"
 		read fileName
 	else
 		fileName="$1"
@@ -36,7 +36,7 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 	takeScreenshot $deviceSerial ${fileName} &
 
 	echo -e -n "\n Taking Bugreport...   "
-	echo -e -n "${fileName}.txt\n"
+	echo -e -n "${fileName}.zip\n\n"
 	takeBugreport $deviceSerial ${fileName}
 	echo -e -n "\n Done\n"
 else

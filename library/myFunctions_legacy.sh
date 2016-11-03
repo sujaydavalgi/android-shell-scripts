@@ -434,7 +434,7 @@ function getDeviceChoice() {
 			deviceSerial=${DEVICE_ARRAY[${DEVICE_ARRAY_INDEX}]}
 	
 		else  #<-- if there is only 1 device connected
-			echo -e "\n${txtYlw} There is only one device connected to the USB.${txtRst}"
+			echo -e "\n${txtYlw} There is only 1 device connected to the USB.${txtRst}"
 		 	deviceSerial=${DEVICE_ARRAY[0]}      
 		fi
 				
@@ -902,7 +902,7 @@ function getDeviceFileChoice() {
 				checkDeviceFileChoiceValidity $DEVICE_FILE_CHOICE
 				deviceFileSelected=${deviceFiles_array[${DEVICE_FILE_ARRAY_INDEX}]}	
 			else  #<-- if there is only 1 file connected
-				echo -e -n "${txtYlw} There is only one file${txtRst} : ${deviceFiles_array[0]}\n"
+				echo -e -n "${txtYlw} There is only 1 file${txtRst} : ${deviceFiles_array[0]}\n"
 				echo -e -n " Do you want to pull it ? [y/n] : "
 				stty -echo && read -n 1 pullDeviceFileOption && stty echo
 				formatYesNoOption $pullDeviceFileOption
@@ -1013,7 +1013,7 @@ function installMachineFiles() {
 				done
 			else  #<-- if there is only 1 file
 				local installAppOption="n"
-				echo -e -n "${txtYlw} There is only one file in :${txtRst} $appInstallPath\n"
+				echo -e -n "${txtYlw} There is only 1 file in :${txtRst} $appInstallPath\n"
 			 	echo -e -n " Do you want to install [y/n] - ${machineFiles_array[0]} : "
 				stty -echo && read -n 1 installAppOption && stty echo
 				formatYesNoOption $installAppOption
@@ -1059,7 +1059,7 @@ function searchAPK() {
 
 function displayAPKlist() {
 	if [ ${Search_APK_COUNT} -eq 1 ]; then
-		echo -e -n " There is only one APK/Package with matching string : \n\n"
+		echo -e -n " There is only 1 APK/Package with matching string : \n\n"
 		echo -e -n " 1. ${APK_ARRAY[0]}\n"
 	elif [ ${Search_APK_COUNT} -gt 1 ]; then
 		local i=0
@@ -1723,7 +1723,7 @@ function appSwitch()
 ##----- Select from your list of device in mySetup.txt
 #function getDeviceSelected() {
 #	if [ $DEVICE_COUNT == 1 ]; then
-#		echo -e "\nThere is only one device connected to the USB"
+#		echo -e "\nThere is only 1 device connected to the USB"
 #		deviceSerial="${DEVICE_ARRAY[0]}"
 #	else
 #		case $choice in

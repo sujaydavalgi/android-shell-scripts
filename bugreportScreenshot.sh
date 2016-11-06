@@ -21,7 +21,7 @@ displaySelectedDevice $deviceSerial
 if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 
 	if [ $# -lt 1 ]; then
-		echo -e -n "${txtbld} Enter the File name : ${txtrst}"
+		echo -e -n "${txtBld} Enter the File name : ${txtRst}"
 		read fileName
 	else
 		fileName="$1"
@@ -36,6 +36,7 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 	takeScreenshot $deviceSerial ${fileName} &
 
 	echo -e -n "\n Taking Bugreport...   "
+	#TODO let us pass the completed file name w/ the extension as parameter to avoid discrepencies between displaying the message and actually saving the file extension type
 	echo -e -n "${fileName}.zip\n\n"
 	takeBugreport $deviceSerial ${fileName}
 	echo -e -n "\n Done\n"

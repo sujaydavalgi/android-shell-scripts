@@ -17,6 +17,7 @@ function takeBugreport() {
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
+		#TODO check the device version and then choose which file extension type to use
 		adb -s "$1" wait-for-device bugreport > `echo ${myLogs}/`${2}.txt
 		#adb -s "$1" wait-for-device bugreport `echo ${myLogs}/`${2}.zip
 	fi
@@ -54,6 +55,7 @@ function takeScreenshot() {
 		myOS="`echo $( getMyOs )`"
 		#echo -e -n " You are using ${myOS} machine\n"
 		
+		#TODO this logic is not always working. The screencap command is behaving differently on different OS, based on the device version
 		if [ ${myOS} == "linux" ]; then
 		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
 		elif [ ${myOS} == "mac" ]; then

@@ -221,6 +221,7 @@ function forceInstallApk() {
 function installApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
+	#TODO work on capturing the output of adb command based on adb version and device version
 	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
 	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution
 	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`

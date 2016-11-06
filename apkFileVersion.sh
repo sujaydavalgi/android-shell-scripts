@@ -23,16 +23,15 @@ else
 	APKpath="$1"
 fi
 
-#if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
-	echo ""
-	echo -e -n " Package : "
-	getMachineApkPackageName "${APKpath}"
-	echo ""
-	echo -e -n " Version : "
-	getMachineApkCompleteVersionName "${APKpath}"
-	echo ""
-#else
-#	echo -e " Device is not in 'adb' mode"
-#fi
+echo ""
+
+if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+	echo -e -n " Package : $( getMachineApkPackageName "${APKpath}" )\n"
+	echo -e -n " Version : $( getMachineApkCompleteVersionName "${APKpath}" )\n"
+else
+	writeToLogsFile "@@ '${1}' File Not Found - called from $( basename ${0} )"
+	echo -e -n " '${1}' File Not Found\n\n"
+	exit 1
+fi
 
 echo ""

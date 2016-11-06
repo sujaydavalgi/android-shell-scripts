@@ -35,6 +35,21 @@ function checkSubFolder() {
 	fi
 }
 
+#----- Check if the file exist in the specified path
+function checkFileExist() {
+#$1 - complete path
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ -f ${1} ]; then 	# if the file exist
+			echo -e -n "yes"
+		else					# if the file does not exist
+			echo -e -n "no"
+		fi
+	fi
+}
+
 #===================================================================================================
 
 #----- build the array for list of files
@@ -91,8 +106,14 @@ function getMachineApkApplicationName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local applicationName=`aapt dump badging ${1} | grep -i "application-label:" | cut -f2 -d":" | cut -f2 -d"'" | tr -d "\r"`
-		echo -e -n ${applicationName}
+		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+			local applicationName=`aapt dump badging ${1} | grep -i "application-label:" | cut -f2 -d":" | cut -f2 -d"'" | tr -d "\r"`
+			echo -e -n ${applicationName}
+		else
+			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			echo ""
+			exit 1
+		fi
 	fi
 }
 
@@ -102,8 +123,14 @@ function getMachineApkPackageName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local machineApkPackageName=`aapt dump badging "${1}" | awk '/package/{gsub("name=|'"'"'","");  print $2}'` 
-		echo -e -n ${machineApkPackageName} # returns 'com.google.android.music'
+		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+			local machineApkPackageName=`aapt dump badging "${1}" | awk '/package/{gsub("name=|'"'"'","");  print $2}'` 
+			echo -e -n ${machineApkPackageName} # returns 'com.google.android.music'
+		else
+			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			echo ""
+			exit 1
+		fi
 	fi
 }
 
@@ -113,8 +140,15 @@ function getMachineApkVersion() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f1 -d" " | cut -f2 -d"'" | tr -d "\r"`
-		echo -e -n ${machineApkVersion}
+		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+			local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f1 -d" " | cut -f2 -d"'" | tr -d "\r"`
+			echo -e -n ${machineApkVersion}
+		else
+			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			echo ""
+			exit 1
+		fi
+
 	fi
 }
 
@@ -124,8 +158,14 @@ function getMachineApkCompleteVersionName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f2 -d"'" | tr -d "\r"`
-		echo -e -n ${machineApkVersion}
+		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+			local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f2 -d"'" | tr -d "\r"`
+			echo -e -n ${machineApkVersion}
+		else
+			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			echo ""
+			exit 1
+		fi
 	fi
 }
 

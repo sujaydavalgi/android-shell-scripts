@@ -11,15 +11,33 @@
 function checkFolder() {
 #1 deviceSerial
 #2 folder name with complete path
-	adb -s $1 shell "if [ -e "${2}" ]; then echo 1; fi"
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		adb -s $1 wait-for-device shell "[[ -d "${2}" ]] && echo 1 || echo 0"
 	
-	#checkDirectory=$(adb -s $deviceSerial shell "if [ -d "${devicePath}" ]; then echo 'exists'; else echo 'not exists';
+		#checkDirectory=$(adb -s $deviceSerial shell "if [ -d "${devicePath}" ]; then echo 'exists'; else echo 'not exists';
+	fi
 } 
 
 function checkFile() {
-#1
-	echo "${1}" | grep -c "No such file or directory"
+#1 deviceSerial
+#2 folder name with complete path
+#3 file name
+	if [ $# -lt 3 ]; then
+		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ $(checkFolder "$1" "${2}") ]; then
+			adb -s $1 wait-for-device shell "[[ -f ${2}/${3} ]] && echo 1 || echo 0"
+		else
+			echo -e -n " '$2' folder not found\n"
+		fi
+	fi
 }
+
+#===================================================================================================
 
 #----- build the array for list of files
 function buildDeviceFilesArray() {
@@ -30,7 +48,7 @@ function buildDeviceFilesArray() {
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		#if [ `adb -s $1 shell "if [ -e "${2}" ]; then echo 1; fi"` ]; then
+		#if [ `adb -s $1 wait-for-device shell "if [ -e "${2}" ]; then echo 1; fi"` ]; then
 		if [ $(checkFolder "$1" "${2}") ]; then # check if the ${2} folder exists or not
 			
 			local i=0
@@ -67,7 +85,7 @@ function buildDeviceFilesArray() {
 					let i=$i+1
 				fi
 
-			done < <( adb -s $1 shell ls "${pathToSearch}" | tr -d '\r' )
+			done < <( adb -s $1 wait-for-device shell ls "${pathToSearch}" | tr -d '\r' )
 				
 			deviceFiles_count=${#deviceFiles_array[*]}
 
@@ -178,3 +196,49 @@ function pullDeviceFile() {
 	fi
 }
 #===================================================================================================
+
+function removeSingleFile() {
+#$1 is device serial number
+#$2 is folder name
+#$3 is filename
+	if [ $# -lt 3 ]; then
+		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#TODO Check the logic whether the folder and the file exist before running the adb command
+		local folderStatus=$(checkFolder ${1} ${2})
+		if [ $(checkFolder "$1" "${2}") ]; then
+			if [ $(checkFolder "$1" "${2}" "${3}") ]; then
+				adb -s "$1" wait-for-device shell rm `echo ${2}/${3}.png`
+			else
+				echo
+			fi
+		else
+			echo
+		fi
+	fi
+}
+
+function removeAllFiles() {
+#$1 is device serial number
+#$2 is folder name
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#TODO Check the logic whether the folder exist before running the adb command
+		adb -s "$1" wait-for-device shell rm -rf "${2}/*.*"
+	fi
+}
+
+function removeFolder() {
+#$1 is device serial number
+#$2 is folder name
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#TODO Check the logic whether the folder exist before running the adb command
+		adb -s "$1" wait-for-device shell rm -rf ${2}
+	fi
+}

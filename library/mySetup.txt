@@ -16,16 +16,16 @@ mySDK=`echo $ANDROID_HOME`
 #--- from where it will search for the scripts folder
 myScripts=`echo ~/Google\ Drive/Scripts`
 
+#--- Path to library folder
+libraryFolder=`echo ${myScripts}/library`
+
+#===================================================================================================
+
 #--- TIF team shared folder
 tifTeamFolder=`echo /google/data/ro/users/hy/hyungtaekim/tif`
 
 #--- from where it will look for Android Flashstation
 flasherFolder=`echo ~/Projects/android/flasher`
-
-#===================================================================================================
-
-#--- Path to library folder
-libraryFolder=`echo ${myScripts}/library`
 
 #===================================================================================================
 

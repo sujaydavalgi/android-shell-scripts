@@ -9,7 +9,7 @@
 #===================================================================================================
 
 #----- Check if the folder exist in the base folder for the specified sub-folder
-function checkSubFolder() {
+function checkMachineSubFolder() {
 #$1 - main folder absolute path
 #$2 - subfolder
 	if [ $# -lt 2 ]; then
@@ -35,18 +35,78 @@ function checkSubFolder() {
 	fi
 }
 
-#----- Check if the file exist in the specified path
-function checkFileExist() {
-#$1 - complete path
+#----- Check if the Folder exist in the specified path
+function checkMachineFolderExist() {
+#$1 - Complete Folder path
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No 1 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		[[ -d "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
+	fi
+}
+
+#----- Check if the File exist in the specified path
+function checkMachineFileExist() {
+#$1 - folder path
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [ -f ${1} ]; then 	# if the file exist
-			echo -e -n "yes"
-		else					# if the file does not exist
-			echo -e -n "no"
+		#if [ -f "${1}" ]; then 	# if the file exist
+		#	echo -e -n "yes"
+		#else					# if the file does not exist
+		#	echo -e -n "no"
+		#fi
+		[[ -f "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
+	fi
+}
+
+#----- Check if the two files are same or not
+function compareMachineFolderAndFiles(){
+#$1 - Foolder-1 complete path
+#$2 - File-1 name
+#$3 - Folder-2 complete path
+#$4 - File-2 name
+	if [ $# -lt 4 ]; then
+		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#TODO check for folder-1, file-1, folder-2, file-2 existance
+		if [[ $( checkMachineFolderExist ${1} ) == "yes" && $( checkMachineFileExist "${1}/${2}" ) == "yes" && $( checkMachineFolderExist "${3}" ) == "yes" && $( checkMachineFileExist "${3}/${4}" ) == "yes" ]]; then
+			[[ "${1}/${2}" -ef "${3}/${4}" ]] && echo -e -n "same" || echo -e -n "diff"
+		else
+			writeToLogsFile "${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) did not have the valid Folder or File argument passed"
 		fi
+	fi
+}
+
+function compareMachineFiles(){
+#$1 - File-1 complete path
+#$2 - File-2 complete path
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [[ $( checkMachineFileExist "${1}" ) == "yes" && $( checkMachineFileExist "${2}") == "yes" ]]; then
+			#check if files are same or diff. If SAME, it will return blank. If DIFF, it will diff status
+			#diffResult=`diff -q "${1}" "${2}" | rev | cut -d" " -f1 | rev | tr -d "\r\n"`
+			diffResult=`diff -q "${1}" "${2}"`
+			
+			if [ -n "${diffResult}" ]; then
+				diffStatus="diff"	
+			else
+				diffStatus="same"
+			fi
+		else
+			if [ $( checkMachineFileExist "${1}" ) == "no" ]; then
+				diffStatus="NoSrc"
+			elif [ $( checkMachineFileExist "${2}" ) == "no" ]; then
+				diffStatus="NoDst"
+			fi
+		fi
+
+		echo -e -n "${diffStatus}"
 	fi
 }
 
@@ -55,7 +115,7 @@ function checkFileExist() {
 #----- build the array for list of files
 function buildMachineFilesArray() {
 #$1 - main folder absolute path
-#$2
+#$2 - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -106,11 +166,11 @@ function getMachineApkApplicationName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
 			local applicationName=`aapt dump badging ${1} | grep -i "application-label:" | cut -f2 -d":" | cut -f2 -d"'" | tr -d "\r"`
 			echo -e -n ${applicationName}
 		else
-			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
 			exit 1
 		fi
@@ -123,11 +183,11 @@ function getMachineApkPackageName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
 			local machineApkPackageName=`aapt dump badging "${1}" | awk '/package/{gsub("name=|'"'"'","");  print $2}'` 
 			echo -e -n ${machineApkPackageName} # returns 'com.google.android.music'
 		else
-			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
 			exit 1
 		fi
@@ -140,11 +200,11 @@ function getMachineApkVersion() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
 			local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f1 -d" " | cut -f2 -d"'" | tr -d "\r"`
 			echo -e -n ${machineApkVersion}
 		else
-			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
 			exit 1
 		fi
@@ -158,11 +218,11 @@ function getMachineApkCompleteVersionName() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
 			local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f2 -d"'" | tr -d "\r"`
 			echo -e -n ${machineApkVersion}
 		else
-			writeToLogsFile "@@ '${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
 			exit 1
 		fi
@@ -226,7 +286,7 @@ function installApk() {
 	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution
 	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 
-	installApkStatusReason "$1" "$2" "$output" "$status"
+	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
 }
 
 function installApkStatusReason() {
@@ -402,7 +462,7 @@ function installMachineFiles() {
 		exit 1
 	else	
 		appInstallPath=${2}
-		checkSubFolder $2 $3
+		checkMachineSubFolder $2 $3
 
 		installFromPath $1 $appInstallPath $4
 	fi

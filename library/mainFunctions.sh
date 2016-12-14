@@ -93,7 +93,7 @@ function writeToLogsFile() {
 		#echo -e -n "\n********** Please check the log file for more info ********** \n\n"
 
 		echo -e -n "********** $nowTime ********** \n" >> "$myScriptLogsFile"
-		echo -e -n "$1\n" >> "$myScriptLogsFile" # append the passed message to the log file
+		echo -e -n "$nowTime ->|<- $1\n" >> "$myScriptLogsFile" # append the passed message to the log file
 	fi
 
 	echo -e -n "\n" >> "$myScriptLogsFile" # append a newline

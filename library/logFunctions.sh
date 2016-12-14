@@ -4,7 +4,7 @@
 #
 # Common functions-library for functions releated to logging on machine
 #
-# Usage: ". ./library/machineFileOperations.sh" within other scripts
+# Usage: ". ./library/logFunctions.sh" within other scripts
 
 #===================================================================================================
 #. ./library/machineOs.sh
@@ -56,10 +56,11 @@ function takeScreenshot() {
 		#echo -e -n " You are using ${myOS} machine\n"
 		
 		#TODO this logic is not always working. The screencap command is behaving differently on different OS, based on the device version
+		#adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.png
 		if [ ${myOS} == "linux" ]; then
-		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
+		      adb -s "$1" wait-for-device shell screencap -p | sed 's/\r$//' > `echo ${myLogs}/`${2}.png
 		elif [ ${myOS} == "mac" ]; then
-		      adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.png
+		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
 		fi
 	fi
 }

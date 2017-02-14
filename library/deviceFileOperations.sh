@@ -11,6 +11,7 @@
 function checkFolder() {
 #1 deviceSerial
 #2 folder name with complete path
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -25,6 +26,7 @@ function checkFile() {
 #1 deviceSerial
 #2 folder name with complete path
 #3 file name
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -44,6 +46,7 @@ function buildDeviceFilesArray() {
 #$1 device serial number
 #$2 folder to search in device
 #$3 type of file to search in the folder
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -98,7 +101,7 @@ function buildDeviceFilesArray() {
 
 #----- display the list of files in device
 function displayDeviceFileList() {
-
+#$return - 
 	local let DEVICE_FILE_CHOICE_NUMBER=1
 	#local let i=0
 	
@@ -112,7 +115,7 @@ function displayDeviceFileList() {
 
 #----- check if the item # for the file selection was valid
 function checkDeviceFileChoiceValidity() {
-
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -138,6 +141,7 @@ function getDeviceFileChoice() {
 #$1 device serial number
 #$2 folder to search in device
 #$3 type of file to search in the folder
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -181,6 +185,7 @@ function pullDeviceFile() {
 #$1 device serial number
 #$2 folder to search in device
 #$3 type of file to search in the folder
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -201,6 +206,7 @@ function removeSingleFile() {
 #$1 is device serial number
 #$2 is folder name
 #$3 is filename
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -222,6 +228,7 @@ function removeSingleFile() {
 function removeAllFiles() {
 #$1 is device serial number
 #$2 is folder name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -234,6 +241,7 @@ function removeAllFiles() {
 function removeFolder() {
 #$1 is device serial number
 #$2 is folder name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

@@ -10,13 +10,15 @@
 
 #----- Convert all the supplied string to lowercase
 function toLowercase () {
-# $1 - takes the input string to be converted to lowercase
+#$1 - takes the input string to be converted to lowercase
+#$return - 
 	echo "$1" | sed "y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/"
 }
 
 #----- Convert all the supplied string to lowercase
 function toUppercase () {
-# $1 - takes the input string to be converted to lowercase
+#$1 - takes the input string to be converted to lowercase
+#$return - 
 	echo "$1" | sed "y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/"
 }
 
@@ -137,6 +139,7 @@ txtBlnk=$(tput blink) # blink the text
 
 function pbold() {
 # $@ - takes all the input strings passed
+#$return - 
 	#tput bold
 	echo -n -e ${txtBld} $@ ${txtRst}
 	#tput sgr0
@@ -144,6 +147,7 @@ function pbold() {
 
 function txtBlink() {
 # $@ - takes all the input strings passed
+#$return - 
 	echo -n -e "\033[5m$@\033[0m"
 	tput blink
 	echo -n -e "$@"
@@ -160,6 +164,7 @@ clrSln=$(tput el1)    # clear to begining of lines
 
 function eraseCharN() {
 # $1 - takes the number of characters to be erased
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -170,6 +175,7 @@ function eraseCharN() {
 
 function insertCharN() {
 # $1 - takes the number of characters to be inserted
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -180,6 +186,7 @@ function insertCharN() {
 
 function insertLnN() {
 # $1 - takes the number of lines to be inserted
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -203,6 +210,7 @@ curUpLn=$(tput cuu1)   # up one line
 function curGoToXY() {
 # $1 - X position
 # $2 - Y position
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -213,7 +221,8 @@ function curGoToXY() {
 
 function curMovLftN() {
 # $1 - takes the number of characters to move left
-	if [ $# -lt 1 ]; then
+#$return - 	
+    if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
@@ -223,6 +232,7 @@ function curMovLftN() {
 
 function curMovRgtN() {
 # $1 - takes the number of characters to move right
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -236,6 +246,7 @@ function curMovRgtN() {
 #----- Check y/n option with multiple possibilities
 function checkYesNoOption() {
 #$1 - Yes/No String
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -257,6 +268,7 @@ function checkYesNoOption() {
 #----- format entered option
 function formatYesNoOption() {
 #$1 - Yes/No String
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -275,6 +287,7 @@ function formatMessage() {
 #$1 - Message strings
 #$2 - Message type [optional]
 #$3 - Message Color [optional]
+#$return - 
 
 # formatMessage "TEST THIS NESSAGE NOW\n" "D"
 # formatMessage "TEST THIS NESSAGE NOW\n" "C" "R"

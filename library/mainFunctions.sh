@@ -78,6 +78,7 @@ fi
 
 function writeToLogsFile() {
 #$1 - Message to write
+#$return - 
 	if [ $# -lt 1 ]; then # if there is less than 1 arguments passed to this function
 		echo -e -n "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )" >> "$myScriptLogsFile"
 		exit 1
@@ -103,6 +104,7 @@ function writeToLogsFile() {
 
 #----- build the array for list of devices recognised in "ADB / Fastboot"
 function buildDeviceSnArray() {
+#$return - 
 	local let i=0
 	local line
 	
@@ -159,6 +161,7 @@ function buildDeviceSnArray() {
 #----- append the build info of each devices in the list
 function appendBuildInfo() {
 # $1 - device serial number
+#$return - 
 # Append the build info (at display time)
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
@@ -172,6 +175,7 @@ function appendBuildInfo() {
 
 #----- display the list of devices
 function displayDeviceList() {
+#$return - 
 	echo ""
 
 	local let i=0
@@ -204,6 +208,7 @@ function displayDeviceList() {
 #----- check if the item # for the device selection was valid
 function checkDeviceChoiceValidity() {
 # $1 - takes the choice number entered
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -227,7 +232,7 @@ function checkDeviceChoiceValidity() {
 
 #----- read the item # from the device list
 function getDeviceChoice() {
-
+#$return - 
 	buildDeviceSnArray
 	
 	local DEVICE_CHOICE="0"

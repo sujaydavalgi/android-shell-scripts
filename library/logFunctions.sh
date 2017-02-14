@@ -13,11 +13,13 @@
 function takeBugreport() {
 #$1 is device serial number
 #$2 is filename
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		#TODO check the device version and then choose which file extension type to use
+		# Pre-M (<6.0) txt, M (=6.0) zip, Post-M (>=7.0) zip
 		adb -s "$1" wait-for-device bugreport > `echo ${myLogs}/`${2}.txt
 		#adb -s "$1" wait-for-device bugreport `echo ${myLogs}/`${2}.zip
 	fi
@@ -26,6 +28,7 @@ function takeBugreport() {
 function saveLogcat() {
 #$1 is device serial number
 #$2 is filename
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -37,6 +40,7 @@ function saveLogcat() {
 function clearLogcat() {
 #$1 is device serial number
 #$2 is filename
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -48,6 +52,7 @@ function clearLogcat() {
 function takeScreenshot() {
 #$1 is device serial number
 #$2 is filename
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -61,6 +66,8 @@ function takeScreenshot() {
 		      adb -s "$1" wait-for-device shell screencap -p | sed 's/\r$//' > `echo ${myLogs}/`${2}.png
 		elif [ ${myOS} == "mac" ]; then
 		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
+		else
+			adb -s "$1" wait-for-device shell screencap > `echo ${myLogs}/`${2}.png
 		fi
 	fi
 }
@@ -69,6 +76,7 @@ function recordDeviceVideo() {
 #$1 is device serial number
 #$2 is foldername
 #$3 is filename
+#$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -83,6 +91,7 @@ function recordDeviceVideo() {
 function getFormatedFileName() {
 #$1 is device serial number
 #$2 is filename
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -98,4 +107,3 @@ function getFormatedFileName() {
 }
 
 #===================================================================================================
-

@@ -12,6 +12,7 @@
 function checkMachineSubFolder() {
 #$1 - main folder absolute path
 #$2 - subfolder
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -38,17 +39,19 @@ function checkMachineSubFolder() {
 #----- Check if the Folder exist in the specified path
 function checkMachineFolderExist() {
 #$1 - Complete Folder path
+#return - "yes" | "no"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No 1 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		[[ -d "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
+		[[ -d "${1}" ]] && echo -e -n "yes" || echo -e -n "no" #check if the directory exist and reply "yes" or "no"
 	fi
 }
 
 #----- Check if the File exist in the specified path
 function checkMachineFileExist() {
 #$1 - folder path
+#return - "yes" | "no"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -62,12 +65,13 @@ function checkMachineFileExist() {
 	fi
 }
 
-#----- Check if the two files are same or not
+#----- Check if the two files in a give source and destination are same or not
 function compareMachineFolderAndFiles(){
 #$1 - Foolder-1 complete path
 #$2 - File-1 name
 #$3 - Folder-2 complete path
 #$4 - File-2 name
+#return - "same" | "diff"
 	if [ $# -lt 4 ]; then
 		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -81,9 +85,11 @@ function compareMachineFolderAndFiles(){
 	fi
 }
 
+#----- Check if the two files are same or not
 function compareMachineFiles(){
 #$1 - File-1 complete path
 #$2 - File-2 complete path
+#return - "diff" | "same" | "NoSrc" | "NoDst"
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -115,7 +121,8 @@ function compareMachineFiles(){
 #----- build the array for list of files
 function buildMachineFilesArray() {
 #$1 - main folder absolute path
-#$2 - 
+#$2 - search string
+#return - set machineFiles_array & machineFiles_count
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -135,6 +142,7 @@ function buildMachineFilesArray() {
 
 #----- build the list of files to install
 function buildMachineInstallFileArray() {
+#return - set installAppsSelected, installApps_Array, installaApps_Count
 	local i=0
 	local installAppsSelected=""
 	local installAppOption="n"
@@ -162,13 +170,14 @@ function buildMachineInstallFileArray() {
 
 function getMachineApkApplicationName() {
 #$1 - apk file complete path in machine
+#return - application name: "Google Play Music"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
-			local applicationName=`aapt dump badging ${1} | grep -i "application-label:" | cut -f2 -d":" | cut -f2 -d"'" | tr -d "\r"`
-			echo -e -n ${applicationName}
+			local applicationName=`aapt dump badging ${1} | grep -i "application-label-en-GB:" | cut -f2 -d":" | cut -f2 -d"'" | tr -d "\r"`
+			echo -e -n "${applicationName}"
 		else
 			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
@@ -179,6 +188,7 @@ function getMachineApkApplicationName() {
 
 function getMachineApkPackageName() {
 #$1 - apk file complete path in machine
+#return - application package name: "com.google.android.music"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -196,13 +206,14 @@ function getMachineApkPackageName() {
 
 function getMachineApkVersion() {
 #$1 - apk file complete path in machine
+#return - application version: "6.15.3518-0.H.3311787"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
 			local machineApkVersion=`aapt dump badging "${1}" | grep -i versionname | cut -f4 -d"=" | cut -f1 -d" " | cut -f2 -d"'" | tr -d "\r"`
-			echo -e -n ${machineApkVersion}
+			echo -e -n ${machineApkVersion} # returns "6.15.3518-0.H.3311787"
 		else
 			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			echo ""
@@ -214,6 +225,7 @@ function getMachineApkVersion() {
 
 function getMachineApkCompleteVersionName() {
 #$1 - apk file complete path in machine
+#return - apk version "6.15.3518-0.H.3311787"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -232,6 +244,7 @@ function getMachineApkCompleteVersionName() {
 function getDeviceApkVersion() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
+#return - application version "6.15.3518-0.H.3311787"
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -264,6 +277,7 @@ function displayApkCompleteVersion() {
 function forceInstallApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
+#return - 
 	output=$(adb -s $1 wait-for-device install -r -d "$2")
 
 	status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
@@ -281,6 +295,7 @@ function forceInstallApk() {
 function installApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
+#return - 
 	#TODO work on capturing the output of adb command based on adb version and device version
 	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
 	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution
@@ -289,44 +304,10 @@ function installApk() {
 	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
 }
 
-function installApkStatusReason() {
-#$1 - deviceSerial
-#$2 - apk file complete path in machine
-#$3 - complete output of adb install command
-#$4 - status of adb install command [Success / Failure]
-	if [ "${4}" == "Success" ]; then
-		echo -e -n " Status : ${txtGrn}$status${txtRst}"
-		echo ""
-	elif [ "${4}" == "Failure" ]; then
-		echo -e -n " Status : ${txtRed}$status${txtRst}"
-		
-		local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
-		
-		case "$reason" in
-			"INSTALL_FAILED_ALREADY_EXISTS")
-				installApkReinstall $1 "$2"
-				;;
-			"INSTALL_FAILED_VERSION_DOWNGRADE")
-				installApkDowngrade $1 "$2"
-				;;
-			"INSTALL_FAILED_UPDATE_INCOMPATIBLE" | "INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")
-				formatMessage " - Certificate version mismatch with the existing installed apk\n\n" "E"
-				exit 1
-				;;
-			*)
-				echo -e -n " - ${reason}\n"
-				exit 1
-				;;
-		esac
-		
-	else
-		formatMessage " Status : $status\n"
-	fi
-}
-
 function installApkReinstall() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
+#return - 
 	local machineApkApplicationName=`getMachineApkApplicationName ${2}`
 
 	formatMessage " - The application '${machineApkApplicationName}' is already installed in your device" "E"
@@ -352,7 +333,7 @@ function installApkReinstall() {
 function installApkDowngrade() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-	
+#return - 
 	local machineApkPackageName=`getMachineApkPackageName ${2}`
 	local machineApkVersion=`getMachineApkVersion ${2}`
 	local deviceApkVersion=`getDeviceApkVersion ${1} ${2}`
@@ -384,10 +365,50 @@ function installApkDowngrade() {
 	fi
 }
 
+function installApkStatusReason() {
+#$1 - deviceSerial
+#$2 - apk file complete path in machine
+#$3 - complete output of adb install command
+#$4 - status of adb install command [Success / Failure]
+#return - 
+	if [ "${4}" == "Success" ]; then
+		echo -e -n " Status : ${txtGrn}$status${txtRst}"
+		echo ""
+	elif [ "${4}" == "Failure" ]; then
+		echo -e -n " Status : ${txtRed}$status${txtRst}"
+		
+		local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
+		
+		case "$reason" in
+			"INSTALL_FAILED_ALREADY_EXISTS")
+				installApkReinstall $1 "$2"
+				;;
+			"INSTALL_FAILED_VERSION_DOWNGRADE")
+				installApkDowngrade $1 "$2"
+				;;
+			"INSTALL_FAILED_UPDATE_INCOMPATIBLE" | "INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")
+				formatMessage " - Certificate version mismatch with the existing installed apk\n\n" "E"
+				exit 1
+				;;
+			*)
+				echo -e -n " - ${reason}\n"
+				exit 1
+				;;
+		esac
+		
+	else
+		formatMessage " Status : $status\n"
+	fi
+}
+
 #===================================================================================================
 
 #----- install APK's from the specified path
 function installFromPath(){
+#$1 - device serial
+#$2 - folder absolute path
+#$3 - search string
+#return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -397,7 +418,7 @@ function installFromPath(){
 
 		if [ $machineFiles_count -gt 0 ]; then
 			
-			if [ $machineFiles_count -gt 1 ]; then #<-- if there are more than 1 file
+			if [ $machineFiles_count -gt 1 ]; then #<-- if there is more than 1 file
 				formatMessage " There are $machineFiles_count matching files in the folder : " "I"
 				formatMessage "$appInstallPath\n\n"
 				
@@ -457,6 +478,7 @@ function installMachineFiles() {
 #$2 - main folder absolute path
 #$3 - sub folder
 #$4 - search string
+#$return - 
 	if [ $# -lt 4 ]; then
 		writeToLogsFile "@@ No 4 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -473,6 +495,7 @@ function installMachineFiles() {
 function checkTifFolder() {
 #$1 - main folder absolute path
 #$2 - Sub Folder
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

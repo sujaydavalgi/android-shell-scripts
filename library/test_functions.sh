@@ -7,6 +7,7 @@
 # Usage: ".  ./mainFunctions.sh" within other scripts
 
 function functionsOperations(){
+#$return - 
     echo " echo from ${FUNCNAME[0]} in test_functions.sh"
     
     echo "1 $( basename ${0} )"

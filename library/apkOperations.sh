@@ -14,6 +14,7 @@ apkPackageName=""
 function searchAPK() {
 #$1 - device serial
 #$2 - apk name string
+#$return (Set) - APR_ARRAY, Search_APK_Count
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -45,6 +46,7 @@ function searchAPK() {
 
 function splitAPKpath() {
 #$1 complete APK path string
+#$return (set) - apkDevicePath, apkPackageName
     if [ $# -lt 1 ]; then
         writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
         exit 1
@@ -55,6 +57,7 @@ function splitAPKpath() {
 }
 
 function displayAPKlist() {
+#$return - 
 	if [ ${Search_APK_COUNT} -eq 1 ]; then #if there is only 1 matching apk
 		formatMessage " There is only 1 APK/Package with matching string :\n\n" "W"
 		splitAPKpath ${APK_ARRAY[0]}
@@ -77,7 +80,8 @@ function displayAPKlist() {
 }
 
 function checkAPKChoiceValidity() {
-#$1 choice number
+#$1 - choice number
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -103,6 +107,7 @@ function apkOperations() {
 #$1 - device serial
 #$2 - apk name
 #$3 - apk operation option: PULL,CLEAR,STOP,START,RESTART,VERSION,UNINSTALL,UNINSTALLUPDATES
+#$return - 
 		if [ $# -lt 3 ]; then
 			writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 			exit 1
@@ -184,6 +189,7 @@ function apkOperations() {
 function appPID() {
 #$1 - device serial number
 #$2 - package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -197,6 +203,7 @@ function appPID() {
 function pullAPK() {
 #$1 - device serial
 #$2 - package name
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -273,6 +280,7 @@ function pullAPK() {
 function clearAPK() {
 #$1 - device serial
 #$2 - package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -295,6 +303,7 @@ function clearAPK() {
 function uninstallSelectedApks() {
 #$1 - device serial
 #$2 - apk path with package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -332,6 +341,7 @@ function uninstallSelectedApks() {
 function uninstallApksUpdates() {
 #$1 - device serial
 #$2 - apk path with package name
+#$return - 
     if [ $# -lt 2 ]; then
         writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
         exit 1
@@ -345,6 +355,7 @@ function uninstallApksUpdates() {
 function startAPK() {
 #$1 - device serial number
 #$2 - package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -358,6 +369,7 @@ function startAPK() {
 function stopAPK() {
 #$1 - device serial number
 #$2 - package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -371,6 +383,7 @@ function stopAPK() {
 function restartAPK() {
 #$1 - device serial number
 #$2 - package name
+#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -384,6 +397,7 @@ function restartAPK() {
 function getApkVersion() {
 #$1 - device serial number
 #$2 - package name
+#$return - 
         if [ $# -lt 2 ]; then
                 writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
                 exit 1

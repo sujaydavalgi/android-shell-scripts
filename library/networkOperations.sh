@@ -10,6 +10,7 @@
 
 function buildIpAddress() {
 #$1 - device serial
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -61,6 +62,7 @@ function buildIpAddress() {
 
 #---- Check if WiFi is UP and Connected
 function checkWifi() {
+#$return - 
 	if [[ "$isWifiIP" == "true" && "$isWifiUp" == "true" ]]; then
 		echo "true"
 	else
@@ -70,6 +72,7 @@ function checkWifi() {
 
 #---- Check if Ehternet is UP and Connected
 function checkEth() {
+#$return - 
 	if [[ "$isEthIP" == "true" && "$isEthUp" == "true" ]]; then
 		echo "true"
 	else
@@ -80,6 +83,7 @@ function checkEth() {
 #---- Check if the connectiong is Ehternet/WiFi/Both/None
 function checkEthWifi(){
 #$1 - device serial
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -104,6 +108,7 @@ function checkEthWifi(){
 #---- Get the IP address if connected
 function getMyIP() {
 #$1 - device serial
+#$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

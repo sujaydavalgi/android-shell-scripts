@@ -25,7 +25,8 @@ fi
 
 echo ""
 
-if [[ "$( checkYesNoOption $( checkFileExist ${1} ) )" == "yes"  ]]; then
+if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
+	echo -e -n " Name    : $( getMachineApkApplicationName "${APKpath}" )\n"
 	echo -e -n " Package : $( getMachineApkPackageName "${APKpath}" )\n"
 	echo -e -n " Version : $( getMachineApkCompleteVersionName "${APKpath}" )\n"
 else

@@ -23,23 +23,18 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $# -lt 1 ]; then
 		echo -e -n "${txtBld} Enter the File name : ${txtRst}"
 		read fileName
+		echo
 	else
 		fileName="$1"
 	fi
 
 	fileName="`echo $( getFormatedFileName $deviceSerial ${fileName} )`"
 
-	echo -e " Your files will be saved in folder :  ${myLogs}" #" as : ${fileName}.txt and ${fileName}.png\n"
+	echo -e " Your files will be saved in folder :  ${myLogs}"
 
-	echo -e -n "\n Taking Screenshot... "
-	echo -e -n " ${fileName}.png"
-	takeScreenshot $deviceSerial ${fileName} &
+	getScreenshot $deviceSerial ${fileName} &
 
-	echo -e -n "\n Taking Bugreport...   "
-	#TODO let us pass the completed file name w/ the extension as parameter to avoid discrepencies between displaying the message and actually saving the file extension type
-	echo -e -n "${fileName}.zip\n\n"
-	takeBugreport $deviceSerial ${fileName}
-	echo -e -n "\n Done\n"
+	getBugreport $deviceSerial ${fileName}
 else
 	echo -e -n " Device is not in 'adb' mode\n\n"
 fi

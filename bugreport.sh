@@ -23,15 +23,14 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $# -lt 1 ]; then
 		echo -e -n "${txtBld} Enter the Bugreport File name : ${txtRst}"
 		read fileName
+		echo
 	else
 		fileName="$1"
 	fi
 	
 	fileName="`echo $( getFormatedFileName $deviceSerial $fileName )`"
-	#TODO let us pass the completed file name w/ the extension as parameter to avoid discrepencies between displaying the message and actually saving the file extension type
-	echo -e -n " Your file will be saved in folder : $myLogs as : $fileName.zip\n\n"
-	takeBugreport $deviceSerial $fileName
-	echo -e -n "\n Done\n"
+	echo -e -n " Your file will be saved in folder : $myLogs"
+	getBugreport $deviceSerial $fileName
 else
 	echo -e -n " Device is not in 'adb' mode\n"
 fi

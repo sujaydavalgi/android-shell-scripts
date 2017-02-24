@@ -13,21 +13,21 @@
 . ./library/deviceOperations.sh
 . ./library/logFunctions.sh
 
-if [ $# -lt 1 ]; then
-	pbold "\n Enter the Screenshot File name : "
-	read fileName
-else
-	fileName="$1"
-fi
-
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
-	fileName="`echo $( getFormatedFileName $deviceSerial ${fileName} )`"
-	echo -e " Your file will be saved in folder : " ${myLogs} " as : " ${fileName}.png "\n"
+	if [ $# -lt 1 ]; then
+		echo -e -n "${txtBld} Enter the Screenshot File name : ${txtRst}"
+		read fileName
+		echo
+	else
+		fileName="$1"
+	fi
 
-	takeScreenshot $deviceSerial ${fileName}
+	fileName="`echo $( getFormatedFileName $deviceSerial ${fileName} )`"
+	echo -e -n " Your file will be saved in folder : ${myLogs}\n"
+	getScreenshot $deviceSerial ${fileName}
 else
-	echo -e " Device is not in adb mode"
+	echo -e -n " Device is not in adb moden\n"
 fi

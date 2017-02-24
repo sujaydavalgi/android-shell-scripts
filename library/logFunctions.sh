@@ -10,18 +10,53 @@
 #. ./library/machineOs.sh
 #===================================================================================================
 
+# Pre-M (<6.0) txt, M (=6.0) txt, Post-M (>=7.0) zip
+bugreportBuildVersionCutoff="7.0"
+
 function takeBugreport() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return - take bugreport
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		#TODO check the device version and then choose which file extension type to use
-		# Pre-M (<6.0) txt, M (=6.0) zip, Post-M (>=7.0) zip
-		adb -s "$1" wait-for-device bugreport > `echo ${myLogs}/`${2}.txt
-		#adb -s "$1" wait-for-device bugreport `echo ${myLogs}/`${2}.zip
+		# Pre-M (<6.0) txt, M (=6.0) txt, Post-M (>=7.0) zip
+
+		local compareBuildVersionStatus=$( compareDeviceBuildVersion ${1} ${bugreportBuildVersionCutoff} )
+
+		if [[ ${compareBuildVersionStatus} == "same" || ${compareBuildVersionStatus} == "greater" ]]; then
+			adb -s "$1" wait-for-device bugreport `echo ${myLogs}/`${2}.zip
+			#echo -e -n " zip"
+		else
+			adb -s "$1" wait-for-device bugreport > `echo ${myLogs}/`${2}.txt
+			#echo -e -n " txt"
+		fi
+
+	fi
+}
+
+function getBugreport() {
+#1 - device serial number
+#2 - filename
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		echo -e -n "\n Taking Bugreport... "
+
+		local compareBuildVersionStatus=$( compareDeviceBuildVersion ${1} ${bugreportBuildVersionCutoff} )
+			
+		if [[ ${compareBuildVersionStatus} == "same" || ${compareBuildVersionStatus} == "greater" ]]; then
+			echo -e -n " ${2}.zip\n\n"
+		else
+			echo -e -n " ${2}.txt\n\n"
+		fi
+
+		takeBugreport ${1} ${2}
+
+		echo -e -n " ...Done\n"
 	fi
 }
 
@@ -66,9 +101,25 @@ function takeScreenshot() {
 		      adb -s "$1" wait-for-device shell screencap -p | sed 's/\r$//' > `echo ${myLogs}/`${2}.png
 		elif [ ${myOS} == "mac" ]; then
 		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.png
+		      #adb -s "$1" wait-for-device shell screencap -p | perl -pe 'BEGIN { $/="\cM\cJ"; $\="\cJ"; } chomp;' > `echo ${myLogs}/`${2}.png
 		else
 			adb -s "$1" wait-for-device shell screencap > `echo ${myLogs}/`${2}.png
 		fi
+	fi
+}
+
+function getScreenshot() {
+#$1 is device serial number
+#$2 is filename
+#$return - 
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		echo -e -n "\n Taking Screenshot... "
+		echo -e -n " ${2}.png"
+		takeScreenshot ${1} ${2}
+		echo -e -n "\n ...Done\n"
 	fi
 }
 

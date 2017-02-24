@@ -51,8 +51,10 @@ myAGHDir=`echo ~/Projects/android/AGH/apps`
 #--- from where it will search for the Android-Gear-Head apps folder
 myGPMDir=`echo ~/Projects/Play/Music`
 
-#--- from where it will search for the General apps folder
-#myAppDir=`echo ~/Projects/android/apps`
+#--- from where it will search for the Android apps folder
+myAndroidDir=`echo ~/Projects/android/apps`
+
+#--- from where it will search for the apps Base folder
 myAppDir="${myGPMDir}"
 
 #--- from where it will search for the TIF folder

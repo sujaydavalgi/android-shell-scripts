@@ -500,6 +500,28 @@ function getDeviceRebootReason() {
 #[ro.build.expect.bootloader]: [moto-apq8084-71.15]
 #[ro.boot.version-baseband]: [D4.01-9625-05.32+FSG-9625-02.109]
 #[ro.build.expect.baseband]: [D4.01-9625-05.32+FSG-9625-02.109]
+#===================================================================================================
+function compareDeviceBuildVersion() {
+#$1 - device serial
+#$2 - compare version
+
+		local deviceBuildVersion=$( getDeviceBuildVersion ${1} )
+		local compareWithVersion="${2}"
+		
+		#echo $compareWithVersion
+		#echo ${deviceBuildVersion}
+
+		#if (( $(echo "$deviceBuildVersion $compareWithVersion" | awk '{print ($1 = $2)}') )); then #if its equal
+		#	echo -e -n "same"
+		if (( $(echo "$deviceBuildVersion $compareWithVersion" | awk '{print ($1 > $2)}') )); then #if its greater
+			echo -e -n "greater"
+		elif (( $(echo "$deviceBuildVersion $compareWithVersion" | awk '{print ($1 < $2)}') )); then #if its smaller
+			echo -e -n "smaller"
+		else
+			echo -e -n "same"
+		fi
+}
+
 
 #===================================================================================================
 #----- Check if the device is running USER-DEBUG build

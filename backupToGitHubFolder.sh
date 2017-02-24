@@ -106,9 +106,9 @@ function backupUpdatedFiles(){
 					# compare source and destination folder for the file
 					compareFileStatus=$( compareMachineFiles "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}" )
 					
-					# If same, do nothing. If Diff, copy to destination
+					# If files are "same", do nothing. If they are "diff" or not present in the destination, copy the file to destination
 					if [[ "$compareFileStatus" == "diff" || "$compareFileStatus" == "NoDst" ]]; then
-						echo -e -n " $j.Copying ${srcFolder}/${filesArray[i]}\n"
+						echo -e -n "   $j.Copying ${srcFolder}/${filesArray[i]}\n"
 						cp "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}"
 						let j=j+1
 					elif [ "$compareFileStatus" == "NoSrc" ]; then

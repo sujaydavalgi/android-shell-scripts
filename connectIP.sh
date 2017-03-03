@@ -29,11 +29,11 @@ displaySelectedDevice $deviceSerial
 
 setPort=5555
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 
 	deviceIP=`echo $( getMyIP $deviceSerial )`
 
-	if [ $( checkAtHomeDevice $deviceSerial ) == "true" ]; then
+	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
 		#deviceIP="$( adb -s $deviceSerial shell dumpsys activity service BrokerService | grep address: )"
 		#deviceIP=`echo $deviceIP| cut -d':' -f 2`
 		setPort=`adb -s $deviceSerial wait-for-device shell getprop service.adb.tcp.port`

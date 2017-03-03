@@ -22,7 +22,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.id"
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.baseband"
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.boot.bootloader"

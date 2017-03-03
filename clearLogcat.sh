@@ -25,7 +25,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	formatMessage " Clearing Logcat... " "M"
 	adb -s $deviceSerial wait-for-device logcat -c
 	formatMessage "Done \n\n" "M"

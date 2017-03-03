@@ -240,13 +240,13 @@ function pullAPK() {
 
 			local dstFolder="$myAppDir"
 
-			if [ "$( checkAtHomeDevice $1 )" == "true" ]; then
+			if [ "$( isAtHomeDevice $1 )" == "true" ]; then
 				dstFolder="$myAAHDir"
-			elif [ "$( checkClockWorkDevice $1 )" == "true" ]; then
+			elif [ "$( isClockWorkDevice $1 )" == "true" ]; then
 				dstFolder="$myACWDir"
-			elif [ "$( checkGearHeadDevice $1 )" == "true" ]; then
+			elif [ "$( isGearHeadDevice $1 )" == "true" ]; then
 				dstFolder="$myAGHDir"
-			elif [ "$( checkGedDevice $1 )" == "true" ]; then
+			elif [ "$( isGedDevice $1 )" == "true" ]; then
 				dstFolder="$myAppDir"
 			else
 				dstFolder="$myAppDir"
@@ -255,10 +255,10 @@ function pullAPK() {
 			formatMessage " Your files will be saved in folder : $dstFolder" "M"
 			formatMessage "\n Pulling APK..." "I"
 
-			if [ "$( checkAdbDevice $1 )" == "true" ]; then
+			if [ "$( isAdbDevice $1 )" == "true" ]; then
 				echo -e -n " $2\n"
 				echo -e -n " "
-				if [ "$( checkDevKeyDevice $1 )" == "true" ]; then
+				if [ "$( isDeviceBuildDevKey $1 )" == "true" ]; then
 					adb -s $1 wait-for-device root >/dev/null 2>&1
 					echo -e -n " "
 					adb -s $1 wait-for-device pull $2 $dstFolder
@@ -287,7 +287,7 @@ function clearAPK() {
 	else
 		#local apkPath=`echo "${2}" | cut -f2 -d"=" | tr -d "\r\n"`
 
-		if [ "$( checkAdbDevice $1 )" == "true" ]; then
+		if [ "$( isAdbDevice $1 )" == "true" ]; then
 			formatMessage " Clearing APK $2 data\n" "W"
 			echo -e -n " "
 			adb -s $1 wait-for-device shell pm clear $2
@@ -313,12 +313,12 @@ function uninstallSelectedApks() {
         splitAPKpath ${apkPath}
 		formatMessage "\n Uninstalling APK...\n" "W"
 
-		if [ "$( checkAdbDevice $1 )" == "true" ]; then
+		if [ "$( isAdbDevice $1 )" == "true" ]; then
 			formatMessage " $apkDevicePath - $apkPackageName\n"
 			formatMessage " adb uninstall - "
 			adb -s $1 wait-for-device uninstall $apkPackageName
 			formatMessage " Trying to delete the file...\n" "W"
-			if [ "$( checkDevKeyDevice $1 )" == "true" ]; then
+			if [ "$( isDeviceBuildDevKey $1 )" == "true" ]; then
 				formatMessage " adb root - "
 				adb -s $1 wait-for-device root
 				formatMessage " adb remount - "

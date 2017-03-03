@@ -23,15 +23,15 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
-	if [ "$( checkDevKeyDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
+	if [ "$( isDeviceBuildDevKey $deviceSerial )" == "true" ]; then
 		dummyMsg=`adb -s $deviceSerial wait-for-device root`
 		dummyMsg=`adb -s $deviceSerial wait-for-device shell stop`
 		dummyMsg=`adb -s $deviceSerial wait-for-device shell start`
 	else
 		echo -e -n " Device doesnot support root access\n"
 	fi
-elif [[ "$( checkFastbootDevice $deviceSerial )" == "true" || "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+elif [[ "$( isFastbootDevice $deviceSerial )" == "true" || "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	fastboot -s $deviceSerial reboot
 else
 	echo " Device is not in 'adb' or 'fastboot' mode\n"

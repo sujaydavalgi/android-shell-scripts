@@ -22,11 +22,11 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	adb -s $deviceSerial wait-for-device reboot bootloader
-elif [[ "$( checkFastbootDevice $deviceSerial )" == "true" ]]; then
+elif [[ "$( isFastbootDevice $deviceSerial )" == "true" ]]; then
 	echo " Device is already in 'fastboot' mode"
-elif [[ "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+elif [[ "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	fastboot -s $deviceSerial reboot bootloader
 else
 	echo " Device is not in 'adb' mode"

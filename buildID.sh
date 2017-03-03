@@ -22,7 +22,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
     echo -e -n " `adb -s $deviceSerial wait-for-device shell getprop ro.build.description` \n\n"
     #echo ""
 else

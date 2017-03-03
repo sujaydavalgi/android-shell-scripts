@@ -26,14 +26,14 @@ getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 function pullRecordedVideo(){
-	#pullDeviceFile $deviceSerial ${RecordFolder} ${SearchForFile}
+	#searchNpullDeviceFilesFrmFldr $deviceSerial ${RecordFolder} ${SearchForFile}
 	echo -e -n "\n\n Pulling the device file ${RecordFolder}/${fileName}.mp4 to ${myLogs}\n\n"
 	sleep 1s
 	adb -s $deviceSerial wait-for-device pull "${RecordFolder}/${fileName}.mp4" "${myLogs}"
 }
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-        #if [[ "$( checkDevKeyDevice $deviceSerial )" == "true" || "$( checkTestKeyDevice $deviceSerial )" == "true" ]]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
+        #if [[ "$( isDeviceBuildDevKey $deviceSerial )" == "true" || "$( isDeviceBuildTestKey $deviceSerial )" == "true" ]]; then
                 fileName=`echo $( getFormatedFileName $deviceSerial ${fileName} )`
 
                 echo -e -n " Your video will be saved in device folder ${RecordFolder} as : ${fileName}.mp4\n\n"
@@ -42,6 +42,7 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
                 #sleep 1s
                 trap pullRecordedVideo SIGINT
                 recordDeviceVideo $deviceSerial ${RecordFolder} ${fileName}
+                removeSingleFileFromFolder $deviceSerial ${RecordFolder} "${fileName}.mp4"
         #else
         #        echo -e -n " Device doesnot support root access\n"
         #fi

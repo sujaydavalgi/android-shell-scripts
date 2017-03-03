@@ -26,7 +26,7 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	apkOperations $deviceSerial ${APKname} "pull"
 else
 	echo " Device is not in 'adb' mode"

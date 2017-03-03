@@ -25,11 +25,11 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-	if [ $( checkAtHomeDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
+	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
 		echo -e " ${txtRed}There is no camera folder in @Home device${txtRst}\n"
 	else
-		pullDeviceFile $deviceSerial "${ScreenshotsFolder}" "${SearchForFile}"
+		searchNpullDeviceFilesFrmFldr $deviceSerial "${deviceScreenshotFolder}" "${SearchForFile}"
 	fi
 else
 	echo -e -n " Device is not in 'adb' mode\n"

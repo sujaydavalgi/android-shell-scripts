@@ -31,8 +31,8 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-	pullDeviceFile $deviceSerial "${searchFolder}" "${searchForFile}"
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
+	searchNpullDeviceFilesFrmFldr $deviceSerial "${searchFolder}" "${searchForFile}"
 else
 	echo -e -n " Device is not in 'adb' mode\n"
 fi

@@ -19,7 +19,7 @@
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $# -lt 1 ]; then
 		echo -e -n "${txtBld} Enter the Bugreport File name : ${txtRst}"
 		read fileName

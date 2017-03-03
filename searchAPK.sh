@@ -25,7 +25,7 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	searchAPK $deviceSerial ${APKname}
 	displayAPKlist
 	echo " "

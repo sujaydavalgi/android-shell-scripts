@@ -23,8 +23,8 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
-	if [ $( checkGoogleDevice $deviceSerial ) == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
+	if [ $( isGoogleDevice $deviceSerial ) == "true" ]; then
 		echo -n -e " Wait for device to reboot in bootloader..."
 		adb -s $deviceSerial wait-for-device reboot bootloader &
 #		read waiting
@@ -39,14 +39,14 @@ sleep 2s
 
 buildDeviceSnArray
 
-if [ "$( checkFastbootDevice $deviceSerial )" == "true" ]; then
+if [ "$( isFastbootDevice $deviceSerial )" == "true" ]; then
 	echo -e "\n Wait for the device to complete wipe data and reboot..."
 	fastboot -s $deviceSerial oem recovery:wipe_data
 	#echo -e "\n Wait for device to reboot and complete the data wipe\n"
 	#read waiting
 	#fastboot reboot
 	echo " "
-elif [[ "$( checkAdbDevice $deviceSerial )" == "true" || "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+elif [[ "$( isAdbDevice $deviceSerial )" == "true" || "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	echo -e "\n Device is not in Fastboot mode\n"
 else
 	echo -e "\n Unable to determine the device state \n"

@@ -35,7 +35,7 @@ read monkeyRunKillChoice
 
 case $monkeyRunKillChoice in
 	[r/R]) #run
-		if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+		if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 		    #adb -s $deviceSerial wait-for-device shell monkey -p $packageName -v $numberOfEvents --throttle $delayBetweenEvents --pct-trackball 0 --pct-syskeys 10
 		    adb -s $deviceSerial wait-for-device shell monkey -p $packageName -c android.intent.category.LAUNCHER --ignore-security-exceptions --monitor-native-crashes --throttle $delayBetweenEvents --pct-trackball 0 --pct-syskeys 0 -s 80 -v -v -v $numberOfEvents
 		else

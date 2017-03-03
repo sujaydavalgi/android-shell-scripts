@@ -23,7 +23,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	myConnection="$( checkEthWifi $deviceSerial )"
 	echo -e -n " It is connected to : $myConnection\n"
 	if [ "$myConnection" != "None" ]; then

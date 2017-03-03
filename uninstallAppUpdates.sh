@@ -24,7 +24,7 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	apkOperations $deviceSerial ${APKname} "uninstallupdates"
 else
 	echo " Device is not in 'adb' mode"

@@ -22,8 +22,8 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [[ "$( checkAdbDevice $deviceSerial )" == "true" || "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+if [[ "$( isAdbDevice $deviceSerial )" == "true" || "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	adb -s $deviceSerial reboot
-elif [ "$( checkFastbootDevice $deviceSerial )" == "true" ]; then
+elif [ "$( isFastbootDevice $deviceSerial )" == "true" ]; then
 	fastboot -s $deviceSerial reboot
 fi

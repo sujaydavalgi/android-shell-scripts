@@ -12,11 +12,12 @@
 . ./library/mainFunctions.sh
 . ./library/deviceOperations.sh
 . ./library/logFunctions.sh
+. ./library/deviceFileOperations.sh
 
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	if [ $# -lt 1 ]; then
 		echo -e -n "${txtBld} Enter the Screenshot File name : ${txtRst}"
 		read fileName

@@ -24,8 +24,8 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-	#if [ "$( checkDevKeyDevice $deviceSerial )" == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
+	#if [ "$( isDeviceBuildDevKey $deviceSerial )" == "true" ]; then
 		fileName=`echo $( getFormatedFileName $deviceSerial ${fileName} )`
 
 		echo -e -n " Your video will be saved in ${RecordFolder} as : ${fileName}.mp4\n\n"

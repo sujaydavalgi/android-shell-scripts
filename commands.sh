@@ -23,10 +23,10 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ "$( checkAdbDevice $deviceSerial )" == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	echo " Device is in 'adb' mode"
 	`adb -s $deviceSerial  wait-for-device ${commands}`
-elif [[ "$( checkFastbootDevice $deviceSerial )" == "true" || "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+elif [[ "$( isFastbootDevice $deviceSerial )" == "true" || "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	echo " Device is in 'fastboot' mode"
 	`fastboot -s $deviceSerial ${commands}`
 else

@@ -20,7 +20,7 @@ fileName="test"
 appInstallPath=""
 RecordFolder="/sdcard"
 SearchForFile="*.*"
-CameraFolder="/sdcard/DCIM/Camera"
+devicedeviceCameraFolder="/sdcard/DCIM/Camera"
 
 nowTime=$(date +'%H%M%S')
 nowDate=$(date +'%Y%m%d')
@@ -504,14 +504,14 @@ function displaySelectedDevice() {
 		writeToLogsFile "@@ No argument passed to displaySelectedDevice()"
 		exit 1
 	else
-		if [[ "$( checkOfflineDevice $1 )" == "true" || "$( checkUnauthorizedDevice $1 )" == "true" ]]; then
+		if [[ "$( isDeviceOffline $1 )" == "true" || "$( isDeviceUnauthorized $1 )" == "true" ]]; then
 			echo " Device is offline/Unauthorised. Cannot do anything with it"
 			exit 1
 		else
 		
 			echo -e -n "\n Selected device : ${txtCyn}$1"
 		
-			if [ "$( checkAdbDevice $1 )" == "true" ]; then
+			if [ "$( isAdbDevice $1 )" == "true" ]; then
 				deviceName="$( getDeviceName $1 )"
 				deviceBuild="$( getDeviceBuild $1 )"
 				echo -e "${txtRst} - ${txtBld}${txtPur}$deviceName ($deviceBuild)${txtRst}\n"
@@ -669,7 +669,7 @@ function getFormatedFileName() {
 		#echo -e -n "$deviceName_$deviceBuild_$1_$2_$nowTime"
 		#echo -e -n "$( getDeviceName $1)_$( getDeviceBuild $1)_${1}_${2}_${nowTime}"
 
-        if [ "$( checkGoogleDevice $1 )" == "true" ]; then
+        if [ "$( isGoogleDevice $1 )" == "true" ]; then
             echo -e -n "$( getDeviceName $1)_$( getDeviceBuild $1)_${2}_${nowTime}"
         else
             echo -e -n "${2}_${nowTime}"
@@ -904,10 +904,10 @@ function getDeviceFileChoice() {
 			else  #<-- if there is only 1 file connected
 				echo -e -n "${txtYlw} There is only 1 file${txtRst} : ${deviceFiles_array[0]}\n"
 				echo -e -n " Do you want to pull it ? [y/n] : "
-				stty -echo && read -n 1 pullDeviceFileOption && stty echo
-				formatYesNoOption $pullDeviceFileOption
+				stty -echo && read -n 1 searchNpullDeviceFilesFrmFldrOption && stty echo
+				formatYesNoOption $searchNpullDeviceFilesFrmFldrOption
 
-				case "$pullDeviceFileOption" in
+				case "$searchNpullDeviceFilesFrmFldrOption" in
 					[yY]|[yY][eE][sS])
 						deviceFileSelected=${deviceFiles_array[0]}
 						;;
@@ -924,12 +924,12 @@ function getDeviceFileChoice() {
 	fi
 }
 
-function pullDeviceFile() {
+function searchNpullDeviceFilesFrmFldr() {
 #$1 device serial number
 #$2 folder to search in device
 #$3 type of file to search in the folder
 	if [ $# -lt 3 ]; then
-		writeToLogsFile "@@ No 3 arguments passed to pullDeviceFile()"
+		writeToLogsFile "@@ No 3 arguments passed to searchNpullDeviceFilesFrmFldr()"
 		exit 1
 	else
 		getDeviceFileChoice $1 ${2} ${3}
@@ -1136,11 +1136,11 @@ function pullAPK() {
 				esac
 			fi
 			
-			if [ "$( checkAtHomeDevice $1 )" == "true" ]; then
+			if [ "$( isAtHomeDevice $1 )" == "true" ]; then
 				dstFolder="$myAAHDir"
-			elif [ "$( checkClockWorkDevice $1 )" == "true" ]; then
+			elif [ "$( isClockWorkDevice $1 )" == "true" ]; then
 				dstFolder="$myACWDir"
-			elif [ "$( checkGedDevice $1 )" == "true" ]; then
+			elif [ "$( isGedDevice $1 )" == "true" ]; then
 				dstFolder="$myAppDir"
 			else
 				dstFolder="$myAppDir"
@@ -1150,10 +1150,10 @@ function pullAPK() {
 			echo -e "\n Your files will be saved in folder : $dstFolder"
 			echo -e -n "\n Pulling APK..."
 		
-			if [ "$( checkAdbDevice $1 )" == "true" ]; then
+			if [ "$( isAdbDevice $1 )" == "true" ]; then
 				echo -e -n " $apkPath\n"
 				echo -e -n " "
-				if [ "$( checkDevKeyDevice $1 )" == "true" ]; then
+				if [ "$( isDeviceBuildDevKey $1 )" == "true" ]; then
 					adb -s $1 wait-for-device root >/dev/null 2>&1
 					echo -e -n " "
 					adb -s $1 wait-for-device pull $apkPath $dstFolder
@@ -1218,11 +1218,11 @@ function uninstallSelectedApks() {
 
 			echo -e -n "\n Uninstalling APK...\n"
 
-			if [ "$( checkAdbDevice $1 )" == "true" ]; then
+			if [ "$( isAdbDevice $1 )" == "true" ]; then
 				echo -e -n " $apkPath1 - $apkPath2\n"
 				echo -e -n " adb uninstall - "
 				adb -s $1 wait-for-device uninstall $apkPath2
-				if [ "$( checkDevKeyDevice $1 )" == "true" ]; then
+				if [ "$( isDeviceBuildDevKey $1 )" == "true" ]; then
 					echo -e -n " adb root - "
 					adb -s $1 wait-for-device root
 					echo -e -n " adb remount - "
@@ -1353,10 +1353,10 @@ function getDeviceState () {
 }
 
 #----- Check if its a @Home device
-function checkAtHomeDevice () {
+function isAtHomeDevice () {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkAtHomeDevice()"
+		writeToLogsFile "@@ No argument passed to isAtHomeDevice()"
 		exit 1
 	else
 		local $deviceName="$( getDeviceName $1)"
@@ -1380,10 +1380,10 @@ function checkAtHomeDevice () {
 }
 
 #----- Check if its a ClockWork device
-function checkClockWorkDevice() {
+function isClockWorkDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkClockWorkDevice()"
+		writeToLogsFile "@@ No argument passed to isClockWorkDevice()"
 		exit 1
 	else	
 		local $deviceName="$( getDeviceName $1)"
@@ -1405,10 +1405,10 @@ function checkClockWorkDevice() {
 }
 
 #----- Check if its a ClockWork device
-function checkGearHeadDevice() {
+function isGearHeadDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkGearHeadDevice()"
+		writeToLogsFile "@@ No argument passed to isGearHeadDevice()"
 		exit 1
 	else	
 		# It is still not implemented
@@ -1417,10 +1417,10 @@ function checkGearHeadDevice() {
 }
 
 #----- Check if its a GED device
-function checkGedDevice() {
+function isGedDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkGedDevice()"
+		writeToLogsFile "@@ No argument passed to isGedDevice()"
 		exit 1
 	else	
 		local $deviceName="$( getDeviceName $1)"
@@ -1440,10 +1440,10 @@ function checkGedDevice() {
 	fi
 }
 
-function checkGpeDevice() {
+function isGpeDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkGpeDevice()"
+		writeToLogsFile "@@ No argument passed to isGpeDevice()"
 		exit 1
 	else	
 		local $deviceName="$( getDeviceName $1)"
@@ -1465,13 +1465,13 @@ function checkGpeDevice() {
 }
 
 #----- Check if its a Google devices
-function checkGoogleDevice() {
+function isGoogleDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkGoogleDevice()"
+		writeToLogsFile "@@ No argument passed to isGoogleDevice()"
 		exit 1
 	else
-		if [[ "$( checkAtHomeDevice $1 )" == "true" || "$( checkClockWorkDevice $1 )" == "true" || "$( checkGedDevice $1 )" == "true" ]]; then
+		if [[ "$( isAtHomeDevice $1 )" == "true" || "$( isClockWorkDevice $1 )" == "true" || "$( isGedDevice $1 )" == "true" ]]; then
 			echo true	
 		else	
 			echo false
@@ -1480,10 +1480,10 @@ function checkGoogleDevice() {
 }
 #===========================================================================================================================================
 #----- Check if the device is in ADB mode
-function checkAdbDevice() {
+function isAdbDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkAdbDevice()"
+		writeToLogsFile "@@ No argument passed to isAdbDevice()"
 		exit 1
 	else
 		local statusIndex="$( getIndex $1 )"
@@ -1498,10 +1498,10 @@ function checkAdbDevice() {
 }
 
 #----- Check if the device is in RECOVERY mode
-function checkRecoveryDevice() {
+function isRecoveryDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkRecoveryDevice()"
+		writeToLogsFile "@@ No argument passed to isRecoveryDevice()"
 		exit 1
 	else
 		local statusIndex="$( getIndex $1 )"
@@ -1514,10 +1514,10 @@ function checkRecoveryDevice() {
 }
 
 #----- Check if the device is in FASTBOOT mode
-function checkFastbootDevice() {
+function isFastbootDevice() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkFastbootDevice()"
+		writeToLogsFile "@@ No argument passed to isFastbootDevice()"
 		exit 1
 	else
 		local statusIndex="$( getIndex $1 )"
@@ -1530,10 +1530,10 @@ function checkFastbootDevice() {
 }
 
 #----- Check if the device is in OFFLINE mode
-function checkOfflineDevice() {
+function isDeviceOffline() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkOfflineDevice()"
+		writeToLogsFile "@@ No argument passed to isDeviceOffline()"
 		exit 1
 	else
 		local statusIndex="$( getIndex $1 )"
@@ -1546,10 +1546,10 @@ function checkOfflineDevice() {
 }
 
 #----- Check if the device is in UNAUTHORIZED mode
-function checkUnauthorizedDevice() {
+function isDeviceUnauthorized() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkOfflineDevice()"
+		writeToLogsFile "@@ No argument passed to isDeviceOffline()"
 		exit 1
 	else
 		local statusIndex="$( getIndex $1 )"
@@ -1580,10 +1580,10 @@ function getIndex() {
 }
 #===========================================================================================================================================
 #----- Check if the device is running USER-DEBUG build
-function checkUserdebugDevice() {
+function isDeviceBuildUserdebug() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkUserdebugDevice()"
+		writeToLogsFile "@@ No argument passed to isDeviceBuildUserdebug()"
 		exit 1
 	else
 		#deviceBuildType=$( getDeviceBuildType $1 )
@@ -1596,10 +1596,10 @@ function checkUserdebugDevice() {
 }
 
 #----- Check if the device is running USER build
-function checkUserDevice() {
+function isDeviceBuildUser() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkUserDevice()"
+		writeToLogsFile "@@ No argument passed to isDeviceBuildUser()"
 		exit 1
 	else
 		#deviceBuildType=$( getDeviceBuildType $1 )
@@ -1612,7 +1612,7 @@ function checkUserDevice() {
 }
 
 #----- Check if the device is running Release-Key build
-function checkReleaseKeyDevice() {
+function isDeviceBuildReleaseKey() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to checkSignedDevice()\n"
@@ -1628,7 +1628,7 @@ function checkReleaseKeyDevice() {
 }
 
 #----- Check if the device is running Dev-Key build
-function checkDevKeyDevice() {
+function isDeviceBuildDevKey() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to checkSignedDevice()\n"
@@ -1644,32 +1644,32 @@ function checkDevKeyDevice() {
 }
 
 #----- Check if the device is bootloader in LOCKED mode
-function checkLockedDevice() {
+function isDeviceLocked() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkLockedDevice()\n"
+		writeToLogsFile "@@ No argument passed to isDeviceLocked()\n"
 		exit 1
 	else
-		#if [ "$( checkFastbootDevice $1 )" == "false" ]; then
-		writeToLogsFile "@@ Not implemented yet checkLockedDevice()\n"
+		#if [ "$( isFastbootDevice $1 )" == "false" ]; then
+		writeToLogsFile "@@ Not implemented yet isDeviceLocked()\n"
 	fi
 }
 
 #----- Check if the device is bootloader in UNLOCKED mode
-function checkUnlockedDevice() {
+function isDeviceUnocked() {
 #$1 - takes the device serial
 	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No argument passed to checkUnlockedDevice()\n"
+		writeToLogsFile "@@ No argument passed to isDeviceUnocked()\n"
 		exit 1
 	else
-#		if [ "$( checkFastbootDevice $1 )" == "false" ]; then
+#		if [ "$( isFastbootDevice $1 )" == "false" ]; then
 #			adb -s $1 wait-for-device reboot bootloader
 #		fi
 #		
 #		local unlockStatus=`fastboot -s $1 getvar unlocked | cut -d":" -f1`
 #	  	if 
 #		echo $unlockStatus
-		writeToLogsFile "@@ Not implemented yet checkUnlockedDevice()\n"
+		writeToLogsFile "@@ Not implemented yet isDeviceUnocked()\n"
 	fi
 }
 #===========================================================================================================================================
@@ -1788,7 +1788,7 @@ function appSwitch()
 #		exit 1
 #	else
 #		#if [ $deviceName != "tungsten" ]; then  
-#		if [ $( checkAtHomeDevice ) == "false" ]; then
+#		if [ $( isAtHomeDevice ) == "false" ]; then
 #		
 #			echo -e -n ${txtRed}
 #			#if [ $remote == "y" ]; then
@@ -1839,7 +1839,7 @@ function appSwitch()
 #		writeToLogsFile "@@ No argument passed to reInstallAPKs()"
 #		exit 1
 #	else
-#		if [ $( checkAtHomeDevice ) == "false" ]; then
+#		if [ $( isAtHomeDevice ) == "false" ]; then
 #			echo -e -n ${txtGrn}
 #			#if [ $remote == "y" ]; then
 #			#	echo -e -n "Installing Remote : "

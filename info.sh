@@ -19,7 +19,7 @@
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $# -lt 1 ]; then
 		adb -s $deviceSerial wait-for-device shell dumpsys activity service BrokerService
 	else

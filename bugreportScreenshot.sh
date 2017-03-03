@@ -18,7 +18,7 @@
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 
 	if [ $# -lt 1 ]; then
 		echo -e -n "${txtBld} Enter the File name : ${txtRst}"
@@ -32,7 +32,7 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 
 	echo -e " Your files will be saved in folder :  ${myLogs}"
 
-	getScreenshot $deviceSerial ${fileName} &
+	getScreenshot $deviceSerial ${fileName}
 
 	getBugreport $deviceSerial ${fileName}
 else

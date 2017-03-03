@@ -20,8 +20,14 @@ fileName="test"
 appInstallPath=""
 RecordFolder="/sdcard"
 SearchForFile="*.*"
-CameraFolder="/sdcard/DCIM/Camera"
-ScreenshotsFolder="/sdcard/Pictures/Screenshots"
+deviceCameraFolder="/sdcard/DCIM/Camera"
+deviceScreenshotFolder="/sdcard/Pictures/Screenshots"
+
+logcatExtension="txt"
+bugreportExtension="txt"
+bugreport2Extension="zip"
+screenshotExtension="png"
+screenrecordExtension="mp4"
 
 nowTime=$(date +'%H%M%S')
 nowDate=$(date +'%Y%m%d')

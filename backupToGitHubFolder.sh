@@ -69,6 +69,7 @@ libraryFiles=(
 "configureMachine.sh"
 "deviceFileOperations.sh"
 "deviceOperations.sh"
+"deviceProperties.sh"
 "keycodeEvents.sh"
 "logFunctions.sh"
 "machineFileOperations.sh"

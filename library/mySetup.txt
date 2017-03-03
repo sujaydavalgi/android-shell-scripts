@@ -22,7 +22,7 @@ libraryFolder=`echo ${myScripts}/library`
 #===================================================================================================
 
 #--- TIF team shared folder
-tifTeamFolder=`echo /google/data/ro/users/hy/hyungtaekim/tif`
+tifTeamFolder=`echo .../users/...`
 
 #--- from where it will look for Android Flashstation
 flasherFolder=`echo ~/Projects/android/flasher`

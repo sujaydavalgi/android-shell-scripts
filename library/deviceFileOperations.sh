@@ -8,7 +8,7 @@
 
 #===================================================================================================
 
-function checkFolder() {
+function checkDeviceFolder() {
 #1 deviceSerial
 #2 folder name with complete path
 #$return - 
@@ -22,7 +22,7 @@ function checkFolder() {
 	fi
 } 
 
-function checkFile() {
+function checkDeviceFile() {
 #1 deviceSerial
 #2 folder name with complete path
 #3 file name
@@ -31,7 +31,7 @@ function checkFile() {
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		if [ $(checkFolder "$1" "${2}") ]; then
+		if [ $( checkDeviceFolder "$1" "${2}" ) ]; then
 			adb -s $1 wait-for-device shell "[[ -f ${2}/${3} ]] && echo 1 || echo 0"
 		else
 			echo -e -n " '$2' folder not found\n"
@@ -52,7 +52,7 @@ function buildDeviceFilesArray() {
 		exit 1
 	else
 		#if [ `adb -s $1 wait-for-device shell "if [ -e "${2}" ]; then echo 1; fi"` ]; then
-		if [ $(checkFolder "$1" "${2}") ]; then # check if the ${2} folder exists or not
+		if [ $( checkDeviceFolder "$1" "${2}") ]; then # check if the ${2} folder exists or not
 			
 			local i=0
 		
@@ -164,12 +164,12 @@ function getDeviceFileChoice() {
 				formatMessage " There is only 1 file in the folder '${2}'\n\n" "W"
 				formatMessage " 1. ${deviceFiles_array[0]}\n\n"
 				formatMessage " Do you want to pull it ? [y/n] : " "Q"
-				stty -echo && read -n 1 pullDeviceFileOption && stty echo
-				formatYesNoOption $pullDeviceFileOption
+				stty -echo && read -n 1 searchNpullDeviceFilesFrmFldrOption && stty echo
+				formatYesNoOption $searchNpullDeviceFilesFrmFldrOption
 
-				if [ "$( checkYesNoOption $pullDeviceFileOption )" == "yes" ]; then
+				if [ "$( checkYesNoOption $searchNpullDeviceFilesFrmFldrOption )" == "yes" ]; then
 					deviceFileSelected=${deviceFiles_array[0]}
-				elif [ "$( checkYesNoOption $pullDeviceFileOption )" == "no" ]; then				
+				elif [ "$( checkYesNoOption $searchNpullDeviceFilesFrmFldrOption )" == "no" ]; then				
 					echo " "
 				fi
 			fi
@@ -181,7 +181,7 @@ function getDeviceFileChoice() {
 	fi
 }
 
-function pullDeviceFile() {
+function searchNpullDeviceFilesFrmFldr() {
 #$1 device serial number
 #$2 folder to search in device
 #$3 type of file to search in the folder
@@ -200,22 +200,57 @@ function pullDeviceFile() {
 		fi
 	fi
 }
+
+function pullDeviceSingleFileFrmFldr() {
+#$1 device serial number
+#$2 folder to pull from
+#$3 filename
+#$return - 
+	if [ $# -lt 3 ]; then
+		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceFileCompletePath="${2}/${3}"
+		#if [[ -f "${deviceFileCompletePath}" ]]; then
+		#	echo -e -n "\n Pulling ${deviceFileCompletePath} into ${myLogs}\n"
+			adb -s "$1" wait-for-device pull "${deviceFileCompletePath}" "${myLogs}" >/dev/null 2>&1
+		#	formatMessage "\n Done\n\n"
+		#fi
+	fi
+}
+
+function pullDeviceSingleFileFrmPath() {
+#$1 device serial number
+#$2 complete path to the file
+#$return - 
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceFileCompletePath="${2}"
+		#if [ -f "${deviceFileCompletePath}" ]; then
+		#	echo -e -n "\n Pulling ${deviceFileCompletePath} into ${myLogs}\n"
+			adb -s "$1" wait-for-device pull "${deviceFileCompletePath}" "${myLogs}" >/dev/null 2>&1
+		#	formatMessage "\n Done\n\n"
+		#fi
+	fi
+}
+
 #===================================================================================================
 
-function removeSingleFile() {
+function removeSingleFileFromPath() {
 #$1 is device serial number
-#$2 is folder name
-#$3 is filename
+#$2 is file complete path
 #$return - 
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		#TODO Check the logic whether the folder and the file exist before running the adb command
-		local folderStatus=$(checkFolder ${1} ${2})
-		if [ $(checkFolder "$1" "${2}") ]; then
-			if [ $(checkFolder "$1" "${2}" "${3}") ]; then
-				adb -s "$1" wait-for-device shell rm `echo ${2}/${3}.png`
+		local folderStatus=$( checkDeviceFolder ${1} ${2})
+		if [ $( checkDeviceFolder "$1" "${2}") ]; then
+			if [ $( checkDeviceFile "$1" "${2}" "${3}") ]; then
+				adb -s "$1" wait-for-device shell rm `echo ${2}`
 			else
 				echo
 			fi
@@ -225,7 +260,30 @@ function removeSingleFile() {
 	fi
 }
 
-function removeAllFiles() {
+function removeSingleFileFromFolder() {
+#$1 is device serial number
+#$2 is folder name
+#$3 is filename
+#$return - 
+	if [ $# -lt 3 ]; then
+		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#TODO Check the logic whether the folder and the file exist before running the adb command
+		local folderStatus=$( checkDeviceFolder ${1} ${2})
+		if [ $( checkDeviceFolder "$1" "${2}") ]; then
+			if [ $( checkDeviceFile "$1" "${2}" "${3}") ]; then
+				adb -s "$1" wait-for-device shell rm `echo ${2}/${3}`
+			else
+				echo
+			fi
+		else
+			echo
+		fi
+	fi
+}
+
+function removeAllFilesFromFolder() {
 #$1 is device serial number
 #$2 is folder name
 #$return - 

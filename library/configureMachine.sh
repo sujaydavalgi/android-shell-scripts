@@ -4,7 +4,7 @@
 #
 # Common functions-library for configuring the machine to run the scripts
 #
-# Usage: ". ./library/apkOperations.sh" within other scripts
+# Usage: ". ./library/configureMachine.sh" from within other scripts
 
 #===================================================================================================
 #--- where it will store the bugreports, logcats, screenshots, pulled videos/images

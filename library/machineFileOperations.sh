@@ -50,7 +50,7 @@ function checkMachineFolderExist() {
 
 #----- Check if the File exist in the specified path
 function checkMachineFileExist() {
-#$1 - folder path
+#$1 - complete file path
 #return - "yes" | "no"
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
@@ -89,13 +89,13 @@ function compareMachineFolderAndFiles(){
 function compareMachineFiles(){
 #$1 - File-1 complete path
 #$2 - File-2 complete path
-#return - "diff" | "same" | "NoSrc" | "NoDst"
+#return - "diff" | "same" | "NoSrc" | "NoDst" | "unknown"
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		if [[ $( checkMachineFileExist "${1}" ) == "yes" && $( checkMachineFileExist "${2}") == "yes" ]]; then
-			#check if files are same or diff. If SAME, it will return blank. If DIFF, it will diff status
+			#check if files are same or diff. If SAME, it will return blank. If DIFF, it will return diff status
 			#diffResult=`diff -q "${1}" "${2}" | rev | cut -d" " -f1 | rev | tr -d "\r\n"`
 			diffResult=`diff -q "${1}" "${2}"`
 			
@@ -109,6 +109,8 @@ function compareMachineFiles(){
 				diffStatus="NoSrc"
 			elif [ $( checkMachineFileExist "${2}" ) == "no" ]; then
 				diffStatus="NoDst"
+			else
+				diffStatus="unknown"
 			fi
 		fi
 
@@ -298,7 +300,7 @@ function installApk() {
 #return - 
 	#TODO work on capturing the output of adb command based on adb version and device version
 	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
-	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution
+	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution to force downgrade install
 	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 
 	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
@@ -327,7 +329,6 @@ function installApkReinstall() {
 		#echo -e -n "\n"
 		exit 1
 	fi
-	
 }
 
 function installApkDowngrade() {

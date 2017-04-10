@@ -51,8 +51,11 @@ function splitAPKpath() {
         writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
         exit 1
     else
-        apkDevicePath=`echo "${1}" | cut -f2 -d":" | cut -f1 -d"=" | tr -d "\r\n"` # /data/app/com.google.android.music-2/base.apk
-        apkPackageName=`echo "${1}" | cut -f2 -d":" | cut -f2 -d"=" | tr -d "\r\n"` # com.google.android.music
+        #apkDevicePath=`echo "${1}" | cut -f2 -d":" | cut -f1 -d"=" | tr -d "\r\n"` # /data/app/com.google.android.music-2/base.apk
+        #apkPackageName=`echo "${1}" | cut -f2 -d":" | cut -f2 -d"=" | tr -d "\r\n"` # com.google.android.music
+
+        apkDevicePath=`echo "${1}" | cut -f2 -d":" | rev | cut -f2-4 -d"=" | rev | tr -d "\r\n"` # /data/app/com.google.android.music-TDA3dRVEUj0FFpvpliQgyQ==/base.apk
+        apkPackageName=`echo "${1}" | cut -f2 -d":" | rev | cut -f1 -d"=" | rev | tr -d "\r\n"` # com.google.android.music
     fi
 }
 

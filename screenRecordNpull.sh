@@ -11,6 +11,7 @@
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh
 . ./library/deviceOperations.sh
+. ./library/deviceFileOperations.sh
 . ./library/logFunctions.sh
 
 SearchForFile="*.mp4"

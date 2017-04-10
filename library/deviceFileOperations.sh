@@ -88,7 +88,7 @@ function buildDeviceFilesArray() {
 					let i=$i+1
 				fi
 
-			done < <( adb -s $1 wait-for-device shell ls "${pathToSearch}" | tr -d '\r' )
+			done < <( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r' )
 				
 			deviceFiles_count=${#deviceFiles_array[*]}
 

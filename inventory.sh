@@ -22,7 +22,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	echo -e -n " Device Type : "
 	adb -s $deviceSerial wait-for-device shell getprop "gsm.current.phone-type"
 	echo -e -n " Serial : "

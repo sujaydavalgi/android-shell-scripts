@@ -22,7 +22,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	adb -s $deviceSerial wait-for-device shell dumpsys bluetooth
 else
 	echo " Device in not in 'adb' mode"

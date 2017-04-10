@@ -25,6 +25,6 @@ fi
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [[ "$( checkAdbDevice $deviceSerial )" == "true" || "$( checkRecoveryDevice $deviceSerial )" == "true" ]]; then
+if [[ "$( isAdbDevice $deviceSerial )" == "true" || "$( isRecoveryDevice $deviceSerial )" == "true" ]]; then
 	adb -s $deviceSerial wait-for-device shell am start -a android.media.action.MEDIA_PLAY_FROM_SEARCH -n com.google.android.music/.VoiceActionsActivity --es "query" "${voiceSearchString}"
 fi

@@ -20,6 +20,7 @@ getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 function curlLog() {
+#$ - deviceSerial
 	echo -e -n " Do you want to enalbe the CURL logs Temporary(T) or Permanent(P) ? : "
 	read verboseLogTypeChoice
 	
@@ -37,6 +38,7 @@ function curlLog() {
 }
 
 function eventLog() {
+#$1 - deviceSerial
 	adb -s ${1} wait-for-device -d shell setprop log.tag.MusicEventLog VERBOSE
 
 	restartAPK ${1} "com.google.android.music"
@@ -45,14 +47,19 @@ function eventLog() {
 }
 
 function otherLog() {
+#$1 - deviceSerial
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicWoodstock VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicPlaybackService VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicSyncAdapter VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicStore VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicDownload VERBOSE
+	adb -s ${1} wait-for-device shell setprop log.tag.MusicStreaming VERBOSE
+	adb -s ${1} wait-for-device shell setprop log.tag.MplayHandler VERBOSE
+	adb -s ${1} wait-for-device shell setprop log.tag.MusicHttp VERBOSE
+	adb -s ${1} wait-for-device shell setprop log.tag.MusicCloudClient VERBOSE
 }
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	formatMessage " Do you want to enable CURL  logging ? [Y/N] : " "Q"
 	stty -echo && read -n 1 curlLogChoice && stty echo
 	formatYesNoOption $curlLogChoice

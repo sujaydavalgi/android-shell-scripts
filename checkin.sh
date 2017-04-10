@@ -23,7 +23,7 @@ fi
 
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	#adb -s $deviceSerial wait-for-device shell am broadcast -a android.server.checkin.CHECKIN
 	adb -s $deviceSerial wait-for-device shell am broadcast -f 0x10 --ez force TRUE -a android.server.checkin.CHECKIN -n 'com.google.android.gms/.checkin.CheckinService\$TriggerReceiver'
 	echo ""

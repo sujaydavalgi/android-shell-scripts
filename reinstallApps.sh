@@ -26,8 +26,8 @@ fi
 
 checkSubFolder $build
 	
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
-	if [ $( checkAtHomeDevice $deviceSerial ) == "true" ]; then
+if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
+	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
 		echo -e " Installing Apps is not allowed in @Home device ...\n"
 	else
 		unInstallAPKs $deviceSerial

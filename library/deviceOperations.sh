@@ -37,9 +37,10 @@ function displaySelectedDevice() {
 				local deviceModel="$( getDeviceModel $1 )"
 				local deviceKeys="$( getDeviceKeys $1 )"
 				local deviceBuildVersion="$( getDeviceBuildVersion $1 )"
+				local deviceManufacturer="$( getDeviceManufacturer $1 )"
 				#local deviceFlavor="$( getDeviceBuildFlavor $1 )"
 				
-				formatMessage "${deviceModel} - ${deviceBuildVersion} ${deviceBuild} (${deviceName} ${deviceKeys})\n" "I"
+				formatMessage "${deviceManufacturer} ${deviceModel} - ${deviceBuildVersion} ${deviceBuild} (${deviceName} ${deviceKeys})\n" "I"
 				#formatMessage " $( getDeviceModel $1 ) - $( getDeviceBuild $1 ) ($( getDeviceBuildFlavor $1 ))\n" "I"
 				
 			else

@@ -236,6 +236,18 @@ function getDeviceExpectedBasebandVersion() {
 
 #[ro.bootloader]: [moto-apq8084-71.15]
 #===================================================================================================
+function getProductBrand(){
+#$1 - 
+#$return - 
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceName=`adb -s $1 wait-for-device shell getprop ro.product.brand | tr -d "\r\n"`
+		echo -e -n $deviceName #Returns "samsung"
+	fi
+}
+
 #----- get the device manufacturer
 function getDeviceManufacturer(){
 #$1 - device serial

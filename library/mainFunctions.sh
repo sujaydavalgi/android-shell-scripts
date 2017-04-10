@@ -54,17 +54,22 @@ if [ ! -d "$myAppDir" ]; then
 	`mkdir -p ${myAppDir}`
 fi
 
-#--- from where it will search for the @Home apps folder
-if [ ! -d "$myAAHDir" ]; then
-	`mkdir -p ${myAAHDir}`
-	#myAAHDir="`pwd`/AAH/apps"
+#--- from where it will search for the general apps
+if [ ! -d "$gitHubFolder" ]; then
+	`mkdir -p ${gitHubFolder}`
 fi
 
+#--- from where it will search for the @Home apps folder
+#if [ ! -d "$myAAHDir" ]; then
+#	`mkdir -p ${myAAHDir}`
+#	#myAAHDir="`pwd`/AAH/apps"
+#fi
+
 #--- from where it will search for the ClockWorks apps folder
-if [ ! -d "$myACWDir" ]; then
-	`mkdir -p ${myACWDir}`
-	#myACWDir="`pwd`/ACW/apps"
-fi
+#if [ ! -d "$myACWDir" ]; then
+#	`mkdir -p ${myACWDir}`
+#	#myACWDir="`pwd`/ACW/apps"
+#fi
 
 #--- from where it will search for the Music apps folder
 if [ ! -d "$myGPMDir" ]; then
@@ -114,12 +119,13 @@ function buildDeviceSnArray() {
 	local let i=0
 	local line
 	
-	# build the array of device serial and its status, which are in adb mode
+	# build the array of device serial and its status, which are in ADB mode
 	while read line
 	do
 #		echo " line - $line"
-		# $1 - the device serial number
-		# $2 - the status: device/fastboot/recovery/offline/unauthorized
+
+		# awk $1 - the device serial number
+		# awk $2 - the status: device/fastboot/recovery/offline/unauthorized
 		adbDEVICEstatus="`echo $line | awk '{print $2}' `" # get the status of the device
 
 #		echo " Status - $adbDEVICEstatus"
@@ -144,7 +150,7 @@ function buildDeviceSnArray() {
 
 	done < <(adb devices) # read and append all the devices in adb state
 
-	# build the array of device serial and its status, which are in fastboot mode
+	# build the array of device serial and its status, which are in FASTBOOT mode
 	while read line
 	do
 		# $1 - the device serial number

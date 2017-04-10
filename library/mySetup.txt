@@ -21,6 +21,11 @@ libraryFolder=`echo ${myScripts}/library`
 
 #===================================================================================================
 
+#--- Path to GitHub scripts folder
+gitHubFolder=`echo ~/Setup/GitHub`
+
+#===================================================================================================
+
 #--- TIF team shared folder
 tifTeamFolder=`echo .../users/...`
 

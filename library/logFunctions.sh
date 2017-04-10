@@ -13,6 +13,8 @@
 # Pre-M (<6.0) txt, M (=6.0) txt, Post-M (>=7.0) zip
 newBugreportSdkVersion="7.0"
 
+adbExecOutVersion=""
+
 #===================================================================================================
 
 #----- file name format
@@ -108,15 +110,26 @@ function clearLogcat() {
 	fi
 }
 
-function takeScreenshot() {
+function saveScreenshotInDevice() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		myOS="`echo $( getMyOs )`"
+		#save the screenshot in the device sdcard screenshot folder
+		adb -s "$1" wait-for-device shell screencap ${deviceScreenshotFolder}/${2}.${screenshotExtension}
+	fi
+}
+
+function saveScreenshotInMachine() {
+#$1 is device serial number
+#$2 is filename
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#myOS="`echo $( getMyOs )`"
 		#echo -e -n " You are using ${myOS} machine\n"
 		
 		#TODO this logic is not always working. The screencap command is behaving differently on different OS, based on the device version
@@ -131,12 +144,26 @@ function takeScreenshot() {
 		#	adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
 		#fi
 
-		#Trying to take the screenshot in the device sdcard itself
-		#adb -s "$1" wait-for-device shell screencap ${deviceScreenshotFolder}/${2}.${screenshotExtension}
-
 		#Trying to use exec-out instead of shell
 		#IMP: check how we use exec-out instead of shell
+		#TODO This does does work with all version of Android. Need to run it based on the Android OS version
 		adb -s "$1" wait-for-device exec-out screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
+	fi
+}
+
+function takeScreenshot() {
+#$1 is device serial number
+#$2 is filename
+#$return - 
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		#Trying to save the screenshot in the device sdcard itself
+		#saveScreenshotInDevice "${1}" "${2}"
+
+		#Trying to save the screenshot in the machine folder
+		saveScreenshotInMachine "${1}" "${2}"
 	fi
 }
 

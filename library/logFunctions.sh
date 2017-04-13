@@ -146,7 +146,7 @@ function saveScreenshotInMachine() {
 
 		#Trying to use exec-out instead of shell
 		#IMP: check how we use exec-out instead of shell
-		#TODO This does does work with all version of Android. Need to run it based on the Android OS version
+		#TODO This does not work with all version of Android. Need to run it based on the Android OS version
 		adb -s "$1" wait-for-device exec-out screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
 	fi
 }

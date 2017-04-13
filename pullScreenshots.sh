@@ -14,14 +14,14 @@
 . ./library/deviceOperations.sh
 . ./library/deviceFileOperations.sh
 
-SearchForFile="*.{jpg,png}"
-
 if [ $# -lt 1 ]; then
     getDeviceChoice
 else
     buildDeviceSnArray
     deviceSerial="$1"
 fi
+
+SearchForFile="*.{jpg,png}"
 
 displaySelectedDevice $deviceSerial
 

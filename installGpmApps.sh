@@ -30,7 +30,7 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 			if [ $# -ge 2 ]; then
 				searchString="$2"
 			else
-				searchString="apk"
+				searchString="*.apk"
 			fi
 			subFolder="$1"
 		fi	

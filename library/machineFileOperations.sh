@@ -105,7 +105,9 @@ function compareMachineFiles(){
 				diffStatus="same"
 			fi
 		else
-			if [ $( checkMachineFileExist "${1}" ) == "no" ]; then
+			if [[ $( checkMachineFileExist "${1}" ) == "no" && $( checkMachineFileExist "${2}") == "no" ]]; then
+				diffStatus="NoSrcDst"
+			elif [ $( checkMachineFileExist "${1}" ) == "no" ]; then
 				diffStatus="NoSrc"
 			elif [ $( checkMachineFileExist "${2}" ) == "no" ]; then
 				diffStatus="NoDst"
@@ -121,65 +123,75 @@ function compareMachineFiles(){
 #===================================================================================================
 
 #----- build the array for list of files
-function buildMachineFilesArray() {
-#$1 - main folder absolute path
-#$2 - search string
-#return - set machineFiles_array & machineFiles_count
+function buildMachineFilesList() {
+#$1 - search folder absolute path
+#$2 - search string to filter
+#return - machineFilesList
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		machineFiles=""
-		machineFiles_count=0
-		
 		#machineFiles="$( ls -F "$1" | grep -v "\/" | tr -d '\r' | tr -d '*')"
-		machineFiles="$( find $1 -type f -iname "*$2*" | sort )"
-		
-		if [[ $machineFiles != "" || -n $machineFiles ]]; then
-			machineFiles_array=( $machineFiles )
-			machineFiles_count=${#machineFiles_array[*]}
+		#local machineFilesList="$( find $1 -type f -iname "*$2*" | sort )"
+		local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
+
+		if [[ $machineFilesList != "" || -n $machineFilesList ]]; then
+			echo -e -n "$machineFilesList"
 		fi
 	fi
 }
 
 #----- build the list of files to install
 function buildMachineInstallFileArray() {
-#return - set installAppsSelected, installApps_Array, installaApps_Count
-	local i=0
-	local installAppsSelected=""
-	local installAppOption="n"
-	local appName=""
-	
-	for i in ${machineFiles_array[@]}
-	do
-		appName=${i##*/}
-		formatMessage " Do you want to install [y/n] - " "Q"
-		formatMessage "$appName : "
-		#formatMessage "$i : "
-		stty -echo && read -n 1 installAppOption && stty echo
-		formatYesNoOption $installAppOption
+#$1 - machineFilesList
+#return - installAppsSelectedList
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		installAppsArray=""
+		installAppsCount=0
+		local installAppsSelectedList=""
+		local installAppOption="n"
+		local appName=""
+		
+		local machineFilesList=("${!1}")
+		local machineFilesArray=( $machineFilesList )
 
-		if [ "$( checkYesNoOption $installAppOption )" == "yes" ]; then
-			installAppsSelected="$installAppsSelected $i"		
+		for i in ${machineFilesArray[@]}
+		do
+			formatMessage " Do you want to install [y/n] - " "Q"
+			formatMessage "$i : "
+			#appName=${i##*/}
+			#formatMessage "$appName : "
+			stty -echo && read -n 1 installAppOption && stty echo
+			formatYesNoOption $installAppOption
+
+			if [ "$( checkYesNoOption $installAppOption )" == "yes" ]; then
+				installAppsSelectedList="$installAppsSelectedList $i"
+			fi
+		done
+
+		if [[ $installAppsSelectedList != "" || -n $installAppsSelectedList ]]; then
+			#echo -e -n "$installAppsSelectedList"
+			installAppsArray=( $installAppsSelectedList )
+			installAppsCount=${#installAppsArray[*]}
 		fi
-	done
-	
-	installApps_Array=( $installAppsSelected )
-	installApps_Count=${#installApps_Array[*]}
+	fi
 }
 
 #===================================================================================================
 
 #get the list of files in a folder and create the array
-function buildMachineFilesList() {
+function buildMachineFileList() {
 #$1 - complete folder path
 #$2 - search for type of file
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local filesNameList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
-		echo -e -n "$filesNameList"
+		local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
+		echo -e -n "$machineFilesList"
 	fi
 }
 
@@ -194,9 +206,9 @@ function compareAndCopyMachineFiles(){
 	else
 		local srcFolder="${1}"
 		local dstFolder="${2}"
-		local searchFileExtension="${3}"
+		local fileExtensionFilter="${3}"
 
-		local filesArray=($(buildMachineFilesList "$srcFolder" "${searchFileExtension}"))
+		local filesArray=($(buildMachineFilesList "$srcFolder" "${fileExtensionFilter}"))
 
 		local compareFileStatus=""
 		local copySelectedFiles=""
@@ -210,25 +222,26 @@ function compareAndCopyMachineFiles(){
 					
 					# If files are "same", do nothing
 
-					#If they are "diff", copy the file to destination
+					#If files are "diff", copy the file to destination
 					if [ "$compareFileStatus" == "diff" ]; then
 						echo -e -n " ${filesArray[i]} ${txtGrn}was found and has changed${txtRst}. Will copy to ${dstFolder}...\n"
 						#cp "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}"
+						#TODO: Auto copy if the source is latest. If destination is latest, then ask if they want to copy/overwrite
 						copySelectedFiles="$copySelectedFiles ${filesArray[i]}"	
 					#If the file is not present in the destination, confirm and copy the file to destination
 					elif [ "$compareFileStatus" == "NoDst" ]; then
 						echo -e -n " ${filesArray[i]} ${txtRed}not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
 
 						# ------ Have commented the block temporiarily. Uncomment whenever necessary
-						#stty -echo && read -n 1 copyFileOption && stty echo
-						#formatYesNoOption $copyFileOption
-						#
-						#if [ "$( checkYesNoOption $copyFileOption )" == "yes" ]; then
-						#	copySelectedFiles="$copySelectedFiles ${filesArray[i]}"
-						#fi
+						stty -echo && read -n 1 copyFileOption && stty echo
+						formatYesNoOption $copyFileOption
+
+						if [ "$( checkYesNoOption $copyFileOption )" == "yes" ]; then
+							copySelectedFiles="$copySelectedFiles ${filesArray[i]}"
+						fi
 						# ------ Have commented the block temporiarily. Uncomment whenever necessary
 
-						echo # ------ remove this line when you uncomment the above block
+						#echo # ------ remove this line when you uncomment the above block
 					elif [ "$compareFileStatus" == "NoSrc" ]; then
 						echo -e -n " Source file ${srcFolder}/${filesArray[i]} not found\n"
 					#else
@@ -242,7 +255,9 @@ function compareAndCopyMachineFiles(){
 			fi
 		done
 
-		copyMachineFilesListToDestination "${srcFolder}" "${dstFolder}" "copySelectedFiles[@]" #IMP: notice how the array "scriptFiles" is passed as a parameter
+		if [ ${#copySelectedFiles[*]} -gt 0 ]; then
+			copyMachineFilesListToDestination "${srcFolder}" "${dstFolder}" "copySelectedFiles[@]" #IMP: notice how the array "scriptFiles" is passed as a parameter
+		fi
 
 	fi
 }

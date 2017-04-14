@@ -171,15 +171,15 @@ function buildMachineInstallFileArray() {
 #===================================================================================================
 
 #get the list of files in a folder and create the array
-function buildMachineFilesList() {
+function buildMachineFileList() {
 #$1 - complete folder path
 #$2 - search for type of file
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local filesNameList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
-		echo -e -n "$filesNameList"
+		local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
+		echo -e -n "$machineFilesList"
 	fi
 }
 
@@ -194,9 +194,9 @@ function compareAndCopyMachineFiles(){
 	else
 		local srcFolder="${1}"
 		local dstFolder="${2}"
-		local searchFileExtension="${3}"
+		local fileExtensionFilter="${3}"
 
-		local filesArray=($(buildMachineFilesList "$srcFolder" "${searchFileExtension}"))
+		local filesArray=($(buildMachineFilesList "$srcFolder" "${fileExtensionFilter}"))
 
 		local compareFileStatus=""
 		local copySelectedFiles=""
@@ -210,25 +210,26 @@ function compareAndCopyMachineFiles(){
 					
 					# If files are "same", do nothing
 
-					#If they are "diff", copy the file to destination
+					#If files are "diff", copy the file to destination
 					if [ "$compareFileStatus" == "diff" ]; then
 						echo -e -n " ${filesArray[i]} ${txtGrn}was found and has changed${txtRst}. Will copy to ${dstFolder}...\n"
 						#cp "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}"
+						#TODO: Auto copy if the source is latest. If destination is latest, then ask if they want to copy/overwrite
 						copySelectedFiles="$copySelectedFiles ${filesArray[i]}"	
 					#If the file is not present in the destination, confirm and copy the file to destination
 					elif [ "$compareFileStatus" == "NoDst" ]; then
 						echo -e -n " ${filesArray[i]} ${txtRed}not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
 
 						# ------ Have commented the block temporiarily. Uncomment whenever necessary
-						#stty -echo && read -n 1 copyFileOption && stty echo
-						#formatYesNoOption $copyFileOption
-						#
-						#if [ "$( checkYesNoOption $copyFileOption )" == "yes" ]; then
-						#	copySelectedFiles="$copySelectedFiles ${filesArray[i]}"
-						#fi
+						stty -echo && read -n 1 copyFileOption && stty echo
+						formatYesNoOption $copyFileOption
+
+						if [ "$( checkYesNoOption $copyFileOption )" == "yes" ]; then
+							copySelectedFiles="$copySelectedFiles ${filesArray[i]}"
+						fi
 						# ------ Have commented the block temporiarily. Uncomment whenever necessary
 
-						echo # ------ remove this line when you uncomment the above block
+						#echo # ------ remove this line when you uncomment the above block
 					elif [ "$compareFileStatus" == "NoSrc" ]; then
 						echo -e -n " Source file ${srcFolder}/${filesArray[i]} not found\n"
 					#else
@@ -242,7 +243,9 @@ function compareAndCopyMachineFiles(){
 			fi
 		done
 
-		copyMachineFilesListToDestination "${srcFolder}" "${dstFolder}" "copySelectedFiles[@]" #IMP: notice how the array "scriptFiles" is passed as a parameter
+		if [ ${#copySelectedFiles[*]} -gt 0 ]; then
+			copyMachineFilesListToDestination "${srcFolder}" "${dstFolder}" "copySelectedFiles[@]" #IMP: notice how the array "scriptFiles" is passed as a parameter
+		fi
 
 	fi
 }

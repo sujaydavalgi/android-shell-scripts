@@ -64,6 +64,7 @@ function buildDeviceFilesArray() {
 			deviceFiles_count=0
 			
 			local pathToSearch=""
+			local files=""
 		
 			if [ "${3}" = "all" ]; then # if you want to display even the directories within given directory
 				pathToSearch="${2}/" 

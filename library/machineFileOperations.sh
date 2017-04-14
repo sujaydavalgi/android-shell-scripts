@@ -535,28 +535,32 @@ function installFromPath(){
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else	
-		appInstallPath=${2}
-		buildMachineFilesArray "$appInstallPath" "$3"
+		appInstallPath="${2}"
+		local machineFilesList=$(buildMachineFilesList "$appInstallPath" "$3")
+		local machineFilesArray=( $machineFilesList )
+		local machineFilesCount=${#machineFilesArray[*]}
 
-		if [ $machineFiles_count -gt 0 ]; then
+		if [ $machineFilesCount -gt 0 ]; then
 			
-			if [ $machineFiles_count -gt 1 ]; then #<-- if there is more than 1 file
-				formatMessage " There are $machineFiles_count matching files in the folder : " "I"
+			if [ $machineFilesCount -gt 1 ]; then #<-- if there is more than 1 file
+				formatMessage " There are $machineFilesCount matching files in the folder : " "I"
 				formatMessage "$appInstallPath\n\n"
 				
-				buildMachineInstallFileArray
-				
-				for i in ${installApps_Array[@]}
+				buildMachineInstallFileArray "machineFilesList[@]"
+				#local installAppsArray=( $installAppsList )
+				#local installAppsCount=${#installAppsArray[*]}
+
+				for i in ${installAppsArray[@]}
 				do
 					formatMessage "\n Installing - " "I"
 					formatMessage "$i ... \n" "M"
 					
-					displayApkCompleteVersion ${i}
+					displayApkCompleteVersion "$appInstallPath/${i}"
 
 					#adb -s $1 wait-for-device install -r "$appInstallPath/$i"
 					
 					#adb -s $1 wait-for-device install -r -d "$i"
-					installApk $1 "$i"
+					installApk $1 "${appInstallPath}/${i}"
 				done
 				
 			else  #<-- if there is only 1 file
@@ -565,22 +569,22 @@ function installFromPath(){
 				formatMessage "$appInstallPath\n\n"
 			 	formatMessage " Do you want to install [y/n] - " "Q"
 			 	
-			 	local appName=${machineFiles_array[0]##*/}
+			 	local appName=${machineFilesArray[0]##*/}
 				formatMessage "$appName : "
-			 	#formatMessage "${machineFiles_array[0]} : "
+			 	#formatMessage "${machineFilesArray[0]} : "
 			 	
 				stty -echo && read -n 1 installAppOption && stty echo
 				formatYesNoOption $installAppOption
 
 				if [ "$( checkYesNoOption $installAppOption )" == "yes" ]; then
-					#adb -s $1 wait-for-device install -r "$appInstallPath/${machineFiles_array[0]}"
+					#adb -s $1 wait-for-device install -r "$appInstallPath/${machineFilesArray[0]}"
 					formatMessage "\n Installing - " "I"
-					formatMessage "${machineFiles_array[0]} ... \n" "M"
+					formatMessage "${machineFilesArray[0]} ... \n" "M"
 					
-					displayApkCompleteVersion ${machineFiles_array[0]}
+					displayApkCompleteVersion ${machineFilesArray[0]}
 					
-					#adb -s $1 wait-for-device install -r -d "${machineFiles_array[0]}"
-					installApk $1 "${machineFiles_array[0]}"
+					#adb -s $1 wait-for-device install -r -d "${machineFilesArray[0]}"
+					installApk $1 "${appInstallPath}/${machineFilesArray[0]}"
 				fi
 			fi
 			
@@ -605,10 +609,10 @@ function installMachineFiles() {
 		writeToLogsFile "@@ No 4 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else	
-		appInstallPath=${2}
+		appInstallPath="${2}"
 		checkMachineSubFolder $2 $3
 
-		installFromPath $1 $appInstallPath $4
+		installFromPath $1 "$appInstallPath" "$4"
 	fi
 }
 

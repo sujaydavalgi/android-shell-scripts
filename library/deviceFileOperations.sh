@@ -68,7 +68,7 @@ function buildDeviceFilesArray() {
 			if [ "${3}" = "all" ]; then # if you want to display even the directories within given directory
 				pathToSearch="${2}/" 
 			else						# if you want to display only the files within given directory
-				pathToSearch="${2}/${3}"
+				pathToSearch="${2}/*${3}*"
 			fi
 
 			#while read files

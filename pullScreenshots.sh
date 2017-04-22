@@ -27,7 +27,7 @@ displaySelectedDevice $deviceSerial
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
-		echo -e " ${txtRed}There is no camera folder in @Home device${txtRst}\n"
+		echo -e " ${txtRed}There is no Screenshot folder in @Home device${txtRst}\n"
 	else
 		searchNpullDeviceFilesFrmFldr $deviceSerial "${deviceScreenshotFolder}" "${SearchForFile}"
 	fi

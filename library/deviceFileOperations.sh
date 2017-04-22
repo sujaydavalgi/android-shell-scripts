@@ -71,9 +71,9 @@ function buildDeviceFilesArray() {
 				pathToSearch="${2}/${3}"
 			fi
 
-			while read files
-			do
-				notFoundFiles=`echo $files | grep -c "No such file or directory"` #returns: 0 if not found, 1 if found
+			#while read files
+			#do
+			#	notFoundFiles=`echo $files | tr -d '\r\n' | grep -c "No such file or directory"` #returns: 0 if not found, 1 if found
 			
 				#foundMP4=`echo $files | grep -c "*.mp4"`
 				#foundJPG=`echo $files | grep -c "*.jpg"`
@@ -82,14 +82,16 @@ function buildDeviceFilesArray() {
 				#foundFiles=`echo $files | grep -c "*.{jpg,png,mp4}"`
 			
 				#if [ -n "$files" ] && [[ $foundMP4 = 0 && $foundJPG = 0 && $foundPNG = 0 && $foundAll = 0 ]]
-				if [[ -n "$files" && $notFoundFiles = 0 ]]
-				then
-					deviceFiles_array[i]="$files"
-					let i=$i+1
-				fi
+			#	if [[ -n "$files" && $notFoundFiles = 0 ]]
+			#	then
+			#		deviceFiles_array[i]="$files"
+			#		let i=$i+1
+			#	fi
 
-			done < <( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r' )
-				
+			#done < <( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r' )
+			
+			deviceFilesList=$( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r')
+			deviceFiles_array=( $deviceFilesList )
 			deviceFiles_count=${#deviceFiles_array[*]}
 
 		else #if the ${2} folder does not exists

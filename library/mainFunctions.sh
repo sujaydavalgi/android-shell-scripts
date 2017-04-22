@@ -126,7 +126,7 @@ function buildDeviceSnArray() {
 
 		# awk $1 - the device serial number
 		# awk $2 - the status: device/fastboot/recovery/offline/unauthorized
-		adbDEVICEstatus="`echo $line | awk '{print $2}' `" # get the status of the device
+		local adbDEVICEstatus="`echo $line | awk '{print $2}' `" # get the status of the device
 
 #		echo " Status - $adbDEVICEstatus"
 
@@ -134,7 +134,7 @@ function buildDeviceSnArray() {
 		then
 			case "$adbDEVICEstatus" in
 				"device"|"recovery"|"unauthorized"|"offline")
-					adbDEVICEsn="`echo $line | awk '{print $1}' `" # get the device serial number
+					local adbDEVICEsn="`echo $line | awk '{print $1}' `" # get the device serial number
 					DEVICE_ARRAY[i]="$adbDEVICEsn" # append the device serial number to the device serial array
 
 					if [[ "$adbDEVICEstatus" == "device" ]]; then
@@ -155,11 +155,11 @@ function buildDeviceSnArray() {
 	do
 		# $1 - the device serial number
 		# $2 - the status: device/fastboot/recovery/offline/unauthorized
-		fastbootDEVICEstatus="`echo $line | awk '{print $2}' `" # get the status of the device
+		local fastbootDEVICEstatus="`echo $line | awk '{print $2}' `" # get the status of the device
 
 		if [ -n "$line" ] && [ "$fastbootDEVICEstatus" == "fastboot" ] # if its not a null line and device status is fastboot
 		then
-			fastbootDEVICEsn="`echo $line | awk '{print $1}' `" # get the device serial number
+			local fastbootDEVICEsn="`echo $line | awk '{print $1}' `" # get the device serial number
 			DEVICE_ARRAY[i]="$fastbootDEVICEsn" # append the device serial number to the device serial array
 			DEVICE_ARRAY_STATUS[i]="$fastbootDEVICEstatus" # append the device status to the device status array
 			let i=$i+1
@@ -179,7 +179,7 @@ function appendBuildInfo() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		BUILD_INFO="$( adb -s $1 wait-for-device shell getprop ro.build.description )"
+		local BUILD_INFO="$( adb -s $1 wait-for-device shell getprop ro.build.description )"
 		#echo -e "$LIST_ID""$1" "\t" "$BUILD_INFO"
 		echo -e -n "$BUILD_INFO"
 	fi

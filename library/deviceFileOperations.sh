@@ -82,6 +82,7 @@ function buildDeviceFilesArray() {
 				#foundFiles=`echo $files | grep -c "*.{jpg,png,mp4}"`
 			
 				#if [ -n "$files" ] && [[ $foundMP4 = 0 && $foundJPG = 0 && $foundPNG = 0 && $foundAll = 0 ]]
+				
 			#	if [[ -n "$files" && $notFoundFiles = 0 ]]
 			#	then
 			#		deviceFiles_array[i]="$files"
@@ -90,7 +91,7 @@ function buildDeviceFilesArray() {
 
 			#done < <( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r' )
 			
-			deviceFilesList=$( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r')
+			deviceFilesList=$( adb -s $1 wait-for-device shell ls -tr "${pathToSearch}" | tr -d '\r')
 			deviceFiles_array=( $deviceFilesList )
 			deviceFiles_count=${#deviceFiles_array[*]}
 

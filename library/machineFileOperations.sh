@@ -61,7 +61,17 @@ function checkMachineFileExist() {
 		#else					# if the file does not exist
 		#	echo -e -n "no"
 		#fi
+
 		[[ -f "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
+
+		# -e check for the file existence
+		# -f check for the file existence, and is a regular file
+		# -s check for file existence, along with file size greater than 0
+		# -d check for file existence, and is a directory
+		# -h -L check for the file existence, and is a symbolic link
+		# -r check for the file existence, and read permission granted
+		# -w check for the file existence, and write permission granted
+		# -x check for the file existence, and execute permission granted
 	fi
 }
 

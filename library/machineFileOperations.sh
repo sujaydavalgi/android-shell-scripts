@@ -101,7 +101,7 @@ function compareMachineFiles(){
 #$2 - File-2 complete path
 #return - "diff" | "same" | "NoSrc" | "NoDst" | "unknown"
 	if [ $# -lt 2 ]; then
-		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		if [[ $( checkMachineFileExist "${1}" ) == "yes" && $( checkMachineFileExist "${2}") == "yes" ]]; then

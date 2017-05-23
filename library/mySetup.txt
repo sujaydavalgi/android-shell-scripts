@@ -53,7 +53,7 @@ myACWDir=`echo ~/Projects/android/ACW/apps`
 #--- from where it will search for the Android-Gear-Head apps folder
 myAGHDir=`echo ~/Projects/android/AGH/apps`
 
-#--- from where it will search for the Android-Gear-Head apps folder
+#--- from where it will search for the Google-Play-Music apps folder
 myGPMDir=`echo ~/Projects/Play/Music`
 
 #--- from where it will search for the Android apps folder

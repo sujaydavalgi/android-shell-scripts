@@ -402,7 +402,7 @@ function displayApkCompleteVersion() {
 #$1 - complete apk file path in machine
 
 	local machineApkVersion=`getMachineApkCompleteVersionName ${1}`
-	formatMessage " Apk Version : ${machineApkVersion}\n" "I"
+	formatMessage " Apk Version : ${txtRst}${machineApkVersion}\n" "I"
 }
 
 #===================================================================================================
@@ -552,7 +552,7 @@ function installFromPath(){
 
 		if [ $machineFilesCount -gt 0 ]; then
 			
-			if [ $machineFilesCount -gt 1 ]; then #<-- if there is more than 1 file
+			if [ $machineFilesCount -gt 1 ]; then #<-- if there is more than 1 matching file
 				formatMessage " There are $machineFilesCount matching files in the folder : " "I"
 				formatMessage "$appInstallPath\n\n"
 				

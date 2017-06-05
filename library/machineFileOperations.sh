@@ -591,7 +591,7 @@ function installFromPath(){
 					formatMessage "\n Installing - " "I"
 					formatMessage "${machineFilesArray[0]} ... \n" "M"
 					
-					displayApkCompleteVersion ${machineFilesArray[0]}
+					displayApkCompleteVersion "${appInstallPath}/${machineFilesArray[0]}"
 					
 					#adb -s $1 wait-for-device install -r -d "${machineFilesArray[0]}"
 					installApk $1 "${appInstallPath}/${machineFilesArray[0]}"

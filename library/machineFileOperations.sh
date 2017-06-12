@@ -72,6 +72,8 @@ function checkMachineFileExist() {
 		# -r check for the file existence, and read permission granted
 		# -w check for the file existence, and write permission granted
 		# -x check for the file existence, and execute permission granted
+
+		[[ -f "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
 	fi
 }
 

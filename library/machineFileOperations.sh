@@ -213,7 +213,7 @@ function compareAndCopyMachineFiles(){
 #$3 - files types to filter
 
 	if [ $# -lt 3 ]; then
-		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local srcFolder="${1}"

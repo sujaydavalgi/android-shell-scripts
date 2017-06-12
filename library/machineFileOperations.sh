@@ -242,7 +242,7 @@ function compareAndCopyMachineFiles(){
 						copySelectedFiles="$copySelectedFiles ${filesArray[i]}"	
 					#If the file is not present in the destination, confirm and copy the file to destination
 					elif [ "$compareFileStatus" == "NoDst" ]; then
-						echo -e -n " ${filesArray[i]} ${txtRed}not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
+						echo -e -n " ${filesArray[i]} ${txtRed}was not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
 
 						# ------ Have commented the block temporiarily. Uncomment whenever necessary
 						stty -echo && read -n 1 copyFileOption && stty echo
@@ -567,12 +567,13 @@ function installFromPath(){
 					formatMessage "\n Installing - " "I"
 					formatMessage "$i ... \n" "M"
 					
-					displayApkCompleteVersion "$appInstallPath/${i}"
+					appInstallCompletePath="$appInstallPath/${i}"
 
-					#adb -s $1 wait-for-device install -r "$appInstallPath/$i"
-					
+					#adb -s $1 wait-for-device install -r "$appInstallCompletePath"
 					#adb -s $1 wait-for-device install -r -d "$i"
-					installApk $1 "${appInstallPath}/${i}"
+					
+					displayApkCompleteVersion "$appInstallCompletePath"
+					installApk $1 "${appInstallCompletePath}"
 				done
 				
 			else  #<-- if there is only 1 file
@@ -593,10 +594,13 @@ function installFromPath(){
 					formatMessage "\n Installing - " "I"
 					formatMessage "${machineFilesArray[0]} ... \n" "M"
 					
-					displayApkCompleteVersion "${appInstallPath}/${machineFilesArray[0]}"
+					appInstallCompletePath="${appInstallPath}/${machineFilesArray[0]}"
 					
+					#adb -s $1 wait-for-device install -r "$appInstallCompletePath"
 					#adb -s $1 wait-for-device install -r -d "${machineFilesArray[0]}"
-					installApk $1 "${appInstallPath}/${machineFilesArray[0]}"
+
+					displayApkCompleteVersion "${appInstallCompletePath}"
+					installApk $1 "${appInstallCompletePath}"
 				fi
 			fi
 			

@@ -41,7 +41,7 @@ function eventLog() {
 #$1 - deviceSerial
 	adb -s ${1} wait-for-device -d shell setprop log.tag.MusicEventLog VERBOSE
 
-	restartAPK ${1} "com.google.android.music"
+	restartDeviceApp ${1} "com.google.android.music"
 
 	adb -s ${1} wait-for-device logcat -s MusicLogger
 }

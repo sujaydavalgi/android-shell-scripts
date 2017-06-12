@@ -161,21 +161,21 @@ function apkOperations() {
 
 				case "$3" in
 					[pP][uU][lL][lL]) #pull
-						pullAPK $1 $apkDevicePath ;;
+						pullDeviceApp $1 $apkDevicePath ;;
 					[cC][lL][eE][aA][rR]) #clear
-						clearAPK $1 $apkPackageName ;;
+						clearDeviceApp $1 $apkPackageName ;;
 					[sS][tT][oO][pP]) #stop
-						stopAPK $1 $apkPackageName ;;
+						stopDeviceApp $1 $apkPackageName ;;
 					[sS][tT][aA][rR][tT]) #start
-						startAPK $1 $apkPackageName ;;
+						startDeviceApk $1 $apkPackageName ;;
 					[rR][eE][sS][tT][aA][rR][tT]) #restart
-						restartAPK $1 $apkPackageName ;;
+						restartDeviceApp $1 $apkPackageName ;;
 					[vV][eE][rR][sS][iI][oO][nN]) #version
-						getApkVersion $1 $apkPackageName ;;
+						getDeviceAppVersion $1 $apkPackageName ;;
 					[uU][nN][iI][nN][sS][tT][aA][lL][lL]) #uninstall
-						uninstallSelectedApks $1 $apkPath ;;
+						uninstallSelectedDeviceApp $1 $apkPath ;;
 					[uU][nN][iI][nN][sS][tT][aA][lL][lL][uU][pP][dD][aA][tT][eE][sS]) #uninstallUpdates
-						uninstallApksUpdates $1 $apkPackageName ;;
+						uninstallDeviceAppUpdates $1 $apkPackageName ;;
 					*)
 						echo -e -n " Unsupported argument \"${3}\" passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) "
 						exit 1 ;;
@@ -203,12 +203,12 @@ function appPID() {
 }
 
 #----- Pull
-function pullAPK() {
+function pullDeviceApp() {
 #$1 - device serial
 #$2 - package name
 #$return - 
-	if [ $# -lt 1 ]; then
-		writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 #		searchAPK ${1} ${2}
@@ -280,7 +280,7 @@ function pullAPK() {
 }
 
 #----- Clear
-function clearAPK() {
+function clearDeviceApp() {
 #$1 - device serial
 #$2 - package name
 #$return - 
@@ -303,7 +303,7 @@ function clearAPK() {
 }
 
 #----- Uninstall the selected APKs
-function uninstallSelectedApks() {
+function uninstallSelectedDeviceApp() {
 #$1 - device serial
 #$2 - apk path with package name
 #$return - 
@@ -341,7 +341,7 @@ function uninstallSelectedApks() {
 	fi
 }
 
-function uninstallApksUpdates() {
+function uninstallDeviceAppUpdates() {
 #$1 - device serial
 #$2 - apk path with package name
 #$return - 
@@ -355,7 +355,7 @@ function uninstallApksUpdates() {
 
 
 #----- Start an app
-function startAPK() {
+function startDeviceApk() {
 #$1 - device serial number
 #$2 - package name
 #$return - 
@@ -369,7 +369,7 @@ function startAPK() {
 }
 
 #----- Stop an app
-function stopAPK() {
+function stopDeviceApp() {
 #$1 - device serial number
 #$2 - package name
 #$return - 
@@ -383,7 +383,7 @@ function stopAPK() {
 }
 
 #----- Restart an app
-function restartAPK() {
+function restartDeviceApp() {
 #$1 - device serial number
 #$2 - package name
 #$return - 
@@ -397,7 +397,7 @@ function restartAPK() {
 	fi
 }
 
-function getApkVersion() {
+function getDeviceAppVersion() {
 #$1 - device serial number
 #$2 - package name
 #$return - 

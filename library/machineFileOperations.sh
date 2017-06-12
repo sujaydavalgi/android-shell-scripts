@@ -62,6 +62,8 @@ function checkMachineFileExist() {
 		#	echo -e -n "no"
 		#fi
 
+		[[ -f "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
+
 		# -e check for the file existence
 		# -f check for the file existence, and is a regular file
 		# -s check for file existence, along with file size greater than 0

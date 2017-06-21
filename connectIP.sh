@@ -46,6 +46,7 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	
 	echo -e -n " My IP : $deviceIP\n"
 	echo -e -n " My port: $setPort\n"
+	adb -s $deviceSerial wait-for-device setprop persist.adb.tcp.port $setPort
 	adb -s $deviceSerial wait-for-device connect `echo $deviceIP:$setPort`
 
 else

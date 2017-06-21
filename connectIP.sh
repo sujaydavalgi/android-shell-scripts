@@ -48,6 +48,8 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	echo -e -n " My port: $setPort\n"
 	adb -s $deviceSerial wait-for-device setprop persist.adb.tcp.port $setPort
 	adb -s $deviceSerial wait-for-device connect `echo $deviceIP:$setPort`
+	# To disconnect the IP and use USB
+	# adb -s $deviceSerial wait-for-device usb
 
 else
 	echo " Device is not in 'adb' mode"

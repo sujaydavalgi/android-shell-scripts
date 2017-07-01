@@ -37,7 +37,9 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
 		#deviceIP="$( adb -s $deviceSerial shell dumpsys activity service BrokerService | grep address: )"
 		#deviceIP=`echo $deviceIP| cut -d':' -f 2`
-		setPort=`adb -s $deviceSerial wait-for-device shell getprop service.adb.tcp.port`
+		#setPort=`adb -s $deviceSerial wait-for-device shell getprop service.adb.tcp.port`
+
+		setPort=`adb -s $deviceSerial wait-for-device shell getprop persist.adb.tcp.port`
 	else
 		adb -s $deviceSerial wait-for-device tcpip ${setPort}
 	fi
@@ -47,8 +49,9 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	
 	echo -e -n " My IP : $deviceIP\n"
 	echo -e -n " My port: $setPort\n"
-	adb -s $deviceSerial wait-for-device setprop persist.adb.tcp.port $setPort
-	adb -s $deviceSerial wait-for-device connect `echo $deviceIP:$setPort`
+	adb -s $deviceSerial wait-for-device shell setprop persist.adb.tcp.port $setPort
+	adb -s $deviceSerial wait-for-device connect $deviceIP:$setPort
+	
 	# To disconnect the IP and use USB
 	# adb -s $deviceSerial wait-for-device usb
 

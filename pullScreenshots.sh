@@ -21,7 +21,7 @@ else
     deviceSerial="$1"
 fi
 
-SearchForFile="*.{jpg,png}"
+SearchForFile=".{jpg,png}"
 
 displaySelectedDevice $deviceSerial
 

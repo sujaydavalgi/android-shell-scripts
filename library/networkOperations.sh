@@ -64,9 +64,9 @@ function buildIpAddress() {
 function checkWifi() {
 #$return - 
 	if [[ "$isWifiIP" == "true" && "$isWifiUp" == "true" ]]; then
-		echo "true"
+		echo -e -n "true"
 	else
-		echo "false"
+		echo -e -n "false"
 	fi
 }
 
@@ -74,9 +74,9 @@ function checkWifi() {
 function checkEth() {
 #$return - 
 	if [[ "$isEthIP" == "true" && "$isEthUp" == "true" ]]; then
-		echo "true"
+		echo -e -n "true"
 	else
-		echo "false"
+		echo -e -n "false"
 	fi
 }
 
@@ -91,13 +91,13 @@ function checkEthWifi(){
 		buildIpAddress $1
 
 		if [[ "$( checkWifi )" == "true" && "$( checkEth )" == "true" ]]; then
-			echo "Both"
+			echo -e -n "Both"
 		elif [[ "$( checkWifi )" == "true" && "$( checkEth )" == "false" ]]; then
-			echo "WiFi"
+			echo -e -n "WiFi"
 		elif [[ "$( checkWifi )" == "false" && "$( checkEth )" == "true" ]]; then
-			echo "Ethernet"
+			echo -e -n "Ethernet"
 		elif [[ "$( checkWifi )" == "false" && "$( checkEth )" == "false" ]]; then
-			echo "None"
+			echo -e -n "None"
 		fi
 
 #        case
@@ -117,16 +117,16 @@ function getMyIP() {
 
         case "$( checkEthWifi $1 )" in
             "Both")
-                echo "$ethIP"
+                echo -e -n "$ethIP"
                 ;;
             "WiFi")
-                echo "$wifiIP"
+                echo -e -n "$wifiIP"
                 ;;
             "Ethernet")
-                echo "$ethIP"
+                echo -e -n "$ethIP"
                 ;;
             "None")
-                echo "None"
+                echo -e -n "None"
                 ;;
         esac
 	fi

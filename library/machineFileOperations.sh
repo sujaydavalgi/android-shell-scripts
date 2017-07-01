@@ -56,12 +56,6 @@ function checkMachineFileExist() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		#if [ -f "${1}" ]; then 	# if the file exist
-		#	echo -e -n "yes"
-		#else					# if the file does not exist
-		#	echo -e -n "no"
-		#fi
-
 		# -e check for the file existence
 		# -f check for the file existence, and is a regular file
 		# -s check for file existence, along with file size greater than 0
@@ -70,6 +64,12 @@ function checkMachineFileExist() {
 		# -r check for the file existence, and read permission granted
 		# -w check for the file existence, and write permission granted
 		# -x check for the file existence, and execute permission granted
+
+		#if [ -f "${1}" ]; then 	# if the file exist
+		#	echo -e -n "yes"
+		#else					# if the file does not exist
+		#	echo -e -n "no"
+		#fi
 
 		[[ -f "${1}" ]] && echo -e -n "yes" || echo -e -n "no"
 	fi

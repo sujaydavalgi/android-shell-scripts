@@ -535,6 +535,30 @@ function installApkStatusReason() {
 
 #===================================================================================================
 
+function apkInstall() {
+#$1 - device serial
+#$2 - folder absolute path
+#$3 - apk Sub path
+#return - 
+	if [ $# -lt 3 ]; then
+		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local appInstallFromPath="${2}"
+		local apkSubpath="${3}"
+
+		#local appInstallCompletePath="${apkSubpath}"
+		local apkInstallCompletePath="${appInstallFromPath}${apkSubpath}"
+
+		formatMessage "\n Installing - " "I"
+		#formatMessage "${apkSubpath} ... \n" "M"
+		formatMessage "${apkInstallCompletePath} ... \n" "M"
+
+		displayApkCompleteVersion "${apkInstallCompletePath}"
+		installApk $1 "${apkInstallCompletePath}"
+	fi
+}
+
 #----- install APK's from the specified path
 function installFromPath(){
 #$1 - device serial
@@ -562,16 +586,7 @@ function installFromPath(){
 
 				for i in ${installAppsArray[@]}
 				do
-					formatMessage "\n Installing - " "I"
-					formatMessage "$i ... \n" "M"
-					
-					appInstallCompletePath="$appInstallPath/${i}"
-
-					#adb -s $1 wait-for-device install -r "$appInstallCompletePath"
-					#adb -s $1 wait-for-device install -r -d "$i"
-					
-					displayApkCompleteVersion "$appInstallCompletePath"
-					installApk $1 "${appInstallCompletePath}"
+					apkInstall $1 ${appInstallFromPath} ${i}
 				done
 				
 			else  #<-- if there is only 1 file
@@ -588,17 +603,7 @@ function installFromPath(){
 				formatYesNoOption $installAppOption
 
 				if [ "$( checkYesNoOption $installAppOption )" == "yes" ]; then
-					#adb -s $1 wait-for-device install -r "$appInstallPath/${machineFilesArray[0]}"
-					formatMessage "\n Installing - " "I"
-					formatMessage "${machineFilesArray[0]} ... \n" "M"
-					
-					appInstallCompletePath="${appInstallPath}/${machineFilesArray[0]}"
-					
-					#adb -s $1 wait-for-device install -r "$appInstallCompletePath"
-					#adb -s $1 wait-for-device install -r -d "${machineFilesArray[0]}"
-
-					displayApkCompleteVersion "${appInstallCompletePath}"
-					installApk $1 "${appInstallCompletePath}"
+					apkInstall $1 ${appInstallFromPath} ${machineFilesArray[0]}
 				fi
 			fi
 			

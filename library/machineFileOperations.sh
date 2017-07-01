@@ -191,20 +191,6 @@ function buildMachineInstallFileArray() {
 }
 
 #===================================================================================================
-
-# #get the list of files in a folder and create the array
-# function buildMachineFileList() {
-# #$1 - complete folder path
-# #$2 - search for type of file
-# 	if [ $# -lt 2 ]; then
-# 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
-# 		exit 1
-# 	else
-# 		local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
-# 		echo -e -n "$machineFilesList"
-# 	fi
-# }
-
 function compareAndCopyMachineFiles(){
 #$1 - source folder
 #$2 - dest folder

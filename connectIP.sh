@@ -31,7 +31,8 @@ setPort=5555
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 
-	deviceIP=`echo $( getMyIP $deviceSerial )`
+	#deviceIP=`echo $( getMyIP $deviceSerial )`
+	deviceIP=`echo $( getDeviceIP $deviceSerial )`
 
 	if [ $( isAtHomeDevice $deviceSerial ) == "true" ]; then
 		#deviceIP="$( adb -s $deviceSerial shell dumpsys activity service BrokerService | grep address: )"

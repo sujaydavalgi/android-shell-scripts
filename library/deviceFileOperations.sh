@@ -90,8 +90,15 @@ function buildDeviceFilesArray() {
 			#	fi
 
 			#done < <( adb -s $1 wait-for-device shell ls -t "${pathToSearch}" | tr -d '\r' )
-			
-			deviceFilesList=$( adb -s $1 wait-for-device shell ls -tr "${pathToSearch}" | tr -d '\r')
+			jpgNotFound="/sdcard/Pictures/Screenshots/*.jpg*: No such file or directory"
+			pngNotFound="/sdcard/Pictures/Screenshots/*.png*: No such file or directory"
+			mp4NotFound="/sdcard/Pictures/Screenshots/*.mp4*: No such file or directory"
+			deviceFilesList=$( adb -s $1 wait-for-device shell ls "${pathToSearch}" | tr -d '\r')
+
+			deviceFilesList=${deviceFilesList#$jpgNotFound}
+			deviceFilesList=${deviceFilesList#$pngNotFound}
+			deviceFilesList=${deviceFilesList#$mp4NotFound}
+
 			deviceFiles_array=( $deviceFilesList )
 			deviceFiles_count=${#deviceFiles_array[*]}
 

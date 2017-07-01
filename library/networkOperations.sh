@@ -131,4 +131,17 @@ function getMyIP() {
         esac
 	fi
 }
+
+function getDeviceIP() {
+#$1 - device serial
+#$return - 
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceIP=$(adb -s $1 wait-for-device shell ip route | awk '{print $9}')
+		#local deviceIP=$(adb -s $1 wait-for-device ip addr show wlan0 | grep "inet\s" | awk '{print $2}' | awk -F'/' '{print $1}')
+		echo -e -n "${deviceIP}"
+	fi
+}
 #===================================================================================================

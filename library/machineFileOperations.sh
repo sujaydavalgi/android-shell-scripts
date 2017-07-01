@@ -18,7 +18,7 @@ function checkMachineSubFolder() {
 		exit 1
 	else
 		if [ -d "$1/$2" ]; then # if there is a subfolder with the specified name
-			appInstallPath="$appInstallPath/$2"
+			appInstallFromPath="$appInstallFromPath/$2"
 		else # if there is no subfolder with the specified name, check if the user wants to search the default folder
 			local useDefaultFolderOption
 			
@@ -554,7 +554,7 @@ function installFromPath(){
 			
 			if [ $machineFilesCount -gt 1 ]; then #<-- if there is more than 1 matching file
 				formatMessage " There are $machineFilesCount matching files in the folder : " "I"
-				formatMessage "$appInstallPath\n\n"
+				formatMessage "$appInstallFromPath\n\n"
 				
 				buildMachineInstallFileArray "machineFilesList[@]"
 				#local installAppsArray=( $installAppsList )
@@ -606,7 +606,7 @@ function installFromPath(){
 			
 		else #<-- if the file count is less than zero, i.e., there is no files
 			formatMessage " There are no matching files in the directory : " "E"
-			formatMessage "$appInstallPath\n\n"
+			formatMessage "$appInstallFromPath\n\n"
 #			exit 1
 		fi
 	fi
@@ -623,10 +623,10 @@ function installMachineFiles() {
 		writeToLogsFile "@@ No 4 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else	
-		appInstallPath="${2}"
+		local appInstallFromPath="${2}"
 		checkMachineSubFolder $2 $3
 
-		installFromPath $1 "$appInstallPath" "$4"
+		installFromPath $1 "$appInstallFromPath/" "$4*.apk"
 	fi
 }
 

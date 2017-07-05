@@ -155,8 +155,9 @@ function buildMachineFilesList() {
 
 #----- build the list of files to install
 function buildMachineInstallFileArray() {
-#$1 - machineFilesList
-#return - installAppsSelectedList
+#$1 - absolute path
+#$2 - machineFilesList
+#return - installAppsArray, array of only selected app w/ sub path
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

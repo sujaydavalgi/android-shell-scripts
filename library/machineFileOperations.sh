@@ -145,8 +145,10 @@ function buildMachineFilesList() {
 		local machineFilesList="$( find "${1}" -type f -iname "*$2*" | sort )" #get the complete path of the file
 		#local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev) #get only the filename w/ extension
 
-		if [[ $machineFilesList != "" || -n $machineFilesList ]]; then
-			echo -e -n "$machineFilesList"
+		local machineSubFilesList="${machineFilesList#$1}" #check how the sub path is extracted from the complete path
+
+		if [[ $machineSubFilesList != "" || -n $machineSubFilesList ]]; then
+			echo -e -n "$machineSubFilesList"
 		fi
 	fi
 }

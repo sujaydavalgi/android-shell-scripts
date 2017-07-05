@@ -142,8 +142,8 @@ function buildMachineFilesList() {
 		exit 1
 	else
 		#machineFiles="$( ls -F "$1" | grep -v "\/" | tr -d '\r' | tr -d '*')"
-		#local machineFilesList="$( find $1 -type f -iname "*$2*" | sort )"
-		local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev)
+		local machineFilesList="$( find "${1}" -type f -iname "*$2*" | sort )" #get the complete path of the file
+		#local machineFilesList=$(find "${1}" -type f -iname "$2" | sort | tr -d " " | rev | cut -f1 -d "/" | rev) #get only the filename w/ extension
 
 		if [[ $machineFilesList != "" || -n $machineFilesList ]]; then
 			echo -e -n "$machineFilesList"

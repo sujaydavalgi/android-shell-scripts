@@ -49,7 +49,8 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	
 	echo -e -n " My IP : $deviceIP\n"
 	echo -e -n " My port: $setPort\n"
-	adb -s $deviceSerial wait-for-device shell setprop persist.adb.tcp.port $setPort
+	adb -s $deviceSerial wait-for-device root
+	adb -s $deviceSerial wait-for-device shell setprop persist.adb.tcp.port $setPort # you should be root or su before running this
 	adb -s $deviceSerial wait-for-device connect $deviceIP:$setPort
 	
 	# To disconnect the IP and use USB

@@ -558,8 +558,8 @@ function installFromPath(){
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else	
-		appInstallPath="${2}"
-		local machineFilesList=$(buildMachineFilesList "$appInstallPath" "$3")
+		local appInstallFromPath="${2}"
+		local machineFilesList=$(buildMachineFilesList "$appInstallFromPath" "$3")
 		local machineFilesArray=( $machineFilesList )
 		local machineFilesCount=${#machineFilesArray[*]}
 

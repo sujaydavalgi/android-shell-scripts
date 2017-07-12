@@ -217,40 +217,39 @@ function compareAndCopyMachineFiles(){
 
 		for ((i=0; i<${#filesArray[@]}; i++))
 		do
+			fileName=${filesArray[i]##*/} #extract just the file name from the complete path
+
 			if [[ -d "${srcFolder}" ]]; then 	# check if the source folder exist
-				if [[ -f "${srcFolder}/${filesArray[i]}" ]]; then 	# check if the source file exist
+				if [[ -f "${srcFolder}/${fileName}" ]]; then 	# check if the source file exist
 					# compare source and destination folder for the file
-					compareFileStatus=$( compareMachineFiles "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}" )
+					compareFileStatus=$( compareMachineFiles "${srcFolder}/${fileName}" "${dstFolder}/${fileName}" )
 					
 					# If files are "same", do nothing
 
 					#If files are "diff", copy the file to destination
 					if [ "$compareFileStatus" == "diff" ]; then
-						echo -e -n " ${filesArray[i]} ${txtGrn}was found and has changed${txtRst}. Will copy to ${dstFolder}...\n"
-						#cp "${srcFolder}/${filesArray[i]}" "${dstFolder}/${filesArray[i]}"
+						echo -e -n " ${fileName} ${txtGrn}was found and has changed${txtRst}. Will copy to ${dstFolder}...\n"
+						#cp "${srcFolder}/${fileName}" "${dstFolder}/${fileName[}"
 						#TODO: Auto copy if the source is latest. If destination is latest, then ask if they want to copy/overwrite
-						copySelectedFiles="$copySelectedFiles ${filesArray[i]}"	
+						copySelectedFiles="$copySelectedFiles ${fileName}"	
 					#If the file is not present in the destination, confirm and copy the file to destination
 					elif [ "$compareFileStatus" == "NoDst" ]; then
-						echo -e -n " ${filesArray[i]} ${txtRed}was not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
+						echo -e -n " ${fileName} ${txtRed}was not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
 
-						# ------ Have commented the block temporiarily. Uncomment whenever necessary
 						stty -echo && read -n 1 copyFileOption && stty echo
 						formatYesNoOption $copyFileOption
 
 						if [ "$( checkYesNoOption $copyFileOption )" == "yes" ]; then
-							copySelectedFiles="$copySelectedFiles ${filesArray[i]}"
+							copySelectedFiles="$copySelectedFiles ${fileName}"
 						fi
-						# ------ Have commented the block temporiarily. Uncomment whenever necessary
 
-						#echo # ------ remove this line when you uncomment the above block
 					elif [ "$compareFileStatus" == "NoSrc" ]; then
-						echo -e -n " Source file ${srcFolder}/${filesArray[i]} not found\n"
+						echo -e -n " Source file ${srcFolder}/${fileName} not found\n"
 					#else
 					#	echo -e -n " Unknown file compare status\n"
 					fi
 				#else
-				#	echo -e -n " ${filesArray[i]} file not found in ${txtRed}Source${txtRst} directory\n"
+				#	echo -e -n " ${fileName} file not found in ${txtRed}Source${txtRst} directory\n"
 				fi
 			else
 				echo -e -n " Source folder not found: $srcFolder\n"

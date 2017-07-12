@@ -168,20 +168,23 @@ function buildMachineInstallFileArray() {
 		local installAppOption="n"
 		local appName=""
 		
-		local machineFilesList=("${!1}")
+		local appInstallFromPath="${1}"
+		local machineFilesList=("${!2}")
 		local machineFilesArray=( $machineFilesList )
 
 		for i in ${machineFilesArray[@]}
 		do
-			formatMessage " Do you want to install [y/n] - " "Q"
-			formatMessage "$i : "
-			#appName=${i##*/}
-			#formatMessage "$appName : "
+			#local appName=${i}
+			#local appName=${i##*/}
+			local apkSubPath=${i#$appInstallFromPath}
+
+			formatMessage " Do you want to install [y/n] - " "Q"			
+			formatMessage "$apkSubPath : "
 			stty -echo && read -n 1 installAppOption && stty echo
 			formatYesNoOption $installAppOption
 
 			if [ "$( checkYesNoOption $installAppOption )" == "yes" ]; then
-				installAppsSelectedList="$installAppsSelectedList $i"
+				installAppsSelectedList="$installAppsSelectedList $apkSubPath"
 			fi
 		done
 
@@ -569,7 +572,7 @@ function installFromPath(){
 				formatMessage " There are $machineFilesCount matching files in the folder : " "I"
 				formatMessage "$appInstallFromPath\n\n"
 				
-				buildMachineInstallFileArray "machineFilesList[@]"
+				buildMachineInstallFileArray "$appInstallFromPath" "machineFilesList[@]"
 				#local installAppsArray=( $installAppsList )
 				#local installAppsCount=${#installAppsArray[*]}
 
@@ -579,14 +582,15 @@ function installFromPath(){
 				done
 				
 			else  #<-- if there is only 1 file
+				#local apkName="${machineFilesArray[0]}"
+			 	#local apkName=${machineFilesArray[0]##*/}
+			 	local apkName=${machineFilesArray[0]#$appInstallFromPath}
+
 				local installAppOption="n"
 				formatMessage " There is only 1 matching file in : " "W"
-				formatMessage "$appInstallPath\n\n"
+				formatMessage "$appInstallFromPath\n\n"
 			 	formatMessage " Do you want to install [y/n] - " "Q"
-			 	
-			 	local appName=${machineFilesArray[0]##*/}
-				formatMessage "$appName : "
-			 	#formatMessage "${machineFilesArray[0]} : "
+				formatMessage "$apkName : "
 			 	
 				stty -echo && read -n 1 installAppOption && stty echo
 				formatYesNoOption $installAppOption

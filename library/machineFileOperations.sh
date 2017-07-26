@@ -209,8 +209,8 @@ function compareAndCopyMachineFiles(){
 		local srcFolder="${1}"
 		local dstFolder="${2}"
 		local fileExtensionFilter="${3}"
-
-		local filesArray=($(buildMachineFilesList "$srcFolder" "${fileExtensionFilter}"))
+		local filesList=$(buildMachineFilesList "${srcFolder}" "${fileExtensionFilter}")
+		local filesArray=( $filesList )
 
 		local compareFileStatus=""
 		local copySelectedFiles=""

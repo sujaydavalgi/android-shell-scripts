@@ -147,7 +147,7 @@ function buildMachineFilesList() {
 
 		local machineSubFilesList="${machineFilesList#$1}" #check how the sub path is extracted from the complete path
 
-		if [[ $machineSubFilesList != "" || -n $machineSubFilesList ]]; then
+		if [[ "$machineSubFilesList" != "" || -n "$machineSubFilesList" ]]; then
 			echo -e -n "$machineSubFilesList"
 		fi
 	fi
@@ -217,7 +217,7 @@ function compareAndCopyMachineFiles(){
 
 		for ((i=0; i<${#filesArray[@]}; i++))
 		do
-			fileName=${filesArray[i]##*/} #extract just the file name from the complete path
+			fileName="${filesArray[i]##*/}" #extract just the file name from the complete path
 
 			if [[ -d "${srcFolder}" ]]; then 	# check if the source folder exist
 				if [[ -f "${srcFolder}/${fileName}" ]]; then 	# check if the source file exist

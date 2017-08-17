@@ -57,6 +57,7 @@ function otherLog() {
 	adb -s ${1} wait-for-device shell setprop log.tag.MplayHandler VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicHttp VERBOSE
 	adb -s ${1} wait-for-device shell setprop log.tag.MusicCloudClient VERBOSE
+	adb -s ${1} wait-for-device shell setprop log.tag.MusicCastRemote VERBOSE
 }
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then

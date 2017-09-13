@@ -13,6 +13,8 @@
 echo -e -n ">> Checking Library Files ...\n"
 sourceFolder=`echo "${libraryFolder}"`
 destFolder=`echo "${gitHubFolder}/scripts/library"`
+echo -e -n " Source: ${sourceFolder}\n"
+echo -e -n " Destination: ${destFolder}\n"
 compareAndCopyMachineFiles "${sourceFolder}" "${destFolder}" "*.*"
 echo -e -n ">> Done checking Library Files\n"
 
@@ -21,6 +23,8 @@ echo
 echo -e -n ">> Checking Script Files ...\n"
 sourceFolder=`echo "${myScripts}"`
 destFolder=`echo "${gitHubFolder}/scripts"`
+echo -e -n " Source: ${sourceFolder}\n"
+echo -e -n " Destination: ${destFolder}\n"
 compareAndCopyMachineFiles "${sourceFolder}" "${destFolder}" "*.*"
 echo -e -n ">> Done checking Script Files\n"
 

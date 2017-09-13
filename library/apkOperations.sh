@@ -353,6 +353,17 @@ function uninstallDeviceAppUpdates() {
     fi
 }
 
+function uninstallDeviceAppUpdatesPrompt() {
+#$1 - device serial
+#$2 - apk path with package name
+#$return - 
+    if [ $# -lt 2 ]; then
+        writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+        exit 1
+    else
+        adb -s $1 wait-for-device shell am start -a android.intent.action.DELETE -d package:"$2"
+    fi
+}
 
 #----- Start an app
 function startDeviceApk() {

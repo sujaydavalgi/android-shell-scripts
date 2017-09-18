@@ -343,7 +343,7 @@ function uninstallSelectedDeviceApp() {
 
 function uninstallDeviceAppUpdates() {
 #$1 - device serial
-#$2 - apk path with package name
+#$2 - package name
 #$return - 
     if [ $# -lt 2 ]; then
         writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
@@ -355,7 +355,7 @@ function uninstallDeviceAppUpdates() {
 
 function uninstallDeviceAppUpdatesPrompt() {
 #$1 - device serial
-#$2 - apk path with package name
+#$2 - package name
 #$return - 
     if [ $# -lt 2 ]; then
         writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"

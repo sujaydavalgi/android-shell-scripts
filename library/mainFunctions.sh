@@ -188,33 +188,37 @@ function appendBuildInfo() {
 #----- display the list of devices
 function displayDeviceList() {
 #$return - 
-	echo ""
-
-	local let i=0
-	local let j=0
-	
-	for (( i=0; i<$DEVICE_COUNT; i++ )) # run the loop until the device count
-	do
-		let j=$i+1 # to generate the display count number
-			
-		echo -e -n " $j. ${DEVICE_ARRAY[i]}" # display the i'th serial number of the array
-
-		case "${DEVICE_ARRAY_STATUS[i]}" in
-			"recovery"|"fastboot"|"offline"|"unauthorized") # if the device status is other than adb, then display the stats in red
-				formatMessage " - ${DEVICE_ARRAY_STATUS[i]}" "E"
-				;;
-			"adb")
-				local deviceModel=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.model | tr -d "\r\n"`
-				echo -e -n "${txtRst} - ${txtPur}$deviceModel${txtRst}" #append the device model: Nexus 5
-				#local deviceName=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.name | tr -d "\r\n"`
-				#echo -e -n "${txtRst} - $deviceName${txtRst}" #append the device name: hammerhead
-				#local deviceBuild=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.build.id | tr -d "\r\n"`
-				#echo -e -n " ($deviceBuild)" # append the device bulid number
-				;;
-		esac
-
+	if [ $DEVICE_COUNT -gt 0 ]; then
 		echo ""
-	done
+
+		local let i=0
+		local let j=0
+
+		for (( i=0; i<$DEVICE_COUNT; i++ )) # run the loop until the device count
+		do
+			let j=$i+1 # to generate the display count number
+				
+			echo -e -n " $j. ${DEVICE_ARRAY[i]}" # display the i'th serial number of the array
+
+			case "${DEVICE_ARRAY_STATUS[i]}" in
+				"recovery"|"fastboot"|"offline"|"unauthorized") # if the device status is other than adb, then display the stats in red
+					formatMessage " - ${DEVICE_ARRAY_STATUS[i]}" "E"
+					;;
+				"adb")
+					local deviceModel=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.model | tr -d "\r\n"`
+					echo -e -n "${txtRst} - ${txtPur}$deviceModel${txtRst}" #append the device model: Nexus 5
+					#local deviceName=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.name | tr -d "\r\n"`
+					#echo -e -n "${txtRst} - $deviceName${txtRst}" #append the device name: hammerhead
+					#local deviceBuild=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.build.id | tr -d "\r\n"`
+					#echo -e -n " ($deviceBuild)" # append the device bulid number
+					;;
+			esac
+
+			echo ""
+		done
+	else
+		formatMessage "\n There are no devices connected to the USB.\n" "E"
+	fi
 }
 
 #----- check if the item # for the device selection was valid

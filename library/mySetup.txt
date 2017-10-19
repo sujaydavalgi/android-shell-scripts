@@ -14,10 +14,15 @@ mySDK=`echo $ANDROID_HOME`
 #===================================================================================================
 
 #--- from where it will search for the scripts folder
-myScripts=`echo ~/Google\ Drive/Scripts`
-
+#myScripts=`echo ~/Google\ Drive/Scripts`
+myScripts=`echo ~/DriveFS/My\ Drive/Scripts`
 #--- Path to library folder
-libraryFolder=`echo ${myScripts}/library`
+#libraryFolder=`echo ${myScripts}/library`
+
+myScriptsDebian=`echo ~/DriveFS/My\ Drive/Scripts`
+myScriptsOSX=`echo /Volumes/GoogleDrive/My Drive/Scripts`
+
+
 
 #===================================================================================================
 

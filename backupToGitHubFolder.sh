@@ -11,7 +11,7 @@
 . ./library/machineFileOperations.sh
 
 echo -e -n ">> Checking Library Files ...\n"
-sourceFolder=`echo "${libraryFolder}"`
+sourceFolder=`echo "${myScripts}/library"`
 destFolder=`echo "${gitHubFolder}/scripts/library"`
 echo -e -n " Source: ${sourceFolder}\n"
 echo -e -n " Destination: ${destFolder}\n"

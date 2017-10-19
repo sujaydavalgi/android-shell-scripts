@@ -161,6 +161,38 @@ function getDeviceBuildVersion(){
 	fi
 }
 
+function getAndroidCodeName(){
+#$1 - device serial number
+#$return - 
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceApiLevel=$( getDeviceBuildSdkVersion $1 )
+
+		case $deviceApiLevel in
+			1) 			androidVersion="android_A" ;;
+			2) 			androidVersion="android_B" ;;
+			3) 			androidVersion="android_C" ;;
+			4) 			androidVersion="android_D" ;;
+			5|6|7) 		androidVersion="android_E" ;;
+			8) 			androidVersion="android_F" ;;
+			9|10) 		androidVersion="android_G" ;;
+			11|12|13) 	androidVersion="android_H" ;;
+			14|15) 		androidVersion="android_I" ;;
+			16|17|18) 	androidVersion="android_J" ;;
+			19|20) 		androidVersion="android_K" ;;
+			21|22) 		androidVersion="android_L" ;;
+			23) 		androidVersion="android_M" ;;
+			24|25) 		androidVersion="android_N" ;;
+			26) 		androidVersion="android_O" ;;
+			*) 			androidVersion="android" ;;
+		esac
+
+		echo -e -n $androidVersion
+	fi
+}
+
 function getDeviceBuildHost(){
 #$1 - device serial number
 #$return - 

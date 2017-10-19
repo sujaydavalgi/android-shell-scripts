@@ -376,7 +376,29 @@ function getDeviceBuildCharacteristics(){
 		exit 1
 	else
 		local deviceBuildChar=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | tr -d "\r\n"`
-		echo -e -n $deviceBuildChar #Returns "nosdcard"
+		echo -e -n $deviceBuildChar #Returns "nosdcard" or "nosdcard,tv" or "nosdcard,watch"
+	fi
+}
+
+function getDeviceCharType(){
+#$1 - device serial number
+#$return - 
+if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceType=""
+
+		deviceChar1=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f1 -d"," | tr -d "\r\n"`
+		deviceChar2=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f2 -d"," | tr -d "\r\n"`
+
+		if [ $deviceChar1 == "tablet" ]; then
+			deviceType=$deviceChar1
+		else
+			deviceType=$deviceChar2
+		fi
+
+		echo -e -n $deviceType #Returns "nosdcard" or "tv" or "watch" or "auto" or "default" or "things" or "tablet"
 	fi
 }
 

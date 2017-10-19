@@ -317,6 +317,18 @@ function getDeviceModel(){
 		echo -e -n $deviceModel #Returns "Nexus 6" or "Nexus Player"
 	fi
 }
+
+function getDeviceCpuType(){
+#$1 - device serial
+#$return - 
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local cpuType=`adb -s $1 wait-for-device shell getprop ro.product.cpu.abi | tr -d "\r"`
+		echo -e -n $cpuType #Returns "armeabi-v7a" or "arm64-v8a" OR "x86" OR "x86_64"
+	fi
+}
 #===================================================================================================
 function getDeviceEncryptState() {
 #$1 - device serial

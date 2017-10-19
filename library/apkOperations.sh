@@ -349,7 +349,15 @@ function uninstallDeviceAppUpdates() {
         writeToLogsFile "@@ No arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
         exit 1
     else
-        adb -s $1 wait-for-device shell pm uninstall $2
+		if [ "$( isAdbDevice $1 )" == "true" ]; then
+			formatMessage " Uninstall App $2 updates\n" "W"
+			echo -e -n " "
+			adb -s $1 wait-for-device shell pm uninstall $2
+			echo " "
+		else
+			formatMessage " Device is not in adb mode$\n" "E"
+			#echo " ${txtRed}Device is not in adb mode${txtRst}\n"
+		fi
     fi
 }
 

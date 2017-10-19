@@ -170,12 +170,12 @@ function apkOperations() {
 						startDeviceApk $1 $apkPackageName ;;
 					[rR][eE][sS][tT][aA][rR][tT]) #restart
 						restartDeviceApp $1 $apkPackageName ;;
-					[vV][eE][rR][sS][iI][oO][nN]) #version
-						getDeviceAppVersion $1 $apkPackageName ;;
 					[uU][nN][iI][nN][sS][tT][aA][lL][lL]) #uninstall
 						uninstallSelectedDeviceApp $1 $apkPath ;;
 					[uU][nN][iI][nN][sS][tT][aA][lL][lL][uU][pP][dD][aA][tT][eE][sS]) #uninstallUpdates
 						uninstallDeviceAppUpdates $1 $apkPackageName ;;
+					[vV][eE][rR][sS][iI][oO][nN]) #version
+						getDeviceAppVersion $1 $apkPackageName ;;
 					*)
 						echo -e -n " Unsupported argument \"${3}\" passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) "
 						exit 1 ;;

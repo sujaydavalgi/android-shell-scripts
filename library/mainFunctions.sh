@@ -6,6 +6,10 @@
 #
 # Usage: ". ./library/mainFunctions.sh" within other scripts
 
+. ./library/mySetup.txt
+. ./library/textFormatting.sh
+. ./library/machineOs.sh
+
 #===================================================================================================
 
 deviceSerial=""
@@ -35,12 +39,6 @@ nowDateTime=$(date +'%Y%m%d%H%M%S')
 
 #declare -r TRUE=0
 #declare -r FALSE=1
-
-#===================================================================================================
-
-. ./library/mySetup.txt
-. ./library/textFormatting.sh
-. ./library/machineOs.sh
 
 #===================================================================================================
 
@@ -83,6 +81,12 @@ if [ ! -d "$myLocal" ]; then
 	if [[ "$myOS" == "linux" ]]; then
 		`mkdir -p ${myLocal}`
 	fi
+fi
+
+if [[ "$myOS" == "linux" ]]; then
+	myScripts="${myScriptsDebian}"
+elif [[ "$myOS" == "mac" ]]; then
+	myScripts="${myScriptsOSX}"
 fi
 
 #===================================================================================================

@@ -135,19 +135,19 @@ function saveScreenshotInMachine() {
 		#TODO this logic is not always working. The screencap command is behaving differently on different OS, based on the device version
 		#adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
 
-		#if [ ${myOS} == "linux" ]; then
-		#      adb -s "$1" wait-for-device shell screencap -p | sed 's/\r$//' > `echo ${myLogs}/`${2}.${screenshotExtension}
-		#elif [ ${myOS} == "mac" ]; then
-		#      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.${screenshotExtension}
-		#      #adb -s "$1" wait-for-device shell screencap -p | perl -pe 'BEGIN { $/="\cM\cJ"; $\="\cJ"; } chomp;' > `echo ${myLogs}/`${2}.${screenshotExtension}
-		#else
-		#	adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
-		#fi
+		if [ "${myOS}" == "linux" ]; then
+		      adb -s "$1" wait-for-device shell screencap -p | sed 's/\r$//' > `echo ${myLogs}/`${2}.${screenshotExtension}
+		elif [ "${myOS}" == "mac" ]; then
+		      adb -s "$1" wait-for-device shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' > `echo ${myLogs}/`${2}.${screenshotExtension}
+		      #adb -s "$1" wait-for-device shell screencap -p | perl -pe 'BEGIN { $/="\cM\cJ"; $\="\cJ"; } chomp;' > `echo ${myLogs}/`${2}.${screenshotExtension}
+		else
+			adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
+		fi
 
 		#Trying to use exec-out instead of shell
 		#IMP: check how we use exec-out instead of shell
 		#TODO This does not work with all version of Android. Need to run it based on the Android OS version
-		adb -s "$1" wait-for-device exec-out screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
+		#adb -s "$1" wait-for-device exec-out screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
 	fi
 }
 

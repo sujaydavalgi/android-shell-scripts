@@ -324,14 +324,20 @@ function isGedDevice() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else	
-		local deviceName="$( getDeviceName $1 )"
+		if [ "$( getProductBrand $1 )" == "google" ]; then
+			echo -e -n "true"
+		else
+			local deviceName="$( getDeviceName $1 )"
 
-		case "$deviceName" in
-		    "prime"|"hammerhead"|"mako"|"nakasi"|"nakasig"|"flo"|"deb"|"manta"|"mantaray"|"shamu"|"razor"|"razorg"|"volantis"|"volantisg"|"angler"|"bullhead")
-				echo -e -n "true" ;;
-		    *)
-				echo -e -n "false" ;;
-		esac
+			case "$deviceName" in
+			    "prime"|"hammerhead"|"mako"|"nakasi"|"nakasig"|"flo"|"deb"|"manta"|"mantaray"|"shamu"|"razor"|"razorg"|"volantis"|"volantisg"|"angler"|"bullhead")
+					echo -e -n "true" ;;
+			    *)
+					echo -e -n "false" ;;
+			esac
+			
+			#echo -e -n "false"
+		fi
 	fi
 }
 

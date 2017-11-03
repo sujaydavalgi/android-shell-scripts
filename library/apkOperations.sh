@@ -420,36 +420,35 @@ function getDeviceAppVersion() {
 #$1 - device serial number
 #$2 - package name
 #$return - 
-        if [ $# -lt 2 ]; then
-                writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
-                exit 1
-        else
-                local i=0
-                while read line
-                do
-                        if [ -n "$line" ]; then
-                                APK_VERSION_ARRAY[i]="$line"
-                                let i=$i+1
-                        fi
-                done < <(adb -s ${1} wait-for-device shell dumpsys package ${2} | grep -i versionname | cut -f2 -d"=" | tr -d "\r")
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local i=0
+			
+		while read line
+		do
+			if [ -n "$line" ]; then
+				APK_VERSION_ARRAY[i]="$line"
+				let i=$i+1
+			fi
+		done < <(adb -s ${1} wait-for-device shell dumpsys package ${2} | grep -i versionname | cut -f2 -d"=" | tr -d "\r")
 
-                APK_VERSION_COUNT=${#APK_VERSION_ARRAY[*]}
+		APK_VERSION_COUNT=${#APK_VERSION_ARRAY[*]}
+		formatMessage " Installed version(s):\n" "I"
 
-                formatMessage " Installed version(s):\n" "I"
+#		for (( i=0; i<$APK_VERSION_COUNT; i++ ))
+#		do
+#			let j=$i+1
+#			formatMessage " $j. ${APK_VERSION_ARRAY[i]}\n"
+#		done
 
-#                for (( i=0; i<$APK_VERSION_COUNT; i++ ))
-#                do
-#                        let j=$i+1
-#                        formatMessage " $j. ${APK_VERSION_ARRAY[i]}\n"
-#                done
+		if [ $APK_VERSION_COUNT -gt 0 ]; then
+			formatMessage " 1. Current installed Version - ${APK_VERSION_ARRAY[0]}\n"
 
-                if [ $APK_VERSION_COUNT -gt 0 ]; then
-                       formatMessage " 1. Current installed Version - ${APK_VERSION_ARRAY[0]}\n"
-				 		
-						if [ $APK_VERSION_COUNT -gt 1 ]; then
-                   		formatMessage " 2. System default Version - ${APK_VERSION_ARRAY[1]}\n"
-                		fi
-                fi
-
-        fi
+			if [ $APK_VERSION_COUNT -gt 1 ]; then
+				formatMessage " 2. System default Version - ${APK_VERSION_ARRAY[1]}\n"
+			fi
+		fi
+	fi
 }

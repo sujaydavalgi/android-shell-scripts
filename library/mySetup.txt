@@ -24,11 +24,6 @@ myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
 
 #===================================================================================================
 
-#--- Path to GitHub scripts folder
-gitHubFolder=`echo ~/Setup/GitHub`
-
-#===================================================================================================
-
 #--- TIF team shared folder
 tifTeamFolder=`echo .../users/...`
 

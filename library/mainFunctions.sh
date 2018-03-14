@@ -53,9 +53,9 @@ if [ ! -d "$myAppDir" ]; then
 fi
 
 #--- from where it will search for the general apps
-if [ ! -d "$gitHubFolder" ]; then
-	`mkdir -p ${gitHubFolder}`
-fi
+#if [ ! -d "$gitHubFolder" ]; then
+#	`mkdir -p ${gitHubFolder}`
+#fi
 
 #--- from where it will search for the @Home apps folder
 #if [ ! -d "$myAAHDir" ]; then

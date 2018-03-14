@@ -222,6 +222,7 @@ function compareAndCopyMachineFiles(){
 			if [[ -d "${srcFolder}" ]]; then 	# check if the source folder exist
 				if [[ -f "${srcFolder}/${fileName}" ]]; then 	# check if the source file exist
 					# compare source and destination folder for the file
+					#echo " Comparing  "${srcFolder}/${fileName}" "${dstFolder}/${fileName}"\n"
 					compareFileStatus=$( compareMachineFiles "${srcFolder}/${fileName}" "${dstFolder}/${fileName}" )
 					
 					# If files are "same", do nothing

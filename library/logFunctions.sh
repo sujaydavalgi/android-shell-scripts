@@ -195,8 +195,9 @@ function recordDeviceVideo() {
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		adb -s "$1" wait-for-device shell "screenrecord --verbose --bit-rate 4000000 ${2}/${3}.${screenrecordExtension}" # <- 4 Mbps
+		#adb -s "$1" wait-for-device shell "screenrecord --verbose --bit-rate 4000000 ${2}/${3}.${screenrecordExtension}" # <- 4 Mbps
 		#adb -s $1 wait-for-device shell "screenrecord --verbose --bit-rate 8000000 $2/${3}.${screenrecordExtension}" # <- 8 Mbps
+		adb -s "$1" wait-for-device shell "screenrecord ${2}/${3}.${screenrecordExtension}"
 	fi
 }
 

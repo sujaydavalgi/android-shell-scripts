@@ -11,6 +11,8 @@
 apkDevicePath=""
 apkPackageName=""
 
+Search_APK_COUNT=0
+
 function searchAPK() {
 #$1 - device serial
 #$2 - apk name string

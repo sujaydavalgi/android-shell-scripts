@@ -14,13 +14,13 @@ mySDK=`echo $ANDROID_HOME`
 #===================================================================================================
 
 #--- from where it will search for the scripts folder
-#myScripts=`echo ~/Google\ Drive/Scripts`
-myScripts=`echo ~/Desktop/DriveFS/My\ Drive/Scripts/Shell`
+#myShellScripts=`echo ~/Google\ Drive/Scripts`
+#myShellScripts=`echo ~/Desktop/DriveFS/My\ Drive/Scripts/Shell`
 #--- Path to library folder
-#libraryFolder=`echo ${myScripts}/library`
+#libraryFolder=`echo ${myShellScripts}/library`
 
-myScriptsDebian=`echo ~/DriveFS/My\ Drive/Scripts/Shell`
-myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts/Shell"
+myScriptsDebian=`echo ~/DriveFS/My\ Drive/Scripts`
+myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
 
 #===================================================================================================
 
@@ -33,7 +33,7 @@ flasherFolder=`echo ~/Projects/android/flasher`
 #===================================================================================================
 
 #--- where it will write all the script's log messages
-myScriptLogsDir="${myScripts}/logs"
+myScriptLogsDir="${myShellScripts}/logs"
 myScriptLogsFile="${myScriptLogsDir}/scriptLog-$nowDate.txt"
 
 #--- to backup the files from NFS directory to local storage

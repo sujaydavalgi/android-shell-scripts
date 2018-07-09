@@ -16,21 +16,21 @@ find ~/*.sh -maxdepth 1 -delete
 find ~/mySetup.txt -maxdepth 1 -delete
 find ~/library -maxdepth 1 -delete
 
-if [ -d "${myScripts}" ]; then
-	if [ -f "${myScripts}/*.*~" ]; then
-		 find ${myScripts}/*.*~ -delete
+if [ -d "${myShellScripts}" ]; then
+	if [ -f "${myShellScripts}/*.*~" ]; then
+		 find ${myShellScripts}/*.*~ -delete
 	fi
 fi
 
 presentDirectory=`pwd`
 homeFolder=`echo ~`
 
-if [ ! -d  "${myScripts}" ] & [ "${presentDirectory}" != "${homeFolder}" ]; then
-	myScripts="${presentDirectory}"
+if [ ! -d  "${myShellScripts}" ] & [ "${presentDirectory}" != "${homeFolder}" ]; then
+	myShellScripts="${presentDirectory}"
 fi
 
-chmod +x "${myScripts}"/*.sh
+chmod +x "${myShellScripts}"/*.sh
 
-ln -s "${myScripts}"/*.sh ~/
-ln -s "${myScripts}/mySetup.txt" ~/
-ln -s "${myScripts}/library" ~/library
+ln -s "${myShellScripts}"/*.sh ~/
+ln -s "${myShellScripts}/mySetup.txt" ~/
+ln -s "${myShellScripts}/library" ~/library

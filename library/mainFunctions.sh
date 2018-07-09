@@ -42,6 +42,17 @@ nowDateTime=$(date +'%Y%m%d%H%M%S')
 
 #===================================================================================================
 
+checkMyOsType
+
+if [[ "$myOS" == "linux" ]]; then
+	myScripts="${myScriptsDebian}"
+elif [[ "$myOS" == "mac" ]]; then
+	myScripts="${myScriptsOSX}"
+fi
+
+myShellScripts="${myScripts}"/Shell
+#===================================================================================================
+
 #--- where it will store the bugreports, logcats, screenshots, pulled videos/images
 if [ ! -d "$myLogs" ]; then
 	`mkdir -p ${myLogs}`
@@ -81,12 +92,6 @@ if [ ! -d "$myLocal" ]; then
 	if [[ "$myOS" == "linux" ]]; then
 		`mkdir -p ${myLocal}`
 	fi
-fi
-
-if [[ "$myOS" == "linux" ]]; then
-	myScripts="${myScriptsDebian}"
-elif [[ "$myOS" == "mac" ]]; then
-	myScripts="${myScriptsOSX}"
 fi
 
 #===================================================================================================

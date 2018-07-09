@@ -50,8 +50,8 @@ elif [[ "$myOS" == "mac" ]]; then
 	myScripts="${myScriptsOSX}"
 fi
 
-myShellScripts="${myScripts}"/Shell
-myPythonScripts="${myScripts}"/Python
+myShellScripts="${myScripts}/Shell"
+myPythonScripts="${myScripts}/Python"
 #===================================================================================================
 
 #--- where it will store the bugreports, logcats, screenshots, pulled videos/images

@@ -125,6 +125,7 @@ function displayDeviceFileList() {
 
 #----- check if the item # for the file selection was valid
 function checkDeviceFileChoiceValidity() {
+#$1 - selected choice
 #$return - 
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"

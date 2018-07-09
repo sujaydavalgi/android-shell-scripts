@@ -19,7 +19,7 @@ mySDK=`echo $ANDROID_HOME`
 #--- Path to library folder
 #libraryFolder=`echo ${myShellScripts}/library`
 
-myScriptsDebian=`echo ~/DriveFS/My\ Drive/Scripts`
+myScriptsDebian=`echo ~/Desktop/DriveFS/My\ Drive/Scripts`
 myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
 
 #===================================================================================================

@@ -29,6 +29,7 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.description"
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.version.release"
 	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.fingerprint"
+	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.version.sdk"
 	adb -s $deviceSerial wait-for-device shell cat /proc/version
 
 	echo ""

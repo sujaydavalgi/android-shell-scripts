@@ -32,8 +32,10 @@ function getDeviceAndroidCodeName(){
 			21|22) 		androidVersion="android_L" ;;
 			23) 		androidVersion="android_M" ;;
 			24|25) 		androidVersion="android_N" ;;
-			26) 		androidVersion="android_O" ;;
-			*) 			androidVersion="android" ;;
+			26|27) 		androidVersion="android_O" ;;
+			28) 		androidVersion="android_P" ;;
+			29)			androidVersion="android_Q" ;;
+			*)			androidVersion="android" ;;
 		esac
 
 		echo -e -n $androidVersion

@@ -261,7 +261,126 @@ function isDeviceSimReady(){
 }
 
 #===================================================================================================
+function isDeviceDefault(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+				writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "default" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
 
+function isDeviceNoSdcard(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+				writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "nosdcard" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDevicePhone(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+				writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "phone" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDeviceTablet(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "tablet" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDeviceTv(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "tv" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDeviceWear(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "watch" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDeviceAuto(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "auto" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isDeviceThings(){
+#$1 - device serial
+#$return - true, false
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getDeviceType $1 )" == "things" ]; then
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+#===================================================================================================
 #----- Check if its a @Home device
 function isAtHomeDevice () {
 #$1 - device serial

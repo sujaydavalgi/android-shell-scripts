@@ -20,10 +20,11 @@ backupFiles(){
 }
 
 gitHubFolder=`echo ~/Setup/GitHub`
+gitHubFolder_shell="${gitHubFolder}/android-shell-scripts"
 
 echo -e -n ">> Checking Library Files ...\n"
 sourceFolder=`echo "${myShellScripts}/library"`
-destFolder=`echo "${gitHubFolder}/shell-scripts/library"`
+destFolder=`echo "${gitHubFolder_shell}/library"`
 backupFiles "${sourceFolder}" "${destFolder}"
 echo -e -n ">> Done checking Library Files\n"
 
@@ -31,7 +32,7 @@ echo
 
 echo -e -n ">> Checking Script Files ...\n"
 sourceFolder=`echo "${myShellScripts}"`
-destFolder=`echo "${gitHubFolder}/shell-scripts"`
+destFolder=`echo "${gitHubFolder_shell}"`
 backupFiles "${sourceFolder}" "${destFolder}"
 echo -e -n ">> Done checking Script Files\n"
 

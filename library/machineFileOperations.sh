@@ -523,16 +523,33 @@ function installApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
 #return - 
-	#TODO work on capturing the output of adb command based on adb version and device version
-	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution to force downgrade install
-	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
-	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
+		#check device and apk compatibility
+		local isCompatible=$(checkDeviceApkCompatibility "${1}" "${2}")
+		local installApkChoice="yes"
 
 	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
+		if [ "$isCompatible" == "false" ]; then
+			echo -e -n "\n Apk is not compatible for the selected device. Do you still want to try to install it? [y/n]: "
+
+			stty -echo && read -n 1 installApkChoice && stty echo
+			formatYesNoOption $installApkChoice
+			echo ""
+		fi
+
+		if [ "$( checkYesNoOption $installApkChoice )" == "yes" ]; then
+			#TODO work on capturing the output of adb command based on adb version and device version
+			local output=$( adbInstallApk ${1} ${2} "-r" "-d" )
+			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+
+			#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
+		elif [ "$( checkYesNoOption $installApkChoice )" == "no" ]; then
+			#echo -e -n "\n"
+			exit 1
+		fi
 	fi
 }
 

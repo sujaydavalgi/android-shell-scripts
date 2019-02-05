@@ -401,10 +401,53 @@ function getDeviceCharType(){
 			deviceType=$deviceChar2
 		fi
 
-		echo -e -n $deviceType #Returns "nosdcard" or "tv" or "watch" or "auto" or "default" or "things" or "tablet"
+		echo -e -n $deviceType #Returns "nosdcard" or "tv" or "watch" or "auto" or "default" or "things" or "tablet" or "phone"
 	fi
 }
 
+function getDeviceType(){
+#$1 - device serial number
+#$return - 
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local deviceType=$( getDeviceCharType $1 )
+		# case $deviceType in
+		# 	[nN][oO][sS][dD][cC][aA][rR][dD]) newDeviceType="nosdcard";;
+		# 	[dD][eE][fF][aA][uU][lL][tT])
+		# 		isItTv=`adb -s $1 wait-for-device shell getprop ro.platform.is.tv`
+		# 		if [ "$isItTv" == "1" ]; then
+		# 			newDeviceType="tv"
+		# 		else
+		# 			newDeviceType="default"
+		# 		fi
+		# 		;;
+		# 	[tT][hH][iI][nN][gG][sS]) newDeviceType="things";;
+		# 	[tT][aA][bB][lL][eE][tT]) newDeviceType="tablet";;
+		# 	[pP][hH][oO][nN][eE]) newDeviceType="phone";;
+		# 	[wW][aA][tT][cC][hH]) newDeviceType="watch";;
+		# 	[aA][uU][tT][oO]) newDeviceType="auto";;
+		# 	[tT][vV]) newDeviceType="tv";;
+		# esac
+		# echo -e -n $newDeviceType #Returns "nosdcard" or "tv" or "watch" or "auto" or "default" or "things" or "tablet"
+
+		if [[ "$deviceType" == "default" || "$deviceType" == "nosdcard" ]]; then
+		 		local isItTv=`adb -s $1 wait-for-device shell getprop ro.platform.is.tv`
+		 		if [ "$isItTv" == "1" ]; then
+		 			deviceType="tv"
+		 		fi
+
+		 		local isItPhoneType=`adb -s $1 wait-for-device shell getprop gsm.current.phone-type`
+		 		if [[ "$isItPhoneType" == "1" || "$isItPhoneType" == "1,1" ]]; then
+		 			deviceType="phone"
+		 		fi
+		fi
+
+		echo -e -n $deviceType #Returns "nosdcard" or "tv" or "watch" or "auto" or "default" or "things" or "tablet" or "phone"
+	fi
+}
+#===================================================================================================
 function isDeviceFusedSDcard(){
 #$1 - device serial
 #$return - true, false

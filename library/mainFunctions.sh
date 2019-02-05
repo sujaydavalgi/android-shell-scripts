@@ -50,8 +50,13 @@ elif [[ "$myOS" == "mac" ]]; then
 	myScripts="${myScriptsOSX}"
 fi
 
+#--- where it will checke all the scripts
 myShellScripts="${myScripts}/Shell"
 myPythonScripts="${myScripts}/Python"
+
+#--- where it will write all the script's log messages
+myScriptLogsDir="${myShellScripts}/logs"
+myScriptLogsFile="${myScriptLogsDir}/scriptLog-$nowDate.txt"
 #===================================================================================================
 
 #--- where it will store the bugreports, logcats, screenshots, pulled videos/images

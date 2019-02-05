@@ -32,10 +32,6 @@ flasherFolder=`echo ~/Projects/android/flasher`
 
 #===================================================================================================
 
-#--- where it will write all the script's log messages
-myScriptLogsDir="${myShellScripts}/logs"
-myScriptLogsFile="${myScriptLogsDir}/scriptLog-$nowDate.txt"
-
 #--- to backup the files from NFS directory to local storage
 myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
 

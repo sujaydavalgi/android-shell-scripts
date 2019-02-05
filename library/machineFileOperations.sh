@@ -401,8 +401,74 @@ function displayApkCompleteVersion() {
 	fi
 }
 
+#===================================================================================================
+function checkDeviceApkCompatibility(){
+#$1	- deviceSerial
+#$2 - copmlete apk path
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local apkType=$(getApkForDeviceType "${2}")
+		local deviceType=$(getDeviceType "${1}")
+		local compatible=""
+		
+		case $apkType in
+			[pP][hH][oO][nN][eE])
+				if [[ "$deviceType" == "phone" || "$deviceType" == "tablet" ]]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+			[tT][vV])
+				if [ "$deviceType" == "tv" ]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+			[wW][eE][aA][rR])
+				if [ "$deviceType" == "watch" ]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+			[aA][uU][tT][oO])
+				if [ "$deviceType" == "auto" ]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+			[tT][hH][iI][nN][gG][sS])
+				if [ "$deviceType" == "things" ]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+			[dD][eE][fF][aA][uU][lL][tT])
+				if [ "$deviceType" == "default" ]; then
+					compatible="true"
+				else
+					compatible="false"
+				fi ;;
+		esac
+
+		echo -e -n ${compatible}
+	fi
 }
 
+function displayApkDeviceCompatibility(){
+#$1 - deviceSerial
+#$2 - apkInstallCompletePath
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		formatMessage "\n Apk type : " "I"
+		getApkForDeviceType ${2}
+		formatMessage "\n Device type : " "I"
+		getDeviceType "${1}"
+	fi
+}
 #===================================================================================================
 
 function forceInstallApk() {
@@ -631,6 +697,78 @@ function installMachineFiles() {
 		checkMachineSubFolder $2 $3
 
 		installFromPath $1 "$appInstallFromPath/" "$4*.apk"
+	fi
+}
+#===================================================================================================
+function getAaptDumpBadging(){
+#$1 - apk file complete path
+#$2 - search string
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local apkBadging=`aapt dump badging ${1} | grep -i "${2}"`
+		echo -e -n "${apkBadging}"
+	fi
+}
+#===================================================================================================
+function isApkForTv(){
+#$1 - apk file complete path
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getAaptDumpBadging "${1}" "com.google.android.music.tv.HomeActivity" )" ]; then #check if the badging containts the HomeActivity for TV
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isApkForWear(){
+#$1 - apk file complete path
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( getAaptDumpBadging "${1}" "com.google.android.music.wear.ui.HomeActivity" )" ]; then #check if the badging containts the Homeactivity for Wear
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function isApkForPhone(){
+#$1 - apk file complete path
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [[ "$( isApkForTv "${1}" )" == "false" || "$( isApkForWear "${1}" )" == "false" ]]; then #check if the badging containts the HomeActivity for TV or Wear
+			echo -e -n "true"
+		else
+			echo -e -n "false"
+		fi
+	fi
+}
+
+function getApkForDeviceType(){
+#$1 - apk file complete path	
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		if [ "$( isApkForTv "${1}" )" == "true" ]; then #check if its a TV apk
+			echo -e -n "tv"
+		elif [ "$( isApkForWear "${1}" )" == "true" ]; then #check if its a Wear apk
+			echo -e -n "wear"
+		elif [ "$( isApkForPhone "${1}" )" == "true" ]; then #check if its a Phone apk
+			echo -e -n "phone"
+		else
+			echo -e -n "default"
+		fi
 	fi
 }
 

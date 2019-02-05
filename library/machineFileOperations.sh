@@ -470,6 +470,33 @@ function displayApkDeviceCompatibility(){
 	fi
 }
 #===================================================================================================
+function adbInstallApk(){
+#$1 - deviceSerial
+#$2 - apk complete path
+#$3 - reinstall? (optional)
+#$4 - downgrade? (optional)
+#return
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local installOptions=""
+
+		if [[ "$3" == "-r" || "$3" == "-d" ]]; then
+			installOptions="${installOptions} ${3}"
+		fi
+		if [[ "$4" == "-r" || "$4" == "-d" ]]; then
+			installOptions="${installOptions} ${4}"
+		fi
+
+		#writeToLogsFile "########## ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) == $installOptions"
+		#TODO work on capturing the output of adb command based on adb version and device version
+		local adbOutput=$( adb -s "${1}" wait-for-device install ${installOptions} "${2}" ) #<---- temporary solution to force downgrade install
+		#local adbOutput=$( adb -s "${1}"" wait-for-device install ${installOptions} "${2}" )  #<---- temporary solution
+
+		echo -e -n "${adbOutput}"
+	fi
+}
 
 function forceInstallApk() {
 #$1 - deviceSerial

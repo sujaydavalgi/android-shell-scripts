@@ -484,6 +484,9 @@ function forceInstallApk() {
 	elif [ ${status} == "Failure" ]; then
 		reason=`echo ${output} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
 		echo -e -n " Status : ${txtRed}$status${txtRst} - ${reason}"
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
 	else
 		echo -e -n " Status : $status"
 	fi
@@ -497,8 +500,13 @@ function installApk() {
 	local output=$( adb -s $1 wait-for-device install -r -d "$2" ) #<---- temporary solution to force downgrade install
 	#local output=$( adb -s $1 wait-for-device install -r "$2" )  #<---- temporary solution
 	local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
 
 	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
+	fi
 }
 
 function installApkReinstall() {
@@ -513,6 +521,11 @@ function installApkReinstall() {
 	stty -echo && read -n 1 reinstallApkChoice && stty echo
 	formatYesNoOption $reinstallApkChoice
 	echo ""
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local machineApkApplicationName=`getMachineApkApplicationName ${2}`
 
 	if [ "$( checkYesNoOption $reinstallApkChoice )" == "yes" ]; then
 		local output=$( adb -s $1 wait-for-device install -r "$2" )
@@ -550,6 +563,10 @@ function installApkDowngrade() {
 		else
 			local output=$( adb -s $1 wait-for-device install -r "$2" )
 		fi
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
 		
 		local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 		
@@ -592,6 +609,9 @@ function installApkStatusReason() {
 				;;
 		esac
 		
+	if [ $# -lt 4 ]; then
+		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
 	else
 		formatMessage " Status : $status\n"
 	fi

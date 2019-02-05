@@ -32,10 +32,10 @@ function getDeviceAndroidCodeName(){
 			21|22) 		androidVersion="android_L" ;;
 			23) 		androidVersion="android_M" ;;
 			24|25) 		androidVersion="android_N" ;;
-			26|27) 		androidVersion="android_O" ;;
-			28) 		androidVersion="android_P" ;;
-			29)			androidVersion="android_Q" ;;
-			*)			androidVersion="android" ;;
+      		26|27)     	androidVersion="android_O" ;; 
+      		28)     	androidVersion="android_P" ;; 
+      		29)      	androidVersion="android_Q" ;; 
+      		*)      	androidVersion="android" ;; 
 		esac
 
 		echo -e -n $androidVersion
@@ -386,12 +386,12 @@ function getDeviceBuildCharacteristics(){
 function getDeviceCharType(){
 #$1 - device serial number
 #$return - 
-if [ $# -lt 1 ]; then
+	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local deviceType=""
-
+		
 		deviceChar1=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f1 -d"," | tr -d "\r\n"`
 		deviceChar2=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f2 -d"," | tr -d "\r\n"`
 
@@ -416,6 +416,7 @@ function isDeviceFusedSDcard(){
 		echo -e -n $deviceFusedSDCard #Returns "true" or "false"
 	fi
 }
+
 #===================================================================================================
 function getDeviceBootCompleteState(){
 #$1 - device serial

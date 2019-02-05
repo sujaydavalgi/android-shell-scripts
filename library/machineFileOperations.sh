@@ -672,7 +672,7 @@ function apkInstall() {
 #$3 - apk Sub path
 #return - 
 	if [ $# -lt 3 ]; then
-		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local appInstallFromPath="${2}"

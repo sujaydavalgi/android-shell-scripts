@@ -392,9 +392,15 @@ function getDeviceApkVersion() {
 
 function displayApkCompleteVersion() {
 #$1 - complete apk file path in machine
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local machineApkVersion=`getMachineApkCompleteVersionName ${1}`
+		formatMessage " Apk Version : ${txtRst}${machineApkVersion}" "I"
+	fi
+}
 
-	local machineApkVersion=`getMachineApkCompleteVersionName ${1}`
-	formatMessage " Apk Version : ${txtRst}${machineApkVersion}\n" "I"
 }
 
 #===================================================================================================

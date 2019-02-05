@@ -20,11 +20,7 @@ getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
-	if [ $# -lt 1 ]; then
-		adb -s $deviceSerial logcat -v threadtime
-	else
-		adb -s $deviceSerial logcat -v threadtime | grep -i "$1"
-	fi
+	adb -s $deviceSerial logcat -v threadtime | grep -i "$1"
 else
 	echo " Device is not in 'adb' mode"
 fi

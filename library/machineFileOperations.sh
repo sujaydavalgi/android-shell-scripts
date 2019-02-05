@@ -477,7 +477,7 @@ function adbInstallApk(){
 #$4 - downgrade? (optional)
 #return
 	if [ $# -lt 2 ]; then
-		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local installOptions=""

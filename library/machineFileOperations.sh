@@ -502,20 +502,21 @@ function forceInstallApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
 #return - 
-	output=$(adb -s $1 wait-for-device install -r -d "$2")
-
-	status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
-
-	if [ ${status} == "Success" ]; then
-		echo -e -n " Status : ${txtGrn}$status${txtRst}"
-	elif [ ${status} == "Failure" ]; then
-		reason=`echo ${output} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
-		echo -e -n " Status : ${txtRed}$status${txtRst} - ${reason}"
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		echo -e -n " Status : $status"
+		local output=$(adbInstallApk "${1}" "${2}" "-r" "-d" )
+		local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+
+		if [ ${status} == "Success" ]; then
+			echo -e -n " Status : ${txtGrn}$status${txtRst}"
+		elif [ ${status} == "Failure" ]; then
+			reason=`echo ${output} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
+			echo -e -n " Status : ${txtRed}$status${txtRst} - ${reason}"
+		else
+			echo -e -n " Status : $status"
+		fi
 	fi
 }
 
@@ -531,7 +532,6 @@ function installApk() {
 		local isCompatible=$(checkDeviceApkCompatibility "${1}" "${2}")
 		local installApkChoice="yes"
 
-	#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
 		if [ "$isCompatible" == "false" ]; then
 			echo -e -n "\n Apk is not compatible for the selected device. Do you still want to try to install it? [y/n]: "
 
@@ -557,29 +557,29 @@ function installApkReinstall() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
 #return - 
-	local machineApkApplicationName=`getMachineApkApplicationName ${2}`
-
-	formatMessage " - The application '${machineApkApplicationName}' is already installed in your device" "E"
-	formatMessage "\n\n Do you still want to reinstall? [y/n] : " "Q"
-	
-	stty -echo && read -n 1 reinstallApkChoice && stty echo
-	formatYesNoOption $reinstallApkChoice
-	echo ""
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local machineApkApplicationName=`getMachineApkApplicationName ${2}`
 
-	if [ "$( checkYesNoOption $reinstallApkChoice )" == "yes" ]; then
-		local output=$( adb -s $1 wait-for-device install -r "$2" )
-		local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+		formatMessage " - The application '${machineApkApplicationName}' is already installed in your device" "E"
+		formatMessage "\n\n Do you still want to reinstall? [y/n] : " "Q"
 		
-		installApkStatusReason "$1" "$2" "$output" "$status"
+		stty -echo && read -n 1 reinstallApkChoice && stty echo
+		formatYesNoOption $reinstallApkChoice
+		echo ""
 
-	elif [ "$( checkYesNoOption $reinstallApkChoice )" == "no" ]; then
-		#echo -e -n "\n"
-		exit 1
+		if [ "$( checkYesNoOption $reinstallApkChoice )" == "yes" ]; then
+			local output=$( adbInstallApk ${1} ${2} "-r")
+			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+			
+			installApkStatusReason "$1" "$2" "$output" "$status"
+
+		elif [ "$( checkYesNoOption $reinstallApkChoice )" == "no" ]; then
+			#echo -e -n "\n"
+			exit 1
+		fi
 	fi
 }
 
@@ -587,38 +587,39 @@ function installApkDowngrade() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
 #return - 
-	local machineApkPackageName=`getMachineApkPackageName ${2}`
-	local machineApkVersion=`getMachineApkVersion ${2}`
-	local deviceApkVersion=`getDeviceApkVersion ${1} ${2}`
-	
-	formatMessage " - There is a higher version currently installed in your device" "E"
-	echo -e -n "\n\n Installed in Device - ${deviceApkVersion}"
-	echo -e -n "\n About to install - ${machineApkVersion}\n"
-	formatMessage "\n Do you still want to install? [y/n] : " "Q"
-	
-	stty -echo && read -n 1 downgradeApkChoice && stty echo
-	formatYesNoOption $downgradeApkChoice
-	echo ""
-
-	if [ "$( checkYesNoOption $downgradeApkChoice )" == "yes" ]; then
-		
-		if [ $( getDeviceBuildVersion $1 ) > "4.1" ]; then
-			local output=$( adb -s $1 wait-for-device install -r -d "$2" )
-		else
-			local output=$( adb -s $1 wait-for-device install -r "$2" )
-		fi
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
+		local machineApkPackageName=`getMachineApkPackageName ${2}`
+		local machineApkVersion=`getMachineApkVersion ${2}`
+		local deviceApkVersion=`getDeviceApkVersion ${1} ${2}`
 		
-		local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+		formatMessage " - There is a higher version currently installed in your device" "E"
+		echo -e -n "\n\n Installed in Device - ${deviceApkVersion}"
+		echo -e -n "\n About to install - ${machineApkVersion}\n"
+		formatMessage "\n Do you still want to install? [y/n] : " "Q"
 		
-		installApkStatusReason "$1" "$2" "$output" "$status"
+		stty -echo && read -n 1 downgradeApkChoice && stty echo
+		formatYesNoOption $downgradeApkChoice
+		echo ""
 
-	elif [ "$( checkYesNoOption $downgradeApkChoice )" == "no" ]; then
-		#echo -e -n "\n"
-		exit 1
+		if [ "$( checkYesNoOption $downgradeApkChoice )" == "yes" ]; then
+			
+			if [ $( getDeviceBuildVersion $1 ) > "4.1" ]; then
+				local output=$( adbInstallApk ${1} ${2} "-r" "-d" )
+			else
+				local output=$( adbInstallApk ${1} ${2} "-r" )
+			fi
+			
+			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
+			
+			installApkStatusReason "$1" "$2" "$output" "$status"
+
+		elif [ "$( checkYesNoOption $downgradeApkChoice )" == "no" ]; then
+			#echo -e -n "\n"
+			exit 1
+		fi
 	fi
 }
 
@@ -628,36 +629,38 @@ function installApkStatusReason() {
 #$3 - complete output of adb install command
 #$4 - status of adb install command [Success / Failure]
 #return - 
-	if [ "${4}" == "Success" ]; then
-		echo -e -n " Status : ${txtGrn}$status${txtRst}"
-		echo ""
-	elif [ "${4}" == "Failure" ]; then
-		echo -e -n " Status : ${txtRed}$status${txtRst}"
-		
-		local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
-		
-		case "$reason" in
-			"INSTALL_FAILED_ALREADY_EXISTS")
-				installApkReinstall $1 "$2"
-				;;
-			"INSTALL_FAILED_VERSION_DOWNGRADE")
-				installApkDowngrade $1 "$2"
-				;;
-			"INSTALL_FAILED_UPDATE_INCOMPATIBLE" | "INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")
-				formatMessage " - Certificate version mismatch with the existing installed apk\n\n" "E"
-				exit 1
-				;;
-			*)
-				echo -e -n " - ${reason}\n"
-				exit 1
-				;;
-		esac
-		
 	if [ $# -lt 4 ]; then
 		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		formatMessage " Status : $status\n"
+		if [ "${4}" == "Success" ]; then
+			echo -e -n " Status : ${txtGrn}$status${txtRst}"
+			echo ""
+		elif [ "${4}" == "Failure" ]; then
+			echo -e -n " Status : ${txtRed}$status${txtRst}"
+			
+			local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
+			
+			case "$reason" in
+				"INSTALL_FAILED_ALREADY_EXISTS")
+					installApkReinstall $1 "$2"
+					;;
+				"INSTALL_FAILED_VERSION_DOWNGRADE")
+					installApkDowngrade $1 "$2"
+					;;
+				"INSTALL_FAILED_UPDATE_INCOMPATIBLE" | "INSTALL_PARSE_FAILED_INCONSISTENT_CERTIFICATES")
+					formatMessage " - Certificate version mismatch with the existing installed apk\n\n" "E"
+					exit 1
+					;;
+				*)
+					echo -e -n " - ${reason}\n"
+					exit 1
+					;;
+			esac
+			
+		else
+			formatMessage " Status : $status\n"
+		fi
 	fi
 }
 
@@ -678,12 +681,16 @@ function apkInstall() {
 		#local appInstallCompletePath="${apkSubpath}"
 		local apkInstallCompletePath="${appInstallFromPath}${apkSubpath}"
 
-		formatMessage "\n Installing - " "I"
+		formatMessage "\n Apk Path: " "I"
 		#formatMessage "${apkSubpath} ... \n" "M"
 		formatMessage "${apkInstallCompletePath} ... \n" "M"
 
 		displayApkCompleteVersion "${apkInstallCompletePath}"
-		installApk $1 "${apkInstallCompletePath}"
+		displayApkDeviceCompatibility "${1}" "${apkInstallCompletePath}"
+
+		echo -e -n "\n\n Installing..."
+		installApk ${1} "${apkInstallCompletePath}"
+		echo -e -n " ...Done\n"
 	fi
 }
 

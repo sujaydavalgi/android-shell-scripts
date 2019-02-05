@@ -179,7 +179,8 @@ function apkOperations() {
 					[vV][eE][rR][sS][iI][oO][nN]) #version
 						getDeviceAppVersion $1 $apkPackageName ;;
 					*)
-						echo -e -n " Unsupported argument \"${3}\" passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) "
+						writeToLogsFile " Unsupported argument \"${3}\" passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) "
+						formatMessage " Unsupported argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )" "E"
 						exit 1 ;;
 				esac
 

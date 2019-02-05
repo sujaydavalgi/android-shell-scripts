@@ -480,18 +480,9 @@ function adbInstallApk(){
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local installOptions=""
-
-		if [[ "$3" == "-r" || "$3" == "-d" ]]; then
-			installOptions="${installOptions} ${3}"
-		fi
-		if [[ "$4" == "-r" || "$4" == "-d" ]]; then
-			installOptions="${installOptions} ${4}"
-		fi
-
 		#writeToLogsFile "########## ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} ) == $installOptions"
 		#TODO work on capturing the output of adb command based on adb version and device version
-		local adbOutput=$( adb -s "${1}" wait-for-device install ${installOptions} "${2}" ) #<---- temporary solution to force downgrade install
+		local adbOutput=$( adb -s "${1}" wait-for-device install ${3} "${2}" ) #<---- temporary solution to force downgrade install
 		#local adbOutput=$( adb -s "${1}"" wait-for-device install ${installOptions} "${2}" )  #<---- temporary solution
 
 		echo -e -n "${adbOutput}"
@@ -506,7 +497,7 @@ function forceInstallApk() {
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local output=$(adbInstallApk "${1}" "${2}" "-r" "-d" )
+		local output=$(adbInstallApk "${1}" "${2}" "-r -d" )
 		local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 
 		if [ ${status} == "Success" ]; then
@@ -542,7 +533,7 @@ function installApk() {
 
 		if [ "$( checkYesNoOption $installApkChoice )" == "yes" ]; then
 			#TODO work on capturing the output of adb command based on adb version and device version
-			local output=$( adbInstallApk ${1} ${2} "-r" "-d" )
+			local output=$( adbInstallApk ${1} ${2} "-r -d" )
 			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
 
 			#installApkStatusReason "$1" "$2" "$output" "$status"	#<---- temporary solution
@@ -607,7 +598,7 @@ function installApkDowngrade() {
 		if [ "$( checkYesNoOption $downgradeApkChoice )" == "yes" ]; then
 			
 			if [ $( getDeviceBuildVersion $1 ) > "4.1" ]; then
-				local output=$( adbInstallApk ${1} ${2} "-r" "-d" )
+				local output=$( adbInstallApk ${1} ${2} "-r -d" )
 			else
 				local output=$( adbInstallApk ${1} ${2} "-r" )
 			fi

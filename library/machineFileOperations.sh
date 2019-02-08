@@ -524,7 +524,7 @@ function installApk() {
 		local installApkChoice="yes"
 
 		if [ "$isCompatible" == "false" ]; then
-			echo -e -n "\n Apk is not compatible for the selected device. Do you still want to try to install it? [y/n]: "
+			formatMessage "\n Apk is not compatible for the selected device. Do you still want to try to install it? [y/n]: " "E"
 
 			stty -echo && read -n 1 installApkChoice && stty echo
 			formatYesNoOption $installApkChoice

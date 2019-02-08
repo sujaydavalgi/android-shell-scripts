@@ -414,37 +414,37 @@ function checkDeviceApkCompatibility(){
 		local compatible=""
 		
 		case $apkType in
-			[pP][hH][oO][nN][eE])
+			[pP][hH][oO][nN][eE])			#phone
 				if [[ "$deviceType" == "phone" || "$deviceType" == "tablet" ]]; then
 					compatible="true"
 				else
 					compatible="false"
 				fi ;;
-			[tT][vV])
+			[tT][vV]) 						#tv
 				if [ "$deviceType" == "tv" ]; then
 					compatible="true"
 				else
 					compatible="false"
 				fi ;;
-			[wW][eE][aA][rR])
+			[wW][eE][aA][rR])				#wear
 				if [ "$deviceType" == "watch" ]; then
 					compatible="true"
 				else
 					compatible="false"
 				fi ;;
-			[aA][uU][tT][oO])
+			[aA][uU][tT][oO])				#auto
 				if [ "$deviceType" == "auto" ]; then
 					compatible="true"
 				else
 					compatible="false"
 				fi ;;
-			[tT][hH][iI][nN][gG][sS])
+			[tT][hH][iI][nN][gG][sS])		#things
 				if [ "$deviceType" == "things" ]; then
 					compatible="true"
 				else
 					compatible="false"
 				fi ;;
-			[dD][eE][fF][aA][uU][lL][tT])
+			[dD][eE][fF][aA][uU][lL][tT])	#default
 				if [ "$deviceType" == "default" ]; then
 					compatible="true"
 				else

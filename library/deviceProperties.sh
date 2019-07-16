@@ -45,15 +45,15 @@ function getDeviceAndroidCodeName(){
 #===================================================================================================
 
 #----- get the state of the device
-function getDeviceEmulatorState() {
+function getDeviceEmulatorType() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local deviceState=`adb -s $1 wait-for-device get-state | tr -d "\r\n"`
-		echo -e -n $deviceState #Returns "device" or "emulator"
+		local deviceType=`adb -s $1 wait-for-device get-state | tr -d "\r\n"`
+		echo -e -n $deviceType #Returns "device" or "emulator"
 	fi
 }
 

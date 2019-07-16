@@ -57,6 +57,19 @@ function getDeviceEmulatorType() {
 	fi
 }
 
+function getDeviceState() {
+	#$1 - device serial
+	#$return -
+	if [ $# -lt 1 ]; then
+		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local statusIndex="$( getIndex $1 )"
+		local deviceState="${DEVICE_ARRAY_STATUS[$statusIndex]}"
+		echo -e -n $deviceState #Returns "adb" or "fastboot"
+	fi
+}
+
 #===================================================================================================
 
 #----- Get the device Name

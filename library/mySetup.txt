@@ -16,11 +16,18 @@ mySDK=`echo $ANDROID_HOME`
 #--- from where it will search for the scripts folder
 #myShellScripts=`echo ~/Google\ Drive/Scripts`
 #myShellScripts=`echo ~/Desktop/DriveFS/My\ Drive/Scripts/Shell`
+
+myShellScripts=`echo ~/Code/Scripts`
+
+#--- OS specific Scripts paths
+#myScriptsDebian=`echo ~/Desktop/DriveFS/My\ Drive/Scripts`
+#myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
+
+myScriptsDebian=`${myShellScripts}`
+myScriptsOSX="${myShellScripts}"
+
 #--- Path to library folder
 #libraryFolder=`echo ${myShellScripts}/library`
-
-myScriptsDebian=`echo ~/Desktop/DriveFS/My\ Drive/Scripts`
-myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
 
 #===================================================================================================
 
@@ -35,8 +42,8 @@ flasherFolder=`echo ~/Projects/android/flasher`
 #--- to backup the files from NFS directory to local storage
 myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
 
-#--- where it will store the bugreports, logcats, screenshots, pulled videos/images
-myLogs=`echo ~/Projects/bugs`
+#--- from where it will search for the Android apps folder
+myAndroidDir=`echo ~/Projects/android/apps`
 
 #--- from where it will search for the Android-At-Home (Android-TV) apps folder
 myAAHDir=`echo ~/Projects/android/AAH/apps`
@@ -50,11 +57,14 @@ myAGHDir=`echo ~/Projects/android/AGH/apps`
 #--- from where it will search for the Google-Play-Music apps folder
 myGPMDir=`echo ~/Projects/Play/Music`
 
-#--- from where it will search for the Android apps folder
-myAndroidDir=`echo ~/Projects/android/apps`
+#--- from where it will search for the Portal apps folder
+myPortalDir=`echo ~/Projects/Portal`
 
 #--- from where it will search for the apps Base folder
-myAppDir="${myGPMDir}"
+myAppDir="${myPortalDir}"
+
+#--- where it will store the bugreports, logcats, screenshots, pulled videos/images
+myLogs=`echo ${myAppDir}/bugs`
 
 #--- from where it will search for the TIF folder
 tifBaseFolder=`echo ~/Projects/android/AAH/TIF`

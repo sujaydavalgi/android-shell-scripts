@@ -247,7 +247,7 @@ function checkDeviceChoiceValidity() {
 		if echo "$1" | grep "^[0-9]*$">aux; then
 
 			if [[ "$1" -gt "$DEVICE_COUNT" || "$1" -lt "1" ]]; then
-				formatMessage " Dude '$1' is not a device in this list and you know it. Come on." "W"
+				formatMessage " Dude '$1' is not in this list and you know it. Come on.\n" "W"
 				#exit
 				getDeviceChoice
 			else
@@ -255,7 +255,7 @@ function checkDeviceChoiceValidity() {
 				let "DEVICE_ARRAY_INDEX = $DEVICE_ARRAY_INDEX - 1"
 			fi
 		else
-			formatMessage " Come on Dude, pick a number. '$1' is not a number." "W"
+			formatMessage " Come on Dude, pick a number. '$1' is not a number.\n" "W"
 			getDeviceChoice
 		fi
 	fi

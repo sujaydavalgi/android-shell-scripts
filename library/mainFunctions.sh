@@ -130,11 +130,19 @@ function writeToLogsFile() {
 
 #----- build the array for list of devices recognised in "ADB / Fastboot"
 function buildDeviceSnArray() {
-#$return - 
+#$return -
 	local let i=0
 	local line
-	
-	# build the array of device serial and its status, which are in ADB mode
+
+	buildAdbDevices
+
+	buildFastbootDevices
+
+	DEVICE_COUNT=${#DEVICE_ARRAY[*]} # get the devices count by the number of array elements in device serial array
+}
+
+#----- append the build info of each devices in the list
+function buildAdbDevices() {
 	while read line
 	do
 #		echo " line - $line"
@@ -179,16 +187,14 @@ function buildDeviceSnArray() {
 			DEVICE_ARRAY_STATUS[i]="$fastbootDEVICEstatus" # append the device status to the device status array
 			let i=$i+1
 		fi
-		
+
 	done < <(fastboot devices) # read and append all the devices in fastboot mode
-	
-	DEVICE_COUNT=${#DEVICE_ARRAY[*]} # get the devices count by the number of array elements in device serial array
 }
 
 #----- append the build info of each devices in the list
 function appendBuildInfo() {
 # $1 - device serial number
-#$return - 
+#$return -
 # Append the build info (at display time)
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"

@@ -272,7 +272,7 @@ function getDeviceChoice() {
 
 		if [ $DEVICE_COUNT -gt 1 ]; then #<-- if there are more than 1 device
 			displayDeviceList
-			echo -e -n "\n${txtBld} Enter Choice : ${txtRst}"
+			echo -e -n "\n${txtBld} Enter Choice [1 - $DEVICE_COUNT] : ${txtRst}"
 			read DEVICE_CHOICE;
 			checkDeviceChoiceValidity $DEVICE_CHOICE
 

@@ -24,24 +24,32 @@ fi
 displaySelectedDevice $deviceSerial
 
 if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
-	if [ $( isGoogleDevice $deviceSerial ) == "true" ]; then
+#	if [ $( isGoogleDevice $deviceSerial ) == "true" ]; then
 		echo -n -e " Wait for device to reboot in bootloader..."
 		adb -s $deviceSerial wait-for-device reboot bootloader &
 #		read waiting
 		wait $!
 		echo -e " Done"
-	else
-		echo -e " You are trying to wipe other than Google device. Please check...\n"
-	fi
+
+    sleep 7s
+    buildDeviceSnArray
+#	else
+#		echo -e " You are trying to wipe other than Google device. Please check...\n"
+#	fi
 fi
 
-sleep 2s
 
-buildDeviceSnArray
 
 if [ "$( isFastbootDevice $deviceSerial )" == "true" ]; then
 	echo -e "\n Wait for the device to complete wipe data and reboot..."
-	fastboot -s $deviceSerial oem recovery:wipe_data
+#	fastboot -s $deviceSerial oem recovery:wipe_data
+  fastboot -s $deviceSerial -w &
+  #wait $!
+  sleep 2s
+  fastboot -s $deviceSerial reboot-bootloader &
+  #wait $!
+  sleep 2s
+  fastboot -s $deviceSerial reboot
 	#echo -e "\n Wait for device to reboot and complete the data wipe\n"
 	#read waiting
 	#fastboot reboot

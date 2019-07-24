@@ -6,7 +6,7 @@ set -u
 
 NAME=`basename $0`
 ARGS=2
-usage () { 
+usage () {
 cat << EOF
   Usage:  $NAME name <device_id>
           Takes a screenrecord of the currently-running device or emulator and saves the
@@ -43,7 +43,7 @@ KEYWORD=$1
 
 SCREENSHOTDIR="screenrecord"
 FILENAME=`date "+%y%m%d-$1.mp4"`
-SCREENSHOTPATH="/google/data/rw/users/${USER:0:2}/$USER/www/$SCREENSHOTDIR"
+SCREENSHOTPATH=""
 if [ ! -d "$SCREENSHOTPATH" ]; then
   mkdir -p "$SCREENSHOTPATH"
   chmod a+r "$SCREENSHOTPATH"
@@ -63,7 +63,7 @@ function get_pid() {
 }
 PID="$(get_pid)"
 #echo $PID
-if [ -z "$PID" ]; then 
+if [ -z "$PID" ]; then
   echo "screenrecord process not found. exit"
   return
 fi
@@ -81,7 +81,6 @@ $ADB pull $SDCARDPATH "$SCREENSHOTPATH"
 
 chmod a+r "$SCREENSHOTPATH"
 echo
-URL="https://x20web.corp.google.com/~$USER/$SCREENSHOTDIR/$FILENAME"
+URL="https://"
 echo "==> Screenrecord is available here :  $URL"
 echo
-

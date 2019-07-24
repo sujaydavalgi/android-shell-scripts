@@ -19,7 +19,7 @@
 
 NAME=`basename $0`
 ARGS=2
-usage () { 
+usage () {
 cat << EOF
   Usage:  $NAME name <device_id>
           Takes a screenshot of the currently-running device or emulator and saves the
@@ -52,7 +52,7 @@ KEYWORD=$1
 # Directory under "~/www" where screenshots should be saved
 SCREENSHOTDIR="screenshot"
 FILENAME=`date "+%y%m%d-$1.png"`
-SCREENSHOTPATH="/google/data/rw/users/${USER:0:2}/$USER/www/$SCREENSHOTDIR"
+SCREENSHOTPATH=""
 #SCREENSHOTPATH="$HOME/logs/$SCREENSHOTDIR"  # local directory
 if [ ! -d "$SCREENSHOTPATH" ]; then
   mkdir -p $SCREENSHOTPATH
@@ -91,6 +91,6 @@ $ADB pull /sdcard/screen.png $SCREENSHOTPATH
 chmod a+r $SCREENSHOTPATH
 
 echo
-URL="https://x20web.corp.google.com/~$USER/$SCREENSHOTDIR/$FILENAME"
+URL="https://"
 echo "==> Screenshot is available here:    $URL"
 echo

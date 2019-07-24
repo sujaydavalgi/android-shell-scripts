@@ -647,6 +647,23 @@ function getHostName() {
 	fi
 }
 #===================================================================================================
+function waitForAdb() {
+#$1 - device serial
+	adb -s "$1" wait-for-device
+
+	adbState=$(adb -s "$1" shell getprop sys.boot_completed | tr -d '\r')
+
+	while [ "$adbState" != "1" ]; do
+  	sleep 2
+    adbState=$(adb -s "$1" shell getprop sys.boot_completed | tr -d '\r')
+	done
+}
+
+function waitForFastboot() {
+#$1 - device serial
+	echo ""
+}
+#===================================================================================================
 
 function getDeviceTimeZone() {
 #$1 - device serial

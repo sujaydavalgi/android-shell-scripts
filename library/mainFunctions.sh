@@ -165,14 +165,16 @@ function buildAdbDevices() {
 					else
 						DEVICE_ARRAY_STATUS[i]="$adbDEVICEstatus" # else save the original status to the device status array
 					fi
-					
+
 					let i=$i+1
 					;;
 			esac
 		fi
 
 	done < <(adb devices) # read and append all the devices in adb state
+}
 
+function buildFastbootDevices() {
 	# build the array of device serial and its status, which are in FASTBOOT mode
 	while read line
 	do

@@ -23,7 +23,7 @@ myShellScripts=`echo ~/Code/Scripts`
 #myScriptsDebian=`echo ~/Desktop/DriveFS/My\ Drive/Scripts`
 #myScriptsOSX="/Volumes/GoogleDrive/My Drive/Scripts"
 
-myScriptsDebian=`${myShellScripts}`
+myScriptsDebian="${myShellScripts}"
 myScriptsOSX="${myShellScripts}"
 
 #--- Path to library folder

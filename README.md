@@ -44,3 +44,6 @@ Edit the PATH variables
   * In MaxOSX: `source ~/.bash_profile` </br>
 
 5. Close all the existing terminals and reopen
+6. Setup your test environments:
+- a. Open the mySetup.txt under "library" folder
+- b. Search for "myProjDir" variable and set it with your system test folder path (include the complet path inside quotes)

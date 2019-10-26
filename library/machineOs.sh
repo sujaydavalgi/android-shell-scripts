@@ -49,10 +49,10 @@ function checkMyOsType() {
 			elif [ -f /etc/debian_version ] ; then
 				myOsDistroBasedOn='Debian'
 				if [ -f /etc/lsb-release ]; then
-			        	myOsDIST=`cat /etc/lsb-release | grep '^DISTRIB_ID' | awk -F=  '{ print $2 }'`
-					myOsPSUEDONAME=`cat /etc/lsb-release | grep '^DISTRIB_CODENAME' | awk -F=  '{ print $2 }'`
-					myOsREV=`cat /etc/lsb-release | grep '^DISTRIB_RELEASE' | awk -F=  '{ print $2 }'`
-        			fi
+				    myOsDIST=`cat /etc/lsb-release | grep '^DISTRIB_ID' | awk -F=  '{ print $2 }'`
+						myOsPSUEDONAME=`cat /etc/lsb-release | grep '^DISTRIB_CODENAME' | awk -F=  '{ print $2 }'`
+						myOsREV=`cat /etc/lsb-release | grep '^DISTRIB_RELEASE' | awk -F=  '{ print $2 }'`
+	      fi
 			fi
 
 			if [ -f /etc/UnitedLinux-release ]; then

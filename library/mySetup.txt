@@ -39,32 +39,32 @@ flasherFolder=`echo ~/Projects/android/flasher`
 
 #===================================================================================================
 
-#--- to backup the files from NFS directory to local storage
+#--- Android project folder
 myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
 
-#--- from where it will search for the Android apps folder
+#--- Android-At-Home (Android-TV) project folder
 myAndroidDir=`echo ~/Projects/android/apps`
 
-#--- from where it will search for the Android-At-Home (Android-TV) apps folder
+#--- Android-Clock-Work project folder
 myAAHDir=`echo ~/Projects/android/AAH/apps`
 
-#--- from where it will search for the Android-Clock-Work apps folder
+#--- Android-Gear-Head project folder
 myACWDir=`echo ~/Projects/android/ACW/apps`
 
-#--- from where it will search for the Android-Gear-Head apps folder
+#--- Google-Play-Music project folder
 myAGHDir=`echo ~/Projects/android/AGH/apps`
 
-#--- from where it will search for the Google-Play-Music apps folder
 myGPMDir=`echo ~/Projects/Play/Music`
 
-#--- from where it will search for the Portal apps folder
+#--- Portal project folder
 myPortalDir=`echo ~/Projects/Portal`
 
-#--- from where it will search for the apps Base folder
+#===================================================================================================
 myAppDir="${myPortalDir}"
+#--- Set the default Project Base folder
 
-#--- where it will store the bugreports, logcats, screenshots, pulled videos/images
+#--- from where it will search for the apk
 myLogs=`echo ${myAppDir}/bugs`
 
-#--- from where it will search for the TIF folder
+#--- where it will store the bugreports, logcats, screenshots, videos/images
 tifBaseFolder=`echo ~/Projects/android/AAH/TIF`

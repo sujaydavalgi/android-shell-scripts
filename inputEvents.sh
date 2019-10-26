@@ -24,7 +24,7 @@ fi
 displaySelectedDevice $deviceSerial
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
-	if [ "$( isDeviceBuildDevKey $deviceSerial )" == "true" ]; then	
+	if [ "$( isDeviceBuildDevKey $deviceSerial )" == "true" ]; then
 		adb -s $deviceSerial wait-for-device root
 		adb -s $deviceSerial wait-for-device shell getevent -l
 	else

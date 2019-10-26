@@ -38,7 +38,7 @@ do
 			keycodeDpadUp $deviceSerial ;;
 		[d]) #down elif [ "$inputevent" == "d" ]; then
 			keycodeDpadDown $deviceSerial ;;
-		[lL]) #left elif [ "$inputevent" == "l" ]; then		
+		[lL]) #left elif [ "$inputevent" == "l" ]; then
 			keycodeDpadLeft $deviceSerial ;;
 		[rR]) #right elif [ "$inputevent" == "r" ]; then
 			keycodeDpadRight $deviceSerial ;;

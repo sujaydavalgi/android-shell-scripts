@@ -181,7 +181,7 @@ function isDeviceLocked() {
 #----- Check if the device is bootloader in UNLOCKED mode
 function isDeviceUnocked() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )\n"
 		exit 1

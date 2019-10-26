@@ -14,7 +14,7 @@
 
 #----- Detect the OS platform
 function checkMyOsType() {
-#$return - 
+#$return -
 	myOS=`toLowercase \`uname\``
 	myOsKERNEL=`uname -r`
 	myOsMACH=`uname -m`
@@ -74,7 +74,7 @@ function checkMyOsType() {
 
 #----- Display the OS details
 function displayOsType() {
-#$return - 
+#$return -
 	checkMyOsType
 
 	echo "OS: $myOS"
@@ -87,43 +87,43 @@ function displayOsType() {
 }
 
 function getMyOs() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOS
 }
 
 function getMyDist() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsDIST
 }
 
 function getMyPsuedoname() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsPSUEDONAME
 }
 
 function getMyRev() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsREV
 }
 
 function getMyDistroBasedOn() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsDistroBasedOn
 }
 
 function getMyKernel() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsKERNEL
 }
 
 function getMyMach() {
-#$return - 
+#$return -
 	checkMyOsType
 	echo -e -n $myOsMACH
 }

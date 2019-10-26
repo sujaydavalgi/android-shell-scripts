@@ -24,7 +24,7 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	else
 		pathName="$1"
 	fi
-	
+
 	if [ -d $1 ]; then 
 		installFromPath $deviceSerial $pathName
 	elif [ -f $1 ]; then

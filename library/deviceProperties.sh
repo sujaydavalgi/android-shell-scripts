@@ -10,7 +10,7 @@
 
 function getDeviceAndroidCodeName(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -32,10 +32,10 @@ function getDeviceAndroidCodeName(){
 			21|22) 		androidVersion="android_L" ;;
 			23) 		androidVersion="android_M" ;;
 			24|25) 		androidVersion="android_N" ;;
-      		26|27)     	androidVersion="android_O" ;; 
-      		28)     	androidVersion="android_P" ;; 
-      		29)      	androidVersion="android_Q" ;; 
-      		*)      	androidVersion="android" ;; 
+      		26|27)     	androidVersion="android_O" ;;
+      		28)     	androidVersion="android_P" ;;
+      		29)      	androidVersion="android_Q" ;;
+      		*)      	androidVersion="android" ;;
 		esac
 
 		echo -e -n $androidVersion
@@ -75,7 +75,7 @@ function getDeviceState() {
 #----- Get the device Name
 function getDeviceName() {
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -86,8 +86,8 @@ function getDeviceName() {
 }
 
 function getProductName(){
-#$1 - 
-#$return - 
+#$1 -
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -98,8 +98,8 @@ function getProductName(){
 }
 
 function getDeviceBuildFlavor() {
-#$1 - 
-#$return - 
+#$1 -
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -122,7 +122,7 @@ function getDeviceBuildType2() {
 
 function getDeviceBuildType(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -145,7 +145,7 @@ function getDeviceKeys2() {
 
 function getDeviceKeys(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -157,7 +157,7 @@ function getDeviceKeys(){
 
 function getDeviceBuildSdkVersion() {
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -170,7 +170,7 @@ function getDeviceBuildSdkVersion() {
 #----- Get the Device Build
 function getDeviceBuild() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -181,14 +181,14 @@ function getDeviceBuild() {
 			deviceBuildNo=`adb -s $1 wait-for-device shell getprop ro.build.description | cut -f4 -d" " | tr -d "\r\n"`
 			deviceBuild="$deviceBuild"-"$deviceBuildNo"
 		fi
-		
+
 		echo -e -n "$deviceBuild" #Returns "LRX22C"
 	fi
 }
 
 function getDeviceBuild2() {
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -200,7 +200,7 @@ function getDeviceBuild2() {
 
 function getDeviceBuildVersion(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -212,7 +212,7 @@ function getDeviceBuildVersion(){
 
 function getDeviceBuildHost(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -224,7 +224,7 @@ function getDeviceBuildHost(){
 
 function getDeviceBuildDate(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -236,7 +236,7 @@ function getDeviceBuildDate(){
 
 function getDeviceBootloader(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -248,7 +248,7 @@ function getDeviceBootloader(){
 
 function getDeviceExpectedBootloader(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -260,7 +260,7 @@ function getDeviceExpectedBootloader(){
 
 function getDeviceBasebandVersion(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -272,7 +272,7 @@ function getDeviceBasebandVersion(){
 
 function getDeviceExpectedBasebandVersion() {
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -285,8 +285,8 @@ function getDeviceExpectedBasebandVersion() {
 #===================================================================================================
 
 function getProductBrand(){
-#$1 - 
-#$return - 
+#$1 -
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -299,7 +299,7 @@ function getProductBrand(){
 #----- get the device manufacturer
 function getDeviceManufacturer(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -311,7 +311,7 @@ function getDeviceManufacturer(){
 
 function getDeviceHardwareName(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -324,7 +324,7 @@ function getDeviceHardwareName(){
 #----- get the device model
 function getDeviceModel(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -336,7 +336,7 @@ function getDeviceModel(){
 
 function getDeviceCpuType(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -348,7 +348,7 @@ function getDeviceCpuType(){
 #===================================================================================================
 function getDeviceEncryptState() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -360,7 +360,7 @@ function getDeviceEncryptState() {
 
 function getDeviceSecureBootloaderState(){
 	#$1 - device serial
-	#$return - 
+	#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -372,7 +372,7 @@ function getDeviceSecureBootloaderState(){
 
 function getDeviceOemUnlockAllowedState(){
 	#$1 - device serial
-	#$return - 
+	#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -386,7 +386,7 @@ function getDeviceOemUnlockAllowedState(){
 #===================================================================================================
 function getDeviceBuildCharacteristics(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -398,13 +398,13 @@ function getDeviceBuildCharacteristics(){
 
 function getDeviceCharType(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
 		local deviceType=""
-		
+
 		deviceChar1=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f1 -d"," | tr -d "\r\n"`
 		deviceChar2=`adb -s $1 wait-for-device shell getprop ro.build.characteristics | cut -f2 -d"," | tr -d "\r\n"`
 
@@ -420,7 +420,7 @@ function getDeviceCharType(){
 
 function getDeviceType(){
 #$1 - device serial number
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -528,7 +528,7 @@ function getDeviceRebootReason() {
 #===================================================================================================
 function getDeviceGsmNetworkType() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -540,7 +540,7 @@ function getDeviceGsmNetworkType() {
 
 function isDeviceOperatorRoaming() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -552,7 +552,7 @@ function isDeviceOperatorRoaming() {
 
 function getDeviceSimStatus(){
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -571,7 +571,7 @@ function getDeviceSimStatus(){
 #===================================================================================================
 function getBluetoothAddress() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -583,7 +583,7 @@ function getBluetoothAddress() {
 
 function getBtMacAddress() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -619,7 +619,7 @@ function getDeviceWifiStatus() {
 
 function getWifiMacAddress() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -637,7 +637,7 @@ function getWifiMacAddress() {
 
 function getHostName() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -667,7 +667,7 @@ function waitForFastboot() {
 
 function getDeviceTimeZone() {
 #$1 - device serial
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

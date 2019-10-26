@@ -104,7 +104,7 @@ fi
 
 function writeToLogsFile() {
 #$1 - Message to write
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then # if there is less than 1 arguments passed to this function
 		echo -e -n "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )" >> "$myScriptLogsFile"
 		exit 1
@@ -210,7 +210,7 @@ function appendBuildInfo() {
 
 #----- display the list of devices
 function displayDeviceList() {
-#$return - 
+#$return -
 	if [ $DEVICE_COUNT -gt 0 ]; then
 		echo ""
 
@@ -220,7 +220,7 @@ function displayDeviceList() {
 		for (( i=0; i<$DEVICE_COUNT; i++ )) # run the loop until the device count
 		do
 			let j=$i+1 # to generate the display count number
-				
+
 			echo -e -n " $j. ${DEVICE_ARRAY[i]}" # display the i'th serial number of the array
 
 			case "${DEVICE_ARRAY_STATUS[i]}" in
@@ -247,7 +247,7 @@ function displayDeviceList() {
 #----- check if the item # for the device selection was valid
 function checkDeviceChoiceValidity() {
 # $1 - takes the choice number entered
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -271,9 +271,9 @@ function checkDeviceChoiceValidity() {
 
 #----- read the item # from the device list
 function getDeviceChoice() {
-#$return - 
+#$return -
 	buildDeviceSnArray
-	
+
 	local DEVICE_CHOICE="0"
 
 	if [ $DEVICE_COUNT -gt 0 ]; then
@@ -285,12 +285,12 @@ function getDeviceChoice() {
 			checkDeviceChoiceValidity $DEVICE_CHOICE
 
 			deviceSerial=${DEVICE_ARRAY[${DEVICE_ARRAY_INDEX}]}
-	
+
 		else  #<-- if there is only 1 device connected
 			formatMessage "\n There is only 1 device connected to the USB\n${txtRst}" "W"
-		 	deviceSerial=${DEVICE_ARRAY[0]}      
+		 	deviceSerial=${DEVICE_ARRAY[0]}
 		fi
-				
+
 	else #<-- if the device count is less than zero, i.e., there is no device connected
 		formatMessage "\n There are no devices connected to the USB.\n\n" "E"
 		exit 1

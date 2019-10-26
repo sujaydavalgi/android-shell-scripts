@@ -33,8 +33,8 @@ if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
 				searchString="apk"
 			fi
 			subFolder="$1"
-		fi	
-		
+		fi
+
 		installMachineFiles $deviceSerial ${myAppDir} ${subFolder} "$searchString"
 	#fi
 else

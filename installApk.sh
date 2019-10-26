@@ -28,20 +28,20 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 	#if [[ $( isClockWorkDevice $deviceSerial ) == "true" || $( isAtHomeDevice $deviceSerial ) == "true" ]]; then
 	#	echo -e " ${txtRed}You are not allowed to install apps in @Home or ClockWork device${txtRst}\n"
 	#else
-		if [ $# -lt 2 ]; then		
+		if [ $# -lt 2 ]; then
 			if [ $# -lt 1 ]; then
 				echo -e -n "${txtBld} Enter the Folder name (Case-sensitive) : ${txtRst}"
 				read subFolder
 			else
 				subFolder="$1"
 			fi
-		
+
 			searchString="*.apk"
 		else
 			subFolder="$1"
 			searchString="$2"
 		fi
-		
+
 		installMachineFiles $deviceSerial ${myAppDir} ${subFolder} "*$searchString*"
 	#fi
 else

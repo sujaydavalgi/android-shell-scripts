@@ -81,7 +81,8 @@ function getDeviceName() {
 		exit 1
 	else
 		#local deviceName=`adb -s $1 wait-for-device shell getprop ro.product.name | tr -d "\r\n"`
-		echo -e -n `adb -s $1 wait-for-device shell getprop ro.product.device | tr -d "\r\n"`  #Returns "shamu"
+		local deviceCodeName=`adb -s $1 wait-for-device shell getprop ro.product.device | tr -d "\r\n"`  #Returns "shamu"
+		echo -e -n $deviceCodeName
 	fi
 }
 
@@ -177,7 +178,7 @@ function getDeviceBuild() {
 	else
 		local deviceBuild=`adb -s $1 wait-for-device shell getprop ro.build.description | cut -f3 -d" " | tr -d "\r\n"`
 
-		if [ "$deviceBuild" == "MASTER" ]; then 
+		if [ "$deviceBuild" == "MASTER" ]; then
 			deviceBuildNo=`adb -s $1 wait-for-device shell getprop ro.build.description | cut -f4 -d" " | tr -d "\r\n"`
 			deviceBuild="$deviceBuild"-"$deviceBuildNo"
 		fi
@@ -316,8 +317,8 @@ function getDeviceHardwareName(){
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
 	else
-		local deviceManufacturer=`adb -s $1 wait-for-device shell getprop ro.hardware | tr -d "\r\n"`
-		echo -e -n $deviceManufacturer #Returns "motorola" or "LG" or "Asus" or "Samsung" or "htc"
+		local deviceHardwareCodename=`adb -s $1 wait-for-device shell getprop ro.hardware | tr -d "\r\n"`
+		echo -e -n $deviceHardwareCodename #Returns "crosshatch" or "shamu" or "mantaray"
 	fi
 }
 

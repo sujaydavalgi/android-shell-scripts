@@ -25,10 +25,14 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 		pathName="${1}"
 	fi
 
-	if [ -d $1 ]; then 
-		installFromPath $deviceSerial $pathName
-	elif [ -f $1 ]; then
-		adb -s $deviceSerial wait-for-device install -r -d $pathName
+
+
+	if [ -d "${pathName}" ]; then
+		installFromPath $deviceSerial "${pathName}" "*.apk"
+	elif [ -f "${pathName}" ]; then
+		adb -s $deviceSerial wait-for-device install -r -d "${pathName}"
+	else
+		echo -e -n " Could not verify the Path type as Directory/File.\n"
 	fi
 else
 	echo -e -n " Device is not in 'adb' mode\n"

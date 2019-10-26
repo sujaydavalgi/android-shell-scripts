@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Displays all the required parameters to test the Build Signature
+# Gets all the device details to be recorded in inventory list
 #
-# Usage: ./buildSignature.sh [<Device Serial>]
+# Usage: ./inventory.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		IF the serial number is not provided, it will display the list of attached devices to pick from

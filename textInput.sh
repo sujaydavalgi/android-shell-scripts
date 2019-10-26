@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Send d-Pad events to the selcted device
+# Send the entered text to the device input field
 #
-# Usage: ./findMyIp.sh [<Device Serial>]
+# Usage: ./textInput.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		If the serial number is not provided, it will display the list of attached devices to pick from

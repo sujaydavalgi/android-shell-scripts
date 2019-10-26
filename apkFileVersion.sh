@@ -2,12 +2,12 @@
 
 # Created by Sujay Davalgi
 #
-# Gives the version number & package name of the apk
+# Gives the version number, package name and other details of the apk
 #
-# Usage: ./apkVersion.sh [<search app string>]
+# Usage: ./apkVersion.sh [<File path>]
 # Command line Arguments (Optional):
-#	$1 - Input the apk search string
-#		If the string is not provided, it will prompt the enter the apk string to search
+#	$1 - Input the File complete path
+#		If the string is not provided, it will prompt to enter the file path
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

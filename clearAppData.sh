@@ -3,13 +3,12 @@
 # Created by Sujay Davalgi
 #
 # Searches and prompts to chose among all the matching apk
-# And pulls the selected apk from device and stored in the local folder configured
+# And clears the app data
 #
 # Usage: ./clearApkData.sh [<apk name>]
 # Command line Arguments (Optional):
 #	$1 - File name to be saved as
-#		If file name not specified, it will later prompt to provide the filename
-#		No need to give the extension for the screenshot and bugreport
+#		If apk name not specified, it will later prompt to provide
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

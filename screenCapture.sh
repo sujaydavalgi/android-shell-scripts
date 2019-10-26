@@ -4,7 +4,7 @@
 #
 # Captures the screenshot of the selected device and saves the file in bugs folder
 #
-# Usage: ./screenshot.sh [<file name>]
+# Usage: ./screenCapture.sh [<file name>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		If the serial number is not provided, it will display the list of attached devices to pick from

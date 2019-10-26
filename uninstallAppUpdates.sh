@@ -2,7 +2,7 @@
 
 # Created by Sujay Davalgi
 #
-# Uninstalls the apk mentioned (if present)
+# Uninstalls the apk updates (if present)
 #
 # Usage: ./unInstallApks.sh [<apk name>]
 # Command line Arguments (Optional):

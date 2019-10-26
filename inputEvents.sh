@@ -5,7 +5,7 @@
 #
 # display the input events to the system
 #
-# Usage: ./deviceEvents.sh [<Device Serial>]
+# Usage: ./inputEvents.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		If the serial number is not provided, it will display the list of attached devices to pick from

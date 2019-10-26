@@ -5,7 +5,7 @@
 # Displays the logcat in the terminal
 # If argument was provided while initiating the command, it will also save the output in a specified file
 #
-# Usage: ./myLC.sh [<filename>]
+# Usage: ./logcat.sh [<filename>]
 # Arguments (Optional):
 #	$1 - File name to be saved as.
 #		No necessary to give the extension, by default it will save as ".txt"

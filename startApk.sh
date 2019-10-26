@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Gives the installed path and binding name of the apk being searched in the selected device
+# Starts the apk
 #
-# Usage: ./apkVersion.sh [<search app string>]
+# Usage: ./startApk.sh [<search app string>]
 # Command line Arguments (Optional):
 #	$1 - Input the apk search string
 #		If the string is not provided, it will prompt the enter the apk string to search

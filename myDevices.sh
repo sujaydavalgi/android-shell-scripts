@@ -2,9 +2,9 @@
 
 #  Created by Sujay Davalgi
 #
-# Displays the list of devices connected to host
+# Displays the list of devices connected to host machine
 #
-# Usage: ./displayDevices.sh
+# Usage: ./myDevices.sh
 
 . ./library/mainFunctions.sh
 

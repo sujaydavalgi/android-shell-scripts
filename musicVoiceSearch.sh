@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Reboots the selected device
+# Send the Assistant voice play input to PlayMusic
 #
-# Usage: ./rebootDevice.sh [<Device Serial>]
+# Usage: ./musicVoiceSearch.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		If the serial number is not provided, it will display the list of attached devices to pick from

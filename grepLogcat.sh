@@ -5,11 +5,10 @@
 # Displays the logcat in the terminal
 # If argument was provided while initiating the command, it will also save the output in a specified file
 #
-# Usage: ./myLC.sh [<filename>]
+# Usage: ./grepLogcat.sh [<grep string>]
 # Arguments (Optional):
-#	$1 - File name to be saved as.
-#		No necessary to give the extension, by default it will save as ".txt"
-#		If, filename is not provided, it will only display the logcat and not save the output to a file
+#	$1 - String to be searched/grep'ed from the logcat.
+#		If grep-string is not provided, it will work as normal logcat
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

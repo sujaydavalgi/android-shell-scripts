@@ -2,7 +2,7 @@
 
 # Created by Sujay Davalgi
 #
-# Gives the installed version number & default version number (if available) of the apk
+# Gives the installed version number & default system version number (if available) of the apk
 #
 # Usage: ./appVersion.sh [<search app string>]
 # Command line Arguments (Optional):

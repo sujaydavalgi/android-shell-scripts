@@ -3,9 +3,9 @@
 #
 # Created by Sujay Davalgi
 #
-# Expiremental script to try out unimplimented code
+# Displays the host machine OS details
 #
-# Usage: ./test.sh
+# Usage: ./myOS.sh
 
 . ./library/machineOs.sh
 

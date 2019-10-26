@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Displays the Build ID of the device
+# Runs the monkey runner on the specified package against the selected device
 #
-# Usage: ./buildID.sh [<Device Serial>]
+# Usage: ./monkey.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		IF the serial number is not provided, it will display the list of attached devices to pick from

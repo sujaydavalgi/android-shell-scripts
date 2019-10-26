@@ -2,9 +2,9 @@
 
 # Created by Sujay Davalgi
 #
-# Displays the list of files (Images & Videos captured from camera) from device and saves the selected file to the bugs folder
+# Displays the list of files (Screenshots) from device and saves the selected file to the bugs folder
 #
-# Usage: ./pullCameraImagesVideos.sh [<Device Serial>]
+# Usage: ./pullScreenshots.sh [<Device Serial>]
 # Command line Arguments (Optional):
 #	$1 - Input the device serial
 #		If the serial number is not provided, it will display the list of attached devices to pick from

@@ -4,7 +4,7 @@
 #
 # Records the activities in the screen of the selected device and stores them in the device sd-card
 #
-# Usage: ./recordVideo.sh [<filename>]
+# Usage: ./screenRecord.sh [<filename>]
 # Command line Arguments (Optional):
 #	$1 - Input the file name
 #		If the filename is not provided, it will prompt to enter the filename

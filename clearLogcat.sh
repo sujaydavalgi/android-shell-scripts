@@ -2,14 +2,11 @@
 
 # Created by: Sujay Davalgi
 #
-# Displays the logcat in the terminal
-# If argument was provided while initiating the command, it will also save the output in a specified file
+# Clears the previous logcat of the selected device
 #
 # Usage: ./clearLogcat.sh [<deviceSerial>]
 # Arguments (Optional):
-#	$1 - File name to be saved as.
-#		No necessary to give the extension, by default it will save as ".txt"
-#		If, filename is not provided, it will only display the logcat and not save the output to a file
+#	$1 - Device serial
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

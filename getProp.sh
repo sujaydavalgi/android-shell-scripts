@@ -2,14 +2,12 @@
 
 # Created by: Sujay Davalgi
 #
-# Displays the logcat in the terminal
-# If argument was provided while initiating the command, it will also save the output in a specified file
+# Displays the getProp details of the selected device
 #
-# Usage: ./myLC.sh [<filename>]
+# Usage: ./getProp.sh [<deviceSerial>]
 # Arguments (Optional):
-#	$1 - File name to be saved as.
-#		No necessary to give the extension, by default it will save as ".txt"
-#		If, filename is not provided, it will only display the logcat and not save the output to a file
+#	$1 - Input the device serial
+#		If the serial number is not provided, it will display the list of attached devices to pick from
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

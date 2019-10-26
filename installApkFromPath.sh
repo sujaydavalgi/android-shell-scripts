@@ -5,11 +5,9 @@
 # Installs the apks from the default configured folder
 # Will prompt to install apks if there are multiple apks
 #
-# Usage: ./installApk.sh [<filename>]
+# Usage: ./installApkFromPath.sh [<filename>]
 # Arguments (Optional):
-#	$1 - File name to be saved as.
-#		No necessary to give the extension, by default it will save as ".txt"
-#		If not mentioned, it will prompt you later.
+#	$1 - Complete path to the APK file.
 
 . ./library/mainFunctions.sh
 . ./library/textFormatting.sh

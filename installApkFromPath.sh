@@ -22,7 +22,7 @@ if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
 		echo -e -n "${txtbld} Enter the Full Path : ${txtrst}"
 		read pathName
 	else
-		pathName="$1"
+		pathName="${1}"
 	fi
 
 	if [ -d $1 ]; then 

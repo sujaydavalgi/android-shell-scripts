@@ -87,10 +87,10 @@ fi
 #fi
 
 #--- from where it will search for the Music apps folder
-if [ ! -d "$myGPMDir" ]; then
-	`mkdir -p ${myGPMDir}`
-	#myACWDir="`pwd`/ACW/apps"
-fi
+# if [ ! -d "$myGPMDir" ]; then
+# 	`mkdir -p ${myGPMDir}`
+# 	#myACWDir="`pwd`/ACW/apps"
+# fi
 
 #--- to backup the files from NFS directory to local storage
 if [ ! -d "$myLocal" ]; then

@@ -229,7 +229,8 @@ function displayDeviceList() {
 					;;
 				"adb")
 					local deviceModel=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.model | tr -d "\r\n"`
-					echo -e -n "${txtRst} - ${txtPur}$deviceModel${txtRst}" #append the device model: Nexus 5
+					local deviceHardwareCodename=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.hardware | tr -d "\r\n"`
+					echo -e -n "${txtRst} - ${txtPur}$deviceModel${txtRst} ($deviceHardwareCodename)" #append the device model: Nexus 5
 					#local deviceName=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.product.name | tr -d "\r\n"`
 					#echo -e -n "${txtRst} - $deviceName${txtRst}" #append the device name: hammerhead
 					#local deviceBuild=`adb -s ${DEVICE_ARRAY[i]} wait-for-device shell getprop ro.build.id | tr -d "\r\n"`

@@ -188,6 +188,10 @@ function isDeviceUnocked() {
 	else
 		# It is still not implemented
 		writeToLogsFile "@@ Not yet implemented ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )\n"
+		adb -s $1 wait-for-device reboot-bootloader
+		# (bootloader) get_unlock_ability: 0
+		unlockAbility="$( fastboot -s $1 flashing get_unlock_ability )"
+		fastboot -s $1 reboot
 	fi
 }
 

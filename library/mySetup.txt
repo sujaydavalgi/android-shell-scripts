@@ -31,8 +31,14 @@ myScriptsOSX="${myShellScripts}"
 
 #===================================================================================================
 
+#--- to backup the files from NFS directory to local storage
+myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
+
 #--- TIF team shared folder
 tifTeamFolder=`echo .../users/...`
+
+#--- from where it will search for the TIF folder
+tifBaseFolder=`echo ~/Projects/android/AAH/TIF`
 
 #--- from where it will look for Android Flashstation
 flasherFolder=`echo ~/Projects/android/flasher`
@@ -40,31 +46,30 @@ flasherFolder=`echo ~/Projects/android/flasher`
 #===================================================================================================
 
 #--- Android project folder
-myLocal="/usr/local/google/home/"$USER"/Projects/bugs"
+myAndroidDir=`echo ~/Projects/Android`
 
 #--- Android-At-Home (Android-TV) project folder
-myAndroidDir=`echo ~/Projects/android/apps`
+myAAHDir=`echo ~/Projects/Android/AAH`
 
 #--- Android-Clock-Work project folder
-myAAHDir=`echo ~/Projects/android/AAH/apps`
+myACWDir=`echo ~/Projects/Android/ACW`
 
 #--- Android-Gear-Head project folder
-myACWDir=`echo ~/Projects/android/ACW/apps`
+myAGHDir=`echo ~/Projects/Android/AGH`
 
 #--- Google-Play-Music project folder
-myAGHDir=`echo ~/Projects/android/AGH/apps`
-
 myGPMDir=`echo ~/Projects/Play/Music`
 
 #--- Portal project folder
 myPortalDir=`echo ~/Projects/Portal`
 
 #===================================================================================================
-myAppDir="${myPortalDir}"
+
 #--- Set the default Project Base folder
+myProjDir="${myPortalDir}"
 
 #--- from where it will search for the apk
-myLogs=`echo ${myAppDir}/bugs`
+myAppDir="${myProjDir}/APK"
 
 #--- where it will store the bugreports, logcats, screenshots, videos/images
-tifBaseFolder=`echo ~/Projects/android/AAH/TIF`
+myLogs=`echo ${myProjDir}/bugs`

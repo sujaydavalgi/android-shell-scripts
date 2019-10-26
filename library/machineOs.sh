@@ -15,7 +15,8 @@
 #----- Detect the OS platform
 function checkMyOsType() {
 #$return -
-	myOS=`toLowercase \`uname\``
+	#myOS=`toLowercase \`uname\``
+	myOS=$(uname | tr '[:upper:]' '[:lower:]')
 	myOsKERNEL=`uname -r`
 	myOsMACH=`uname -m`
 

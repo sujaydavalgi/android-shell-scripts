@@ -27,6 +27,7 @@ getDeviceChoice
 displaySelectedDevice $deviceSerial
 
 if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
+	#TODO: check for rooted device before performing the pull action
 	apkOperations $deviceSerial ${APKname} "pull"
 else
 	echo " Device is not in 'adb' mode"

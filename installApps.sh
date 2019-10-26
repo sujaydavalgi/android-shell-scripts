@@ -19,7 +19,7 @@
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 
-if [ $( checkAdbDevice $deviceSerial ) == "true" ]; then
+if [ "$( isAdbDevice $deviceSerial )" == "true" ]; then
 	#if [[ $( checkClockWorkDevice $deviceSerial ) == "true" || $( checkAtHomeDevice $deviceSerial ) == "true" ]]; then
 	#	echo -e " ${txtRed}You are not allowed to install apps in @Home or ClockWork device${txtRst}\n"
 	#else

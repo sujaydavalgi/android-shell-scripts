@@ -23,13 +23,21 @@ fi
 displaySelectedDevice $deviceSerial
 
 if [ $( isAdbDevice $deviceSerial ) == "true" ]; then
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.id"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.baseband"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.boot.bootloader"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.description"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.version.release"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.fingerprint"
-	adb -s $deviceSerial wait-for-device shell getprop | grep -i "ro.build.version.sdk"
+  echo -e -n " Build ID: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.build.id
+  echo -e -n " Device Baseband: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.baseband
+  echo -e -n " Bootloader version: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.boot.bootloader
+  echo -e -n " Build description: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.build.description
+  echo -e -n " Build Android version: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.build.version.release
+  echo -e -n " Build fingerprint: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.build.fingerprint
+  echo -e -n " Build SDK Version: "
+	adb -s $deviceSerial wait-for-device shell getprop ro.build.version.sdk
+  echo -e -n " Build signature: "
 	adb -s $deviceSerial wait-for-device shell cat /proc/version
 
 	echo ""

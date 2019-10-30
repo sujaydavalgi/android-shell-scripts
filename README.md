@@ -15,11 +15,11 @@ Edit the PATH variables
 
 1. Open the environment variables file
 
-- Edit the bash file for Unix based</br>
+- For Linux/Mac (Unix based), edit the bash profile file</br>
   - In Linux: `vi ~/.bashrc`</br>
   - In Mac OSX: `vi ~/.bash_profile`</br>
   
-- Edit the [environment variables for Widnows](http://www.360logica.com/blog/how-to-set-path-environmental-variable-for-sdk-in-windows/) based</br>
+- For Windows, edit the [environment variables](http://www.360logica.com/blog/how-to-set-path-environmental-variable-for-sdk-in-windows/) based</br>
   - Click Start (Orb) menu button</br>
   - Right click on Computer icon</br>
   - Click on Properties. This will bring up System window in Control Panel</br>
@@ -50,10 +50,11 @@ Edit the PATH variables
 4. Then run
  - In Linux: `source ~/.bashrc` </br>
  - In MaxOSX: `source ~/.bash_profile` </br>
+ - In Windows: May be restart the system
 
 5. Close all the existing terminals and reopen
 
-**STEP-4:**
+**STEP-3:**
 Setup your test environments:
  - Open the mySetup.txt under "library" folder
   - Search for "myShellScripts" variable and set it with the path that the scripts are present

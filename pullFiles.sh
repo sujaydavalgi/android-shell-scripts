@@ -2,7 +2,7 @@
 
 # Created by Sujay Davalgi
 #
-# Displays the list of Videos (recorded using ./recordVideo.sh script) from device and saves the selected file to the bugs folder
+# Pull specified file from device and saves the selected file to the bugs folder
 #
 # Usage: ./pullFiles.sh [<Device Path>]
 # Command line Arguments (Optional):
@@ -27,7 +27,7 @@ else
 	searchFolder="${1}"
 	searchForFile="${2}"
 fi
-	
+
 getDeviceChoice
 displaySelectedDevice $deviceSerial
 

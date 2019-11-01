@@ -12,7 +12,7 @@
 function checkMachineSubFolder() {
 #$1 - main folder absolute path
 #$2 - subfolder
-#$return - 
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -21,7 +21,7 @@ function checkMachineSubFolder() {
 			appInstallFromPath="$appInstallFromPath/$2"
 		else # if there is no subfolder with the specified name, check if the user wants to search the default folder
 			local useDefaultFolderOption
-			
+
 			echo -e -n " ${txtBld}$2${txtRst} folder doesnot exists in $1 ...\n\n Do you want to install from ${txtPur}${txtBld}$1${txtRst} instead [y/n]: "
 			stty -echo && read -n 1 useDefaultFolderOption && stty echo
 			formatYesNoOption $useDefaultFolderOption
@@ -108,9 +108,9 @@ function compareMachineFiles(){
 			#check if files are same or diff. If SAME, it will return blank. If DIFF, it will return diff status
 			#diffResult=`diff -q "${1}" "${2}" | rev | cut -d" " -f1 | rev | tr -d "\r\n"`
 			diffResult=`diff -q "${1}" "${2}"`
-			
+
 			if [ -n "${diffResult}" ]; then
-				diffStatus="diff"	
+				diffStatus="diff"
 			else
 				diffStatus="same"
 			fi
@@ -167,7 +167,7 @@ function buildMachineInstallFileArray() {
 		local installAppsSelectedList=""
 		local installAppOption="n"
 		local appName=""
-		
+
 		local appInstallFromPath="${1}"
 		local machineFilesList=("${!2}")
 		local machineFilesArray=( $machineFilesList )
@@ -178,7 +178,7 @@ function buildMachineInstallFileArray() {
 			#local appName=${i##*/}
 			local apkSubPath=${i#$appInstallFromPath}
 
-			formatMessage " Do you want to install [y/n] - " "Q"			
+			formatMessage " Do you want to install [y/n] - " "Q"
 			formatMessage "$apkSubPath : "
 			stty -echo && read -n 1 installAppOption && stty echo
 			formatYesNoOption $installAppOption
@@ -224,7 +224,7 @@ function compareAndCopyMachineFiles(){
 					# compare source and destination folder for the file
 					#echo " Comparing  "${srcFolder}/${fileName}" "${dstFolder}/${fileName}"\n"
 					compareFileStatus=$( compareMachineFiles "${srcFolder}/${fileName}" "${dstFolder}/${fileName}" )
-					
+
 					# If files are "same", do nothing
 
 					#If files are "diff", copy the file to destination
@@ -232,7 +232,7 @@ function compareAndCopyMachineFiles(){
 						echo -e -n " ${fileName} ${txtGrn}was found and has changed${txtRst}. Will copy to ${dstFolder}...\n"
 						#cp "${srcFolder}/${fileName}" "${dstFolder}/${fileName[}"
 						#TODO: Auto copy if the source is latest. If destination is latest, then ask if they want to copy/overwrite
-						copySelectedFiles="$copySelectedFiles ${fileName}"	
+						copySelectedFiles="$copySelectedFiles ${fileName}"
 					#If the file is not present in the destination, confirm and copy the file to destination
 					elif [ "$compareFileStatus" == "NoDst" ]; then
 						echo -e -n " ${fileName} ${txtRed}was not found${txtRst} in destination directory. Do you want to copy ? [y/n] : "
@@ -319,7 +319,7 @@ function getMachineApkPackageName() {
 		exit 1
 	else
 		if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
-			local machineApkPackageName=`aapt dump badging "${1}" | awk '/package/{gsub("name=|'"'"'","");  print $2}'` 
+			local machineApkPackageName=`aapt dump badging "${1}" | awk '/package/{gsub("name=|'"'"'","");  print $2}'`
 			echo -e -n ${machineApkPackageName} # returns 'com.google.android.music'
 		else
 			writeToLogsFile "'${1}' File Not Found - ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
@@ -375,9 +375,9 @@ function getDeviceApkVersion() {
 		exit 1
 	else
 		local i=0
-		
+
 		local machineApkPackageName=`getMachineApkPackageName ${2}`
-		
+
 		while read line
 		do
 			if [ -n "$line" ]; then
@@ -385,7 +385,7 @@ function getDeviceApkVersion() {
 				let i=$i+1
 			fi
 		done < <(adb -s ${1} wait-for-device shell dumpsys package ${machineApkPackageName} | grep -i versionname | cut -f2 -d"=" | tr -d "\r")
-		
+
 		echo -e -n ${deviceApkVersion[0]}
 	fi
 }
@@ -412,7 +412,7 @@ function checkDeviceApkCompatibility(){
 		local apkType=$(getApkForDeviceType "${2}")
 		local deviceType=$(getDeviceType "${1}")
 		local compatible=""
-		
+
 		case $apkType in
 			[pP][hH][oO][nN][eE])			#phone
 				if [[ "$deviceType" == "phone" || "$deviceType" == "tablet" ]]; then
@@ -492,7 +492,7 @@ function adbInstallApk(){
 function forceInstallApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-#return - 
+#return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -514,7 +514,7 @@ function forceInstallApk() {
 function installApk() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-#return - 
+#return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -524,7 +524,8 @@ function installApk() {
 		local installApkChoice="yes"
 
 		if [ "$isCompatible" == "false" ]; then
-			formatMessage "\n Apk is not compatible for the selected device. Do you still want to try to install it? [y/n]: " "E"
+			formatMessage "\n Apk may not be compatible for the selected device." "E"
+			formatMessage "\n Do you still want to try installing it? [y/n]: " "Q"
 
 			stty -echo && read -n 1 installApkChoice && stty echo
 			formatYesNoOption $installApkChoice
@@ -547,7 +548,7 @@ function installApk() {
 function installApkReinstall() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-#return - 
+#return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -556,7 +557,7 @@ function installApkReinstall() {
 
 		formatMessage " - The application '${machineApkApplicationName}' is already installed in your device" "E"
 		formatMessage "\n\n Do you still want to reinstall? [y/n] : " "Q"
-		
+
 		stty -echo && read -n 1 reinstallApkChoice && stty echo
 		formatYesNoOption $reinstallApkChoice
 		echo ""
@@ -564,7 +565,7 @@ function installApkReinstall() {
 		if [ "$( checkYesNoOption $reinstallApkChoice )" == "yes" ]; then
 			local output=$( adbInstallApk ${1} ${2} "-r")
 			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
-			
+
 			installApkStatusReason "$1" "$2" "$output" "$status"
 
 		elif [ "$( checkYesNoOption $reinstallApkChoice )" == "no" ]; then
@@ -577,7 +578,7 @@ function installApkReinstall() {
 function installApkDowngrade() {
 #$1 - deviceSerial
 #$2 - apk file complete path in machine
-#return - 
+#return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -585,26 +586,26 @@ function installApkDowngrade() {
 		local machineApkPackageName=`getMachineApkPackageName ${2}`
 		local machineApkVersion=`getMachineApkVersion ${2}`
 		local deviceApkVersion=`getDeviceApkVersion ${1} ${2}`
-		
+
 		formatMessage " - There is a higher version currently installed in your device" "E"
 		echo -e -n "\n\n Installed in Device - ${deviceApkVersion}"
 		echo -e -n "\n About to install - ${machineApkVersion}\n"
 		formatMessage "\n Do you still want to install? [y/n] : " "Q"
-		
+
 		stty -echo && read -n 1 downgradeApkChoice && stty echo
 		formatYesNoOption $downgradeApkChoice
 		echo ""
 
 		if [ "$( checkYesNoOption $downgradeApkChoice )" == "yes" ]; then
-			
+
 			if [ $( getDeviceBuildVersion $1 ) > "4.1" ]; then
 				local output=$( adbInstallApk ${1} ${2} "-r -d" )
 			else
 				local output=$( adbInstallApk ${1} ${2} "-r" )
 			fi
-			
+
 			local status=`echo ${output} | cut -f3 -d" " | tr -d "\r"`
-			
+
 			installApkStatusReason "$1" "$2" "$output" "$status"
 
 		elif [ "$( checkYesNoOption $downgradeApkChoice )" == "no" ]; then
@@ -619,7 +620,7 @@ function installApkStatusReason() {
 #$2 - apk file complete path in machine
 #$3 - complete output of adb install command
 #$4 - status of adb install command [Success / Failure]
-#return - 
+#return -
 	if [ $# -lt 4 ]; then
 		writeToLogsFile "@@ No 4 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -629,9 +630,9 @@ function installApkStatusReason() {
 			echo ""
 		elif [ "${4}" == "Failure" ]; then
 			echo -e -n " Status : ${txtRed}$status${txtRst}"
-			
+
 			local reason=`echo ${3} | cut -f4 -d" " | cut -f2 -d"[" | cut -f1 -d"]" | tr -d "\r"`
-			
+
 			case "$reason" in
 				"INSTALL_FAILED_ALREADY_EXISTS")
 					installApkReinstall $1 "$2"
@@ -648,7 +649,7 @@ function installApkStatusReason() {
 					exit 1
 					;;
 			esac
-			
+
 		else
 			formatMessage " Status : $status\n"
 		fi
@@ -661,7 +662,7 @@ function apkInstall() {
 #$1 - device serial
 #$2 - folder absolute path
 #$3 - apk Sub path
-#return - 
+#return -
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -690,22 +691,22 @@ function installFromPath(){
 #$1 - device serial
 #$2 - folder absolute path
 #$3 - search string
-#return - 
+#return -
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 2 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
-	else	
+	else
 		local appInstallFromPath="${2}"
 		local machineFilesList=$(buildMachineFilesList "$appInstallFromPath" "$3")
 		local machineFilesArray=( $machineFilesList )
 		local machineFilesCount=${#machineFilesArray[*]}
 
 		if [ $machineFilesCount -gt 0 ]; then
-			
+
 			if [ $machineFilesCount -gt 1 ]; then #<-- if there is more than 1 matching file
 				formatMessage " There are $machineFilesCount matching files in the folder : " "I"
 				formatMessage "$appInstallFromPath\n\n"
-				
+
 				buildMachineInstallFileArray "$appInstallFromPath" "machineFilesList[@]"
 				#local installAppsArray=( $installAppsList )
 				#local installAppsCount=${#installAppsArray[*]}
@@ -714,7 +715,7 @@ function installFromPath(){
 				do
 					apkInstall $1 ${appInstallFromPath} ${i}
 				done
-				
+
 			else  #<-- if there is only 1 file
 				#local apkName="${machineFilesArray[0]}"
 			 	#local apkName=${machineFilesArray[0]##*/}
@@ -725,7 +726,7 @@ function installFromPath(){
 				formatMessage "$appInstallFromPath\n\n"
 			 	formatMessage " Do you want to install [y/n] - " "Q"
 				formatMessage "$apkName : "
-			 	
+
 				stty -echo && read -n 1 installAppOption && stty echo
 				formatYesNoOption $installAppOption
 
@@ -733,9 +734,9 @@ function installFromPath(){
 					apkInstall $1 ${appInstallFromPath} ${machineFilesArray[0]}
 				fi
 			fi
-			
+
 			echo ""
-			
+
 		else #<-- if the file count is less than zero, i.e., there is no files
 			formatMessage " There are no matching files in the directory : " "E"
 			formatMessage "$appInstallFromPath\n\n"
@@ -750,11 +751,11 @@ function installMachineFiles() {
 #$2 - main folder absolute path
 #$3 - sub folder
 #$4 - search string
-#$return - 
+#$return -
 	if [ $# -lt 4 ]; then
 		writeToLogsFile "@@ No 4 arguments passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
-	else	
+	else
 		local appInstallFromPath="${2}"
 		checkMachineSubFolder $2 $3
 
@@ -817,7 +818,7 @@ function isApkForPhone(){
 }
 
 function getApkForDeviceType(){
-#$1 - apk file complete path	
+#$1 - apk file complete path
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

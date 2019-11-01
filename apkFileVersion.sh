@@ -25,12 +25,12 @@ fi
 
 echo ""
 
-if [[ "$( checkYesNoOption $( checkMachineFileExist ${1} ) )" == "yes"  ]]; then
+if [[ "$( checkYesNoOption $( checkMachineFileExist ${APKpath} ) )" == "yes"  ]]; then
 	echo -e -n " Name    : $( getMachineApkApplicationName "${APKpath}" )\n"
 	echo -e -n " Package : $( getMachineApkPackageName "${APKpath}" )\n"
 	echo -e -n " Version : $( getMachineApkCompleteVersionName "${APKpath}" )\n"
 else
-	writeToLogsFile "@@ '${1}' File Not Found - called from $( basename ${0} )"
+	writeToLogsFile "@@ '${APKpath}' File Not Found - called from $( basename ${0} )"
 	echo -e -n " '${1}' File Not Found\n\n"
 	exit 1
 fi

@@ -436,6 +436,7 @@ function getDeviceAppVersion() {
 				let i=$i+1
 			fi
 		done < <(adb -s ${1} wait-for-device shell dumpsys package ${2} | grep -i versionname | cut -f2 -d"=" | tr -d "\r")
+		#done < <(adb -s ${1} wait-for-device shell pm dump ${2} | grep -i versionname | cut -f2 -d"=" | tr -d "\r")
 
 		APK_VERSION_COUNT=${#APK_VERSION_ARRAY[*]}
 		formatMessage " Installed version(s):\n" "I"

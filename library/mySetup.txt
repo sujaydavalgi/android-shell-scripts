@@ -17,7 +17,7 @@ mySDK=`echo $ANDROID_HOME`
 #myShellScripts=`echo ~/Google\ Drive/Scripts`
 #myShellScripts=`echo ~/Desktop/DriveFS/My\ Drive/Scripts/Shell`
 
-myShellScripts=`echo ~/Code/Scripts`
+myShellScripts=`echo ~/Code/Scripts/android-shell-scripts`
 
 #--- OS specific Scripts paths
 #myScriptsDebian=`echo ~/Desktop/DriveFS/My\ Drive/Scripts`

@@ -98,10 +98,22 @@ function saveLogcat() {
 	fi
 }
 
+function saveKernelLogcat(){
+#$1 is device serial number
+#$2 is filename
+#$return -
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		adb -s "$1" logcat -v threadtime -b kernel | tee `echo ${myLogs}/`${2}-logcat_kernel.${logcatExtension}
+	fi
+}
+
 function clearLogcat() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return -
 	if [ $# -lt 1 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

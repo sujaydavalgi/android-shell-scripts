@@ -31,7 +31,7 @@ function getFormatedFileName() {
             #echo -e -n "$( getDeviceName $1)_$( getDeviceBuild $1)_${2}_${nowTime}"
             echo -e -n "$( getDeviceName $1)_${2}_${nowTime}"
         else
-            echo -e -n "${2}_${nowTime}"
+            echo -e -n "${1}_${2}_${nowTime}"
         fi
 	fi
 }

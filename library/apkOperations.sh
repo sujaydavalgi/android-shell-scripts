@@ -168,6 +168,8 @@ function apkOperations() {
 						clearDeviceApp $1 $apkPackageName ;;
 					[sS][tT][oO][pP]) #stop
 						stopDeviceApp $1 $apkPackageName ;;
+					[kK][iI][lL][lL]) #kill
+						killDeviceApp $1 $apkPackageName ;;
 					[sS][tT][aA][rR][tT]) #start
 						startDeviceApk $1 $apkPackageName ;;
 					[rR][eE][sS][tT][aA][rR][tT]) #restart
@@ -204,6 +206,21 @@ function appPID() {
 		echo -e -n "$appPID"
 	fi
 }
+
+#----- Kill
+function killDeviceApp() {
+#$1 - device serial number
+#$2 - package name
+#$return - 
+	if [ $# -lt 2 ]; then
+		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
+		exit 1
+	else
+		local appProcessID = appPID $1 $2
+		adb -s $1 shell kill $appProcessID
+	fi
+}
+
 
 #----- Pull
 function pullDeviceApp() {

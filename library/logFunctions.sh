@@ -21,7 +21,7 @@ adbExecOutVersion=""
 function getFormatedFileName() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -73,7 +73,7 @@ function getBugreport() {
 		echo -e -n "\n Taking Bugreport... "
 
 		local compareBuildVersionStatus=$( compareDeviceBuildVersion ${1} ${newBugreportSdkVersion} )
-			
+
 		if [[ ${compareBuildVersionStatus} == "same" || ${compareBuildVersionStatus} == "greater" ]]; then
 			echo -e -n " ${2}.${bugreport2Extension}\n\n"
 		else
@@ -89,7 +89,7 @@ function getBugreport() {
 function saveLogcat() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -131,7 +131,7 @@ function saveScreenshotInMachine() {
 	else
 		#myOS="`echo $( getMyOs )`"
 		#echo -e -n " You are using ${myOS} machine\n"
-		
+
 		#TODO this logic is not always working. The screencap command is behaving differently on different OS, based on the device version
 		adb -s "$1" wait-for-device shell screencap -p > `echo ${myLogs}/`${2}.${screenshotExtension}
 
@@ -154,7 +154,7 @@ function saveScreenshotInMachine() {
 function takeScreenshot() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -170,7 +170,7 @@ function takeScreenshot() {
 function getScreenshot() {
 #$1 is device serial number
 #$2 is filename
-#$return - 
+#$return -
 	if [ $# -lt 2 ]; then
 		writeToLogsFile "@@ No 2 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1
@@ -178,10 +178,10 @@ function getScreenshot() {
 		echo -e -n "\n Taking Screenshot... "
 		echo -e -n " ${2}.${screenshotExtension}"
 		takeScreenshot ${1} ${2}
-		
+
 		# use this if we are saving the screenshot file in the sdcard itself (in function takeScreenshot)
 		#pullDeviceSingleFileFrmFldr ${1} ${deviceScreenshotFolder} "${2}.${screenshotExtension}"
-		
+
 		echo -e -n "\n ...Done\n"
 	fi
 }
@@ -190,7 +190,7 @@ function recordDeviceVideo() {
 #$1 is device serial number
 #$2 is foldername
 #$3 is filename
-#$return - 
+#$return -
 	if [ $# -lt 3 ]; then
 		writeToLogsFile "@@ No 3 argument passed to ${FUNCNAME[0]}() in ${BASH_SOURCE} called from $( basename ${0} )"
 		exit 1

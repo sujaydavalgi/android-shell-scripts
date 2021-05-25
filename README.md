@@ -41,9 +41,25 @@ Edit the PATH variables
 
  - For Windows</br>
 
-`%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools`</br>
-`%USERPROFILE%\AppData\Local\Android\Sdk\tools`</br>
-`%USERPROFILE%\AppData\Local\Android\Sdk\build-tools\26.0.1`</br>
+-- Add these variables
+
+Variable name: `ANDROID_HOME`</br>
+Variable value: `%USERPROFILE%\AppData\Local\Android\Sdk`</br>
+
+Variable name: `ANDROID_TOOLS`</br>
+Variable value: `%USERPROFILE%\AppData\Local\Android\Sdk\tools`</br>
+
+Variable name: `ANDROID_PTOOLS`</br>
+Variable value:`%USERPROFILE%\AppData\Local\Android\Sdk\platform-tools`</br>
+
+Variable name: `ANDROID_BTOOLS`</br>
+Variable value:`%USERPROFILE%\AppData\Local\Android\Sdk\build-tools\26.0.1`</br>
+
+-- Edit the PATH variable and add
+%ANDROID_HOME%
+%ANDROID_TOOLS%
+%ANDROID_PTOOLS%
+%ANDROID_BTOOLS%
 
 3. Save and close</br>
 

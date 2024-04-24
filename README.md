@@ -47,13 +47,13 @@ Variable name: `ANDROID_HOME`</br>
 Variable value: `%USERPROFILE%\AppData\Local\Android\Sdk`</br>
 
 Variable name: `ANDROID_TOOLS`</br>
-Variable value: `%ANDROID_HOM%\tools`</br>
+Variable value: `%ANDROID_HOME%\tools`</br>
 
 Variable name: `ANDROID_PTOOLS`</br>
-Variable value:`%ANDROID_HOM%\platform-tools`</br>
+Variable value:`%ANDROID_HOME%\platform-tools`</br>
 
 Variable name: `ANDROID_BTOOLS`</br>
-Variable value:`%ANDROID_HOM%\build-tools\26.0.1`</br>
+Variable value:`%ANDROID_HOME%\build-tools\26.0.1`</br>
 
 -- Edit the PATH variable and add</br>
 `%ANDROID_HOME%`</br>

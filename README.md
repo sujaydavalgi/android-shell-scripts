@@ -32,33 +32,33 @@ Edit the `PATH` variables
 2. Add/append the following adb paths ( Make sure to use your sdk path for `ANDROID_HOME` below )</br>
 	-- For Linux / Mac (Unix based)</br>
  
-		`export ANDROID_HOME=~/Setup/android/sdk` <- Enter the Android sdk path in your machine</br>  
-		`export ANDROID_TOOLS=${ANDROID_HOME}/tools`</br>
-		`export ANDROID_PTOOLS=${ANDROID_HOME}/platform-tools`</br>
-		`export ANDROID_BTOOLS=${ANDROID_HOME}/build-tools/26.0.0` <- Check and add the actual builds-tools subfolder</br>
-		`export PATH=${PATH}:$ANDROID_HOME:$ANDROID_TOOLS:$ANDROID_PTOOLS:$ANDROID_BTOOLS:$ANDROID_TOOLS/bin`</br>
+   		export ANDROID_HOME=~/Setup/android/sdk # <- Enter the Android sdk path in your machine</br>  
+   		export ANDROID_TOOLS=${ANDROID_HOME}/tools
+   		export ANDROID_PTOOLS=${ANDROID_HOME}/platform-tools
+   		export ANDROID_BTOOLS=${ANDROID_HOME}/build-tools/26.0.0 # <- Check and add the actual builds-tools subfolder</br>
+   		export PATH=${PATH}:$ANDROID_HOME:$ANDROID_TOOLS:$ANDROID_PTOOLS:$ANDROID_BTOOLS:$ANDROID_TOOLS/bin
 	
 	 -- For Windows</br>
 	
 		Add these variables:
 			
-			Variable name: `ANDROID_HOME`
-			Variable value: `%USERPROFILE%\AppData\Local\Android\Sdk` <- Enter the Android sdk path in your machine
+			Variable name: ANDROID_HOME
+			Variable value: %USERPROFILE%\AppData\Local\Android\Sdk # <- Enter the Android sdk path in your machine
 	
-			Variable name: `ANDROID_TOOLS`
-			Variable value: `%ANDROID_HOME%\tools`
+			Variable name: ANDROID_TOOLS
+			Variable value: %ANDROID_HOME%\tools
 	
-			Variable name: `ANDROID_PTOOLS`
-			Variable value:`%ANDROID_HOME%\platform-tools`
+			Variable name: ANDROID_PTOOLS
+			Variable value: %ANDROID_HOME%\platform-tools
 	
-			Variable name: `ANDROID_BTOOLS`
-			Variable value:`%ANDROID_HOME%\build-tools\26.0.1`  <- Check and add the actual builds-tools subfolder
+			Variable name: ANDROID_BTOOLS
+			Variable value: %ANDROID_HOME%\build-tools\26.0.1 # <- Check and add the actual builds-tools subfolder
 			
 		Edit the `PATH` variable and add:
-			`%ANDROID_HOME%`
-			`%ANDROID_TOOLS%`
-			`%ANDROID_PTOOLS%`
-			`%ANDROID_BTOOLS%`
+			%ANDROID_HOME%
+			%ANDROID_TOOLS%
+			%ANDROID_PTOOLS%
+			%ANDROID_BTOOLS%
 
 4. Save and close</br>
 

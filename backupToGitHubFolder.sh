@@ -13,7 +13,7 @@
 backupFiles(){
 	echo -e -n " Source: ${1}\n"
 	echo -e -n " Destination: ${2}\n"
-	if [ ! -d "$destFolder" ]; then
+	if [ ! -d "${2}" ]; then
 		`mkdir -p ${2}`
 	fi
 	compareAndCopyMachineFiles "${1}" "${2}" "*.*"

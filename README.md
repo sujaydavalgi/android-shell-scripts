@@ -7,8 +7,8 @@ Download or Clone the repo in your local machine
 - Download: https://github.com/sujaydavalgi/android-shell-scripts/archive/master.zip
   - Extract it to your setup folder
 - Clone: https://github.com/sujaydavalgi/android-shell-scripts.git
-  - Create a setup folder and initialize that folder
-  - Clone the repo in that folder
+  - Create a setup folder and initialize that folder (_git init_)
+  - Clone the repo in that folder (_git clone https://github.com/sujaydavalgi/android-shell-scripts.git_)
 
 **STEP-2:**
 Edit the `PATH` variables
